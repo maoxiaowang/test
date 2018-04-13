@@ -1,5 +1,7 @@
 # coding=utf-8
 from django import forms
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import forms as auth_forms
 from django.forms.utils import ErrorList
 
 
@@ -14,16 +16,22 @@ class DivErrorList(ErrorList):
                 ''.join(['<div class="form-error">%s</div>' % e for e in self]))
 
 
-class LoginForm(forms.Form):
+class AuthenticationForm(auth_forms.AuthenticationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AuthenticationForm, self).__init__(*args, **kwargs)
+
     error_css_class = 'error'
     required_css_class = 'required'
 
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'validate'}),
-        max_length=32,
-        min_length=6
-    )
+    # email = forms.EmailField(
+    #     widget=forms.EmailInput(attrs={'class': 'validate'}),
+    #     max_length=32,
+    #     min_length=6
+    # )
     password = forms.CharField(
+        label=_("Password"),
+        strip=False,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'validate',
@@ -50,3 +58,18 @@ class LoginForm(forms.Form):
             if i in username:
                 raise forms.ValidationError
         return username
+
+    def confirm_login_allowed(self, user):
+        # allow inactive user to login
+        pass
+
+
+class UserCreationForm(auth_forms.UserCreationForm):
+
+    pass
+
+
+class PasswordChangeForm(auth_forms.PasswordChangeForm):
+    """
+
+    """
