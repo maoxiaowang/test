@@ -1,4 +1,17 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
+
+class ComputeModel(models.Model):
+    """
+    云主机，测试用
+    """
+    name = models.CharField(max_length=16, verbose_name=_('username'))
+
+    class Meta:
+        ordering = ["-name"]
+
+    def __str__(self):
+        return self.name

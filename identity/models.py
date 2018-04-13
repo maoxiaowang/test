@@ -14,12 +14,6 @@ class UserModel(User):
     """
     username_validator = ASCIIUsernameValidator()
 
-    password = models.CharField(max_length=32, verbose_name=_('password'))
-    username = models.CharField(max_length=16, verbose_name=_('username'),
-                                validators=[username_validator])
-    email = models.EmailField(max_length=64, verbose_name=_('email'),
-                              validators=[validate_email])
-
     class Meta:
         ordering = ["-username"]
 

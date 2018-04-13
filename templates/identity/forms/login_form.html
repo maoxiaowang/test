@@ -1,0 +1,27 @@
+<form class="form-signin" method="post" action="{% url 'users:login' %}">
+{% csrf_token %}
+  <div class="text-center mb-4">
+    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Floating labels</h1>
+    <p>Build form controls with floating labels via the <code>:placeholder-shown</code> pseudo-element. <a href="https://caniuse.com/#feat=css-placeholder-shown">Works in latest Chrome, Safari, and Firefox.</a></p>
+  </div>
+
+  <div class="form-label-group">
+    {{ form.username }}
+    {{ form.username.label_tag }}
+  </div>
+
+  <div class="form-label-group">
+    {{ form.password }}
+    {{ form.password.label_tag }}
+  </div>
+
+  <div class="checkbox mb-3">
+    {{ form.remember_me }}
+    <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label }}</label>
+  </div>
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'users:password_reset' %}">Lost password?</a></p>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
+</form>

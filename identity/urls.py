@@ -10,5 +10,7 @@ app_name = 'identity'
 urlpatterns = [
     # path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),
     # path('vote/', permission_required('polls.can_vote')(VoteView.as_view())),
-    path('login/', views.LoginView.as_view(template_name="identity/login.html")),
+    path('login/', views.LoginView.as_view(), name='login'),
+
+    path('password_reset/', views.password_reset, name='password_reset')
 ]

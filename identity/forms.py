@@ -17,6 +17,9 @@ class DivErrorList(ErrorList):
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
+    """
+    用户登录验证
+    """
 
     def __init__(self, *args, **kwargs):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
@@ -29,14 +32,30 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
     #     max_length=32,
     #     min_length=6
     # )
+    username = auth_forms.UsernameField(
+        label=_('Username'),
+        max_length=32,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'inputUsername',
+                'autofocus': True,
+                'placeholder': _('Username'),
+                'required': True
+            }
+        ),
+    )
     password = forms.CharField(
-        label=_("Password"),
+        label=_('Password'),
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'validate',
+                'class': 'form-control',
+                'id': 'inputPassword',
+                'placeholder': _('Password'),
                 'maxlength': 32,
-                'minlength': 8
+                'minlength': 8,
+                'required': True
             }
         ),
     )
@@ -45,7 +64,8 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         max_value=32,
         min_value=8
     )
-    keep_login = forms.BooleanField(
+    remember_me = forms.BooleanField(
+        label=_('Remember me'),
         widget=forms.CheckboxInput(),
         required=False
     )
@@ -65,11 +85,18 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
 
 
 class UserCreationForm(auth_forms.UserCreationForm):
+    """
+    创建用户
+    """
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
 
     pass
 
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
     """
-
+    修改密码
     """
+    def __init__(self, *args, **kwargs):
+        super(PasswordChangeForm, self).__init__(*args, **kwargs)
