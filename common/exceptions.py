@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Exceptions codes:
 1 - 999: common
@@ -22,14 +23,14 @@ error, warning, info, default
 Exceptions desc:
 short and accurate description for an exception
 """
-# coding=utf-8
+from django.utils.translation import ugettext_lazy as _
 
 
 class ECloudException(Exception):
     # Base view exception
     # level: error, warning, info, default
-    level = 'default'
-    desc = 'Undefined exception'
+    level = 'error'
+    desc = _('Undefined exception')
     code = 0
 
 
@@ -40,17 +41,16 @@ System common exceptions
 
 
 class UndefinedException(ECloudException):
-    desc = 'Undefined common exception'
+    desc = _('Undefined common exception')
     code = 1
 
 
 class EmptyContent(ECloudException):
     level = 'warning'
-    desc = 'Empty content is not allowed'
+    desc = _('Empty content is not allowed')
     code = 2
 
 
-class InvalidData(ECloudException):
-    level = 'error'
-    desc = 'Invalid Parameters'
+class InvalidParameters(ECloudException):
+    desc = _('Invalid Parameters')
     code = 3

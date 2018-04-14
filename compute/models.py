@@ -12,6 +12,12 @@ class ComputeModel(models.Model):
 
     class Meta:
         ordering = ["-name"]
+        permissions = (
+            ("list", _("Can see instance list")),
+            ("detail", _("Can see instance detail")),
+            ("create", _("Can create an instance")),
+            ("delete", _("Can delete an instance")),
+        )
 
     def __str__(self):
         return self.name

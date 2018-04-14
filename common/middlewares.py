@@ -58,6 +58,9 @@ class CommonMiddleware(object):
             else:
                 # other HTTP methods
                 pass
+        else:
+            # django or openstack
+            pass
 
     def process_template_response(self, request, response):
         """

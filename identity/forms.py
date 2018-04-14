@@ -88,15 +88,68 @@ class UserCreationForm(auth_forms.UserCreationForm):
     """
     创建用户
     """
-    def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
+    username = auth_forms.UsernameField(
+        label=_('Username'),
+        max_length=32,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'inputUsername',
+                'autofocus': True,
+                'placeholder': _('Username'),
+                'required': True
+            }
+        ),
+        help_text=_('Enter your username.')
+    )
+    password1 = forms.CharField(
+        label=_('Password'),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'inputPassword1',
+                'placeholder': _('Password'),
+                'maxlength': 32,
+                'minlength': 8,
+                'required': True
+            }
+        ),
+        help_text=_('Enter your password.')
+    )
+    password2 = forms.CharField(
+        label=_('Password confirm'),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'inputPassword2',
+                'placeholder': _('Password confirm'),
+                'maxlength': 32,
+                'minlength': 8,
+                'required': True
+            }
+        ),
+        help_text=_('Enter the same password as before, for verification.')
+    )
+    password_length = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        max_value=32,
+        min_value=8
+    )
 
-    pass
+    def clean_username(self):
+        # Just an example of cleaning a specific filed attribute
+        # cleaned_data = super(LoginForm, self).clean()
+        username = self.cleaned_data['email']
+        for i in '!@#$%^&*':
+            if i in username:
+                raise forms.ValidationError
+        return username
 
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
     """
     修改密码
     """
-    def __init__(self, *args, **kwargs):
-        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+    pass

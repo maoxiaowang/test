@@ -6,6 +6,8 @@ String processing
 # coding=utf-8
 import sys
 import re
+import uuid
+import hashlib
 
 
 def str_len(string):
@@ -54,3 +56,25 @@ def obj2iter(obj):
     :return:
     """
     return obj if isinstance(obj, (list, tuple, dict)) else [obj]
+
+
+class UUID(object):
+
+    @property
+    def uuid4(self):
+        return str(uuid.uuid4())
+
+    @property
+    def uuid4_without_line(self):
+        return str(uuid.uuid4()).replace('-', '')
+
+
+def md5_encode(string):
+    """
+    Hash a string with MD5
+    """
+    assert isinstance(string, str)
+    m2 = hashlib.md5()
+    m2.update(string)
+    return m2.hexdigest()
+
