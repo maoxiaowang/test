@@ -2,7 +2,7 @@
 """
 
 """
-from common.openstack import OpenStackRequest
+from common.openstack.base import OpenStackRequest
 
 
 class ComputeRequest(OpenStackRequest):
@@ -16,7 +16,7 @@ class ComputeRequest(OpenStackRequest):
     def compute_detail(self):
         pass
 
-    def compute_create(self):
+    def compute_create(self, name):
         pass
 
     def compute_delete(self):

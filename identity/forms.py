@@ -153,3 +153,13 @@ class PasswordChangeForm(auth_forms.PasswordChangeForm):
     修改密码
     """
     pass
+
+
+class UserPermissionEditForm(forms.Form):
+    username = forms.ChoiceField()
+    permissions = forms.MultipleChoiceField()
+
+
+class GroupPermissionEditForm(forms.Form):
+    groupname = forms.ChoiceField()
+    permissions = forms.MultipleChoiceField()

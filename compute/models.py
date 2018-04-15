@@ -8,6 +8,7 @@ class ComputeModel(models.Model):
     """
     云主机，测试用
     """
+    id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
     name = models.CharField(max_length=16, verbose_name=_('username'))
 
     class Meta:

@@ -12,5 +12,7 @@ urlpatterns = [
     # path('vote/', permission_required('polls.can_vote')(VoteView.as_view())),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('user/create', views.UserCreateView.as_view(), name='user_create'),
+    path('user/create', views.UserCreateView.as_view(), name='user_create'),
     path('password_reset/', views.password_reset, name='password_reset')
 ]

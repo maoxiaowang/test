@@ -3,68 +3,51 @@
 Create your views here.
 """
 from django.contrib.auth.decorators import login_required, permission_required
-from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView
-# from django.views.generic.edit import FormMixin
-from django.views.generic.edit import CreateView, DeleteView
+from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from compute.models import ComputeModel
+from django.template.response import TemplateResponse
+from common.decorators import request_method
+from common.utils.string_ import str2digit
+from compute.openstack import ComputeRequest
+from django.contrib.auth.decorators import login_required
 
 
-@method_decorator(login_required, name='dispatch')
-class ComputeDetail(DetailView):
+@request_method('GET')
+@login_required
+def compute_list(request):
+    context = {}
+    page = request.GET.get('page')
+    items_per_page = str2digit(request.GET.get('items', 5), 20)
+    compute_objects = ComputeModel.objects.filter()
 
-    template_name = 'compute/detail.html'
+    # Pagination
+    paginator = Paginator(compute_objects, items_per_page)
+    try:
+        computes = paginator.page(page)
+    except PageNotAnInteger:
+        computes = paginator.page(1)
+    except EmptyPage:
+        computes = paginator.page(paginator.num_pages)
 
-    # write the get_context_data() to make
-    # the AuthorInterestForm available to the template.
-    def get_context_data(self, **kwargs):
-
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the objects
-        context['compute_detail'] = ComputeModel.objects.all()
-        return context
-
-    @permission_required('compute.detail')
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=ComputeModel.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.object.book_set.all()
+    context['computes'] = computes
+    return TemplateResponse(request, 'compute/list.html', context=context)
 
 
-@method_decorator(login_required, name='dispatch')
-class ComputeList(ListView):
-
-    template_name = 'compute/list.html'
-    queryset = ComputeModel.objects.all()
-
-    @permission_required('compute.list')
-    def get(self, request, *args, **kwargs):
-        pass
+@request_method('GET')
+@login_required
+def compute_detail(request, **kwargs):
+    # get from OpenStack later
+    uuid = kwargs.get('id')
+    compute_obj = get_object_or_404(ComputeModel, uuid)
+    return TemplateResponse(request, 'compute/detail.html', compute_obj)
 
 
-@method_decorator(login_required, name='dispatch')
-class ComputeCreate(CreateView):
-
-    queryset = None
-
-    @permission_required('compute.create')
-    def post(self, request, *args, **kwargs):
-        pass
+@request_method('POST')
+@login_required
+def compute_create(request):
+    name = request.POST.get('name')
+    # and more params
+    ComputeRequest(request).compute_create(name)
 
 
-@method_decorator(login_required, name='dispatch')
-class ComputeDelete(DeleteView):
-
-    # write this
-    queryset = None
-
-    # rewrite delete method
-    @permission_required('compute.delete')
-    def delete(self, request, *args, **kwargs):
-        # Call the base implementation or not
-        super().delete(request, *args, **kwargs)
-        # Do something here
-        pass

@@ -2,7 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 # from common.utils.validators import validate_password, validate_email
-from django.contrib.auth.models import User, AnonymousUser, Permission, Group
+from django.contrib.auth.models import AbstractUser, UserManager, AnonymousUser, Permission, Group
 from django.contrib.auth.validators import (
     ASCIIUsernameValidator, UnicodeUsernameValidator)
 from uuid import uuid4
@@ -11,7 +11,15 @@ from uuid import uuid4
 # Create your models here.
 
 
-class UserModel(User):
+class MyUserManager(UserManager):
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        # extra_fields could contain more fields
+        return self._create_user(username, email, password, **extra_fields)
+
+
+class UserModel(AbstractUser, MyUserManager):
     """
     用户
     """
@@ -26,13 +34,6 @@ class UserModel(User):
     def __str__(self):
         return self.username
 
-    @property
-    def full_name(self):
-        "Returns the person's full name."
-        return '%s %s' % (self.first_name, self.last_name)
-
-
-
 
 class GroupModel(Group):
     """
@@ -44,6 +45,8 @@ class GroupModel(Group):
 class PermissionModel(Permission):
     """
     权限
+    Three basic permissions -- add, change and delete -- are automatically
+    created for each Django model.
     """
     pass
 

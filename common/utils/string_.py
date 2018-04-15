@@ -43,10 +43,10 @@ def str2digit(string, default=None):
         elif re.match(r'\d+\.?\d+', string):
             return float(string)
         else:
-            if default and isinstance(default, int):
+            if default:
                 return default
             else:
-                return
+                raise ValueError
 
 
 def obj2iter(obj):
