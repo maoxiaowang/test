@@ -66,6 +66,10 @@ MIDDLEWARE = [
     'common.middlewares.CommonMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'common.backends.AccountAuthBackend'
+]
+
 ROOT_URLCONF = 'ecloud.urls'
 
 TEMPLATES = [
@@ -168,7 +172,7 @@ MEDIA_URL = '/media/'
 
 # if login/logout successful but URL "next" is not provided,
 # it redirects to the URLs
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/'
 AUTH_USER_MODEL = 'identity.UserModel'

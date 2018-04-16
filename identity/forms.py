@@ -6,15 +6,29 @@ from django.forms.utils import ErrorList
 from django.contrib.auth import get_user_model
 
 
+__all__ = [
+    'DivErrorList',
+    'AuthenticationForm',
+    'UserCreationForm',
+    'UserUpdateForm',
+    'PasswordChangeForm',
+    'UserPermissionUpdateForm',
+    'UserGroupsUpdateForm',
+    'GroupPermissionUpdateForm'
+]
+
+
 class DivErrorList(ErrorList):
+
     def __str__(self):
         return self.as_divs()
 
     def as_divs(self):
         if not self:
             return ''
+
         return ('<div class="form-error-list">%s</div>' %
-                ''.join(['<div class="form-error">%s</div>' % e for e in self]))
+                ''.join(['<div class="alert alert-danger">%s</div>' % e for e in self]))
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
@@ -25,7 +39,7 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
-    error_css_class = 'error'
+    error_css_class = 'list-group'
     required_css_class = 'required'
 
     # email = forms.EmailField(
@@ -68,9 +82,13 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
     )
     remember_me = forms.BooleanField(
         label=_('Remember me'),
-        widget=forms.CheckboxInput(),
-        required=False
+        label_suffix='',  # remove ':'
+        widget=forms.CheckboxInput(
+            attrs={'id': 'remember_me'}
+        ),
+        required=False,
     )
+
     submit_btn = _('Sign in')
     form_slogan = _('Please sign in')
     lost_password = _('Lost password?')

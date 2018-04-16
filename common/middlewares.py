@@ -72,3 +72,7 @@ class CommonMiddleware(object):
         path_info = request.path_info.strip('/').split('/')
 
         return response
+
+
+
+

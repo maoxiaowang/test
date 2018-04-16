@@ -1,5 +1,5 @@
 # coding=utf-8
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls.base import reverse
 from django.contrib.auth import views as auth_views
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -14,6 +14,7 @@ from identity.models import PermissionModel
 from identity.exceptions import *
 from identity.forms import *
 from common.exceptions import UndefinedException
+from django.utils.decorators import method_decorator
 
 UserModel = get_user_model()
 
@@ -48,8 +49,8 @@ class Login(auth_views.LoginView):
         return render(request, self.template_name, {'login_form': form})
 
     def post(self, request, *args, **kwargs):
-        ret = {}
-        form = self.authentication_form(data=request.POST, auto_id=False,
+        context = {}
+        form = self.authentication_form(data=request.POST, auto_id=True,
                                         error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -57,17 +58,23 @@ class Login(auth_views.LoginView):
             if not remember_me:
                 # session will expire on closing browser
                 request.session.set_expiry(0)
+                request.session['auth_user_backend'] = 'AccountAuthBackend'
             # do something here
-            ret['username'] = username
+            context['username'] = username
+            return HttpResponseRedirect(self.get_success_url())
         else:
-            err_data = form.errors.as_data()
-            pass
-        return JsonResponse(ret)
+            # need to optimize
+            non_field_errors = form.non_field_errors()
+            if non_field_errors:
+                del form.errors['__all__']
+                form.add_error('password', non_field_errors)
+
+            return render(request, self.template_name, {'login_form': form})
 
 
-# @method_decorator(login_required, name='dispatch')
 class Logout(auth_views.LogoutView):
 
+    @method_decorator(login_required, name='dispatch')
     def post(self, request, *args, **kwargs):
         UserModel.objects.create_user()
 
@@ -82,6 +89,7 @@ class UserCreate(CreateView):
     def get_context_data(self, **kwargs):
         return {'register_form': self.form_class()}
 
+    # @method_decorator(login_required, name='dispatch')
     # @permission_required('identity.create')
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

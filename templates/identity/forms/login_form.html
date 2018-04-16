@@ -5,6 +5,7 @@
     <h1 class="h3 mb-3 font-weight-normal">{{ form.form_slogan }}</h1>
   </div>
 
+  {% if login_form.errors %}{{ login_form.errors }}{% endif %}
   <div class="form-label-group">
     {{ form.username }}
     {{ form.username.label_tag }}
@@ -14,6 +15,12 @@
     {{ form.password }}
     {{ form.password.label_tag }}
   </div>
+
+  <div class="checkbox mb-3">
+    {{ form.remember_me }}
+    <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label_tag }}</label>
+  </div>
+
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'identity:users_password_change' %}">{{ form.lost_password }}</a></p>

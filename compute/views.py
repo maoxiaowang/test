@@ -10,7 +10,6 @@ from django.template.response import TemplateResponse
 from common.decorators import request_method
 from common.utils.string_ import str2digit
 from common.openstack.compute import ComputeRequest
-from django.contrib.auth.decorators import login_required
 
 
 @request_method('GET')
