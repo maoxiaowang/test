@@ -1,17 +1,21 @@
 # coding=utf-8
 from django.shortcuts import render, get_object_or_404
+from django.urls.base import reverse
 from django.contrib.auth import views as auth_views
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import get_user_model
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
-from identity.models import *
+from identity.models import PermissionModel
 from identity.exceptions import *
 from identity.forms import *
+from common.exceptions import UndefinedException
+
+UserModel = get_user_model()
 
 
 # Create your views here.
@@ -19,12 +23,18 @@ from identity.forms import *
 decorators = [never_cache, login_required]
 
 
-@require_http_methods(['GET', 'POST'])
-class LoginView(auth_views.LoginView):
+def index(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('dashboard:index'))
+    else:
+        return HttpResponseRedirect(reverse('identity:user_login'))
+
+
+class Login(auth_views.LoginView):
 
     template_name = 'identity/login.html'
     # redirect_field_name = 'next'  # default
-    form = AuthenticationForm
+    authentication_form = AuthenticationForm
 
     # A dictionary of context data that will be added to
     # the default context data passed to the template.
@@ -33,63 +43,56 @@ class LoginView(auth_views.LoginView):
     initial = {'key': 'value'}
 
     def get(self, request, *args, **kwargs):
-        form = self.form(initial=self.initial, auto_id=True)
+        form = self.authentication_form(request,
+                                        initial=self.initial, auto_id=False)
         return render(request, self.template_name, {'login_form': form})
 
     def post(self, request, *args, **kwargs):
         ret = {}
-        form = self.form(request.POST)
+        form = self.authentication_form(data=request.POST, auto_id=False,
+                                        error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
             remember_me = form.cleaned_data['remember_me']
-            account_objects = self.form.objects.filter(username=username)
-            if account_objects.count() == 1:
-                account_object = account_objects[0]
-                if account_object.password == password:
-                    # login successfully
-                    if not remember_me:
-                        # session will expire on closing browser
-                        request.session.set_expiry(0)
-                    # set_login_session(request, account_object)
-
-                else:
-                    raise InvalidPassword
-            else:
-                raise NoSuchUsername
+            if not remember_me:
+                # session will expire on closing browser
+                request.session.set_expiry(0)
+            # do something here
+            ret['username'] = username
         else:
             err_data = form.errors.as_data()
-            if err_data.get('username'):
-                raise InvalidUsernameFormat
-            elif err_data.get('password') or err_data.get('password_length'):
-                raise InvalidPasswordFormat
-                # ret['message']['desc'] = errs[item][0].__str__
+            pass
         return JsonResponse(ret)
 
 
-@require_http_methods(['POST'])
-@method_decorator(login_required, name='dispatch')
-class LogoutView(auth_views.LogoutView):
+# @method_decorator(login_required, name='dispatch')
+class Logout(auth_views.LogoutView):
 
     def post(self, request, *args, **kwargs):
         UserModel.objects.create_user()
 
 
-@require_http_methods(['POST'])
-@method_decorator(login_required, name='dispatch')
-class UserCreateView(CreateView):
+# @method_decorator(login_required, name='dispatch')
+class UserCreate(CreateView):
 
-    form = UserCreationForm
+    form_class = UserCreationForm
+    model = UserModel
+    template_name = 'identity/register.html'
 
+    def get_context_data(self, **kwargs):
+        return {'register_form': self.form_class()}
+
+    # @permission_required('identity.create')
     def post(self, request, *args, **kwargs):
-        form = self.form(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            UserModel.objects.create_user(
-                form.cleaned_data['username'],
-                form.cleaned_data['email'],
-                form.cleaned_data['password1'],
-                form.cleaned_data['password2'],
+            username = form.cleaned_data['username']
+            self.model().create_user(
+                username,
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1']
             )
+            return JsonResponse({'username': username})
         else:
             err_data = form.errors.as_data()
             if err_data.get('username'):
@@ -98,16 +101,40 @@ class UserCreateView(CreateView):
                 raise InvalidEmailFormat
             elif err_data.get('password') or err_data.get('password_length'):
                 raise InvalidPasswordFormat
+            else:
+                raise UndefinedException
 
 
-@require_http_methods(['GET'])
-@method_decorator(login_required, name='dispatch')
-class UserDetailView(DetailView):
+class UserUpdate(UpdateView):
 
+    model = UserModel
+    form_class = UserUpdateForm
+    template_name = ''
+
+    # @permission_required('identity.update')
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
+
+
+# @method_decorator(login_required, name='dispatch')
+class UserDelete(DeleteView):
+
+    model = UserModel
+
+    # @permission_required('identity.delete')
+    def delete(self, request, *args, **kwargs):
+        super().delete(request, *args, **kwargs)
+
+
+# @method_decorator(login_required, name='dispatch')
+class UserDetail(DetailView):
+
+    model = UserModel
     template_name = 'identity/user_detail.html'
 
     extra_context = {}
 
+    # @permission_required('identity.detail')
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
         user_obj = UserModel.objects.filter(username=username)
@@ -119,46 +146,40 @@ class UserDetailView(DetailView):
         return render(request, self.template_name, context)
 
 
-@require_http_methods(['GET'])
-@method_decorator(login_required, name='dispatch')
-class UserListView(ListView):
+# @method_decorator(login_required, name='dispatch')
+class UserList(ListView):
 
     model = UserModel
 
-    # def get(self, request, *args, **kwargs):
-    #     self.model.objects.all()
+    # @permission_required('identity.list')
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
 
 
-class UserUpdateView(UpdateView):
+class UserGroupUpdate(UpdateView):
 
-    model = UserModel
-
-    template_name = ''
+    form_class = GroupPermissionUpdateForm
 
 
-@method_decorator(login_required, name='dispatch')
-class UserDeleteView(DeleteView):
+# @method_decorator(login_required, name='dispatch')
+class UserPermissionUpdate(UpdateView):
 
-    model = UserModel
-
-
-@method_decorator(login_required, name='dispatch')
-class UserPermissionEdit(UpdateView):
-
-    form = UserPermissionEditForm
+    form = UserPermissionUpdateForm
+    model = PermissionModel
     template_name = ''
     template_name_field = ['permissions']
 
 
-@method_decorator(login_required, name='dispatch')
-class GroupPermissionEdit(UpdateView):
+# @method_decorator(login_required, name='dispatch')
+class GroupPermissionUpdate(UpdateView):
 
-    form = GroupPermissionEditForm
+    form = GroupPermissionUpdateForm
+    model = PermissionModel
     template_name = ''
     template_name_field = ['permissions']
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class PasswordChange(auth_views.PasswordChangeView):
 
     template_name = 'identity/password_change.html'

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from identity.models import UserModel
 
 # Create your models here.
 
@@ -10,15 +11,18 @@ class ComputeModel(models.Model):
     """
     id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
     name = models.CharField(max_length=16, verbose_name=_('username'))
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+                             related_name='user_of_compute')
 
     class Meta:
-        ordering = ["-name"]
+        ordering = ["name"]
         permissions = (
             ("list", _("Can see instance list")),
             ("detail", _("Can see instance detail")),
             ("create", _("Can create an instance")),
             ("delete", _("Can delete an instance")),
         )
+        db_table = 'compute_resource'
 
     def __str__(self):
         return self.name

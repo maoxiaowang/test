@@ -1,4 +1,4 @@
-<form class="form-signin" method="post" action="{% url 'identity:user_login' %}">
+<form class="form-signin" method="post" action="{% url 'identity:user_create' %}">
 {% csrf_token %}
   <div class="text-center mb-4">
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
@@ -11,12 +11,19 @@
   </div>
 
   <div class="form-label-group">
-    {{ form.password }}
-    {{ form.password.label_tag }}
+    {{ form.password1 }}
+    {{ form.password1.label_tag }}
+  </div>
+      <div class="form-label-group">
+    {{ form.password2 }}
+    {{ form.password2.label_tag }}
   </div>
 
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'identity:users_password_change' %}">{{ form.lost_password }}</a></p>
+  <div class="form-label-group">
+    {{ form.email }}
+    {{ form.email.label_tag }}
+  </div>
+
   <button class="btn btn-lg btn-primary btn-block" type="submit">{{ form.submit_btn }}</button>
   <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
 </form>

@@ -80,7 +80,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.contrib.auth.context_processors.PermWrapper',
             ],
         },
     },
@@ -94,13 +93,24 @@ WSGI_APPLICATION = 'ecloud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'ecloud': {
         'ENGINE': 'django.db.backends.mysql',
-        'USERNAME': ''
-    }
+        'HOST': '127.0.0.1',
+        'NAME': 'ecloud',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'kevin123',
+    },
+    # 'ecloud': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',
+    #     'NAME': 'ecloud',
+    #     'USER': 'root',
+    #     'PASSWORD': 'kevin123',
+    #     # 'OPTIONS': {
+    #     #     'init_command': 'SET default_storage_engine=INNODB',
+    #     # }
+    # }
 
 }
 
@@ -161,3 +171,4 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+AUTH_USER_MODEL = 'identity.UserModel'

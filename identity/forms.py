@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import forms as auth_forms
 from django.forms.utils import ErrorList
+from django.contrib.auth import get_user_model
 
 
 class DivErrorList(ErrorList):
@@ -62,18 +63,22 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
     password_length = forms.IntegerField(
         widget=forms.HiddenInput(),
         max_value=32,
-        min_value=8
+        min_value=8,
+        required=False
     )
     remember_me = forms.BooleanField(
         label=_('Remember me'),
         widget=forms.CheckboxInput(),
         required=False
     )
+    submit_btn = _('Sign in')
+    form_slogan = _('Please sign in')
+    lost_password = _('Lost password?')
 
     def clean_username(self):
         # Just an example of cleaning a specific filed attribute
         # cleaned_data = super(LoginForm, self).clean()
-        username = self.cleaned_data['email']
+        username = self.cleaned_data['username']
         for i in '!@#$%^&*':
             if i in username:
                 raise forms.ValidationError
@@ -132,20 +137,44 @@ class UserCreationForm(auth_forms.UserCreationForm):
         ),
         help_text=_('Enter the same password as before, for verification.')
     )
+    email = forms.EmailField(
+        label=_('Email Address'),
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'inputEmail',
+                'placeholder': _('Email Address'),
+                'max_length': 64,
+                'min_length': 8,
+                'required': True
+            }
+        )
+    )
     password_length = forms.IntegerField(
         widget=forms.HiddenInput(),
         max_value=32,
-        min_value=8
+        min_value=8,
+        required=False
     )
+    submit_btn = _('Register')
+    form_slogan = _('Please Register')
+
+    class Meta:
+        model = get_user_model()
+        fields = ("username",)
 
     def clean_username(self):
         # Just an example of cleaning a specific filed attribute
         # cleaned_data = super(LoginForm, self).clean()
-        username = self.cleaned_data['email']
+        username = self.cleaned_data['username']
         for i in '!@#$%^&*':
             if i in username:
                 raise forms.ValidationError
         return username
+
+
+class UserUpdateForm(forms.Form):
+    pass
 
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
@@ -155,11 +184,18 @@ class PasswordChangeForm(auth_forms.PasswordChangeForm):
     pass
 
 
-class UserPermissionEditForm(forms.Form):
+class UserGroupsUpdateForm(forms.Form):
+    """
+    把用户加入到(移除出)组
+    """
+    groups = forms.ChoiceField()
+
+
+class UserPermissionUpdateForm(forms.Form):
     username = forms.ChoiceField()
     permissions = forms.MultipleChoiceField()
 
 
-class GroupPermissionEditForm(forms.Form):
+class GroupPermissionUpdateForm(forms.Form):
     groupname = forms.ChoiceField()
     permissions = forms.MultipleChoiceField()

@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from django.conf.urls import url, include
+from django.conf.urls import include
+from identity.views import index
 
 
 urlpatterns = [
+    path(r'', index),
     path('admin/', admin.site.urls),
-    url(r'^compute/', include('compute.urls', namespace='compute')),
-    url(r'^users/', include('identity.urls', namespace='users')),
+    path(r'compute/', include('compute.urls', namespace='compute')),
+    path(r'identity/', include('identity.urls', namespace='identity')),
+    path(r'dashboard/', include('dashboard.urls', namespace='dashboard')),
 ]

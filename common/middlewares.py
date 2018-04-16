@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 """
 # coding=utf-8
 
-from common.exceptions.base import ECloudException
+from common.exceptions import ECloudException
 from django.shortcuts import HttpResponse
 import json
 
@@ -29,13 +29,13 @@ class CommonMiddleware(object):
 
         return response
 
-    def process_view(self, request, view_func, *view_args, **view_kwargs):
-        """
-        在执行view前调用。
-        :param request:
-        :return: None or an HttpResponse object
-        """
-        return None
+    # def process_view(self, request, view_func, *view_args, **view_kwargs):
+    #     """
+    #     在执行view前调用。
+    #     :param request:
+    #     :return: None or an HttpResponse object
+    #     """
+    #     return None
 
     def process_exception(self, request, exception):
         """

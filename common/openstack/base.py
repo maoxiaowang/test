@@ -12,12 +12,18 @@ class OpenStackRequest(object):
         :param request: Django request object
         """
 
-        token = self.get_token(request)
+        token = self.get_token
+        self.request = request
         self.headers = {'Content-Type': 'application/json', 'X-Auth-Token': token}
 
     def __get_token(self):
+        # TODO: request token from OpenStack
+        params = {}
         try:
-            res = self.get('http://%s:%s/v3/auth/token' % (HOST, KEYSTONE_PORT))
+            res = self.get(
+                'http://%s:%s/v3/auth/token' % (HOST, KEYSTONE_PORT),
+                params=params
+            )
         except Exception as e:
             # log
             raise e
@@ -25,8 +31,8 @@ class OpenStackRequest(object):
         return json.loads(headers['x-auth-token'])
 
     @property
-    def get_token(self, request):
-        token = request.user.get('token')
+    def get_token(self):
+        token = self.request.user.get('token')
         if token:
             created_at = token.get('created_at')
             if time.time() - created_at >= OPENSTACK_TOKEN_TIMEOUT:
