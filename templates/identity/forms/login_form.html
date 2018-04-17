@@ -5,19 +5,23 @@
     <h1 class="h3 mb-3 font-weight-normal">{{ form.form_slogan }}</h1>
   </div>
 
-  {% if login_form.errors %}{{ login_form.errors }}{% endif %}
+  {{ form.non_field_errors|safe }}
+
   <div class="form-label-group">
     {{ form.username }}
+    {{ form.username.errors }}
     {{ form.username.label_tag }}
   </div>
 
   <div class="form-label-group">
     {{ form.password }}
+    {{ form.password.errors }}
     {{ form.password.label_tag }}
   </div>
 
   <div class="checkbox mb-3">
     {{ form.remember_me }}
+    {{ form.remember_me.errors }}
     <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label_tag }}</label>
   </div>
 
