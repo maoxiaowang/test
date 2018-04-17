@@ -13,7 +13,6 @@ from identity.models import Permission
 from identity.exceptions import *
 from identity.forms import *
 from identity.constants import *
-from common.exceptions import UndefinedException
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
@@ -118,8 +117,7 @@ class UserCreate(CreateView):
             )
             messages.add_message(request, messages.SUCCESS,
                                  _('You have registered successfully, please login.'))
-            return render(request, LOGIN_TEMPLATE,
-                          {'form': AuthenticationForm()})
+            return HttpResponseRedirect(reverse('identity:user_login'))
         else:
             render(request, self.template_name, {'form': form})
 

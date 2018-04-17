@@ -14,6 +14,7 @@ from common.openstack.compute import ComputeRequest
 
 @request_method('GET')
 @login_required
+@permission_required('compute.list', raise_exception=True)
 def compute_list(request):
     context = {}
     page = request.GET.get('page')
@@ -35,6 +36,7 @@ def compute_list(request):
 
 @request_method('GET')
 @login_required
+@permission_required('compute.detail', raise_exception=True)
 def compute_detail(request, **kwargs):
     # get from OpenStack later
     uuid = kwargs.get('id')
