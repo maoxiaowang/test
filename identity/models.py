@@ -9,6 +9,7 @@ from uuid import uuid4
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 
 
 # Create your models here.
@@ -48,32 +49,7 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
-class GroupModel(Group):
-    """
-    用户组
-    """
-    class Meta:
-        db_table = 'identity_group'
-        verbose_name = _('group')
-        verbose_name_plural = _('groups')
-
-
-class PermissionModel(Permission):
-    """
-    权限
-    Three basic permissions -- add, change and delete -- are automatically
-    created for each Django model.
-    """
-    class Meta:
-        db_table = 'identity_permission'
-        verbose_name = _('permission')
-        verbose_name_plural = _('permissions')
-        unique_together = (('content_type', 'codename'),)
-        ordering = ('content_type__app_label', 'content_type__model',
-                    'codename')
-
-
-class UserModel(AbstractUser, BaseUserManager):
+class UserModel(AbstractUser, UserManager):
     """
     用户
     """
@@ -85,9 +61,9 @@ class UserModel(AbstractUser, BaseUserManager):
         default=uuid4(),
         unique=True)
     groups = models.ManyToManyField(
-        GroupModel, related_name='groups_of_users')
+        Group, related_name='groups_of_users')
     user_permissions = models.ManyToManyField(
-        PermissionModel, related_name='permissions_of_users')
+        Permission, related_name='permissions_of_users')
 
     username = models.CharField(
         _('username'),
