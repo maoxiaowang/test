@@ -1,20 +1,36 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>ECloud</title>
   {% block css %}
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/assets/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base/base.css' %}" rel="stylesheet">
   {% endblock %}
   {% block css_level_2 %}{% endblock %}
 </head>
 <body>
-
+  {# global messages display here #}
+  {% block messages %}
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <div class="message text-center alert alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endblock %}
 {% block content %}{% endblock %}
 
 {% block js_base %}
-  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/assets/jquery.min.js' %}"></script>
+  <script src="{% static 'js/assets/bootstrap.min.js' %}"></script>
   {% block js_level_2 %}{% endblock %}
 {% endblock %}
 </body>

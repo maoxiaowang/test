@@ -6,47 +6,52 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth import get_user_model
-from django.views.decorators.cache import never_cache
+from django.contrib.auth import get_user_model, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_GET
 from identity.models import PermissionModel
 from identity.exceptions import *
 from identity.forms import *
+from identity.constants import *
 from common.exceptions import UndefinedException
 from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
+
 
 UserModel = get_user_model()
 
 
 # Create your views here.
 
-decorators = [never_cache, login_required]
 
-
+@require_GET
 def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('dashboard:index'))
     else:
-        return HttpResponseRedirect(reverse('identity:user_login'))
+        _next = request.GET.get('next')
+        login_url = reverse('identity:user_login')
+        if _next:
+            login_url = '%s?next=%s' % (login_url, _next)
+        return HttpResponseRedirect(login_url)
 
 
 class Login(auth_views.LoginView):
 
-    template_name = 'identity/login.html'
+    template_name = LOGIN_TEMPLATE
     # redirect_field_name = 'next'  # default
     authentication_form = AuthenticationForm
+    redirect_authenticated_user = True
 
     # A dictionary of context data that will be added to
     # the default context data passed to the template.
     extra_context = {}
-
     initial = {'key': 'value'}
 
     def get(self, request, *args, **kwargs):
-        form = self.authentication_form(request,
-                                        initial=self.initial, auto_id=False)
-        return render(request, self.template_name, {'login_form': form})
+        form = self.authentication_form(initial=self.initial, auto_id=False)
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -54,29 +59,36 @@ class Login(auth_views.LoginView):
                                         error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
+
+            # do something here
+            context['username'] = username
+            user = UserModel.objects.get(username=username)
+
+            # log into
+            login(request, user)
+
             remember_me = form.cleaned_data['remember_me']
             if not remember_me:
                 # session will expire on closing browser
                 request.session.set_expiry(0)
-                request.session['auth_user_backend'] = 'AccountAuthBackend'
-            # do something here
-            context['username'] = username
+
+            messages.add_message(request, messages.SUCCESS,
+                                 'Welcome, %s' % username)
             return HttpResponseRedirect(self.get_success_url())
         else:
-            # need to optimize
-            non_field_errors = form.non_field_errors()
-            if non_field_errors:
-                del form.errors['__all__']
-                form.add_error('password', non_field_errors)
-
-            return render(request, self.template_name, {'login_form': form})
+            return render(request, self.template_name, {'form': form})
 
 
 class Logout(auth_views.LogoutView):
 
+    template_name = LOGOUT_TEMPLATE
+
     @method_decorator(login_required, name='dispatch')
     def post(self, request, *args, **kwargs):
-        UserModel.objects.create_user()
+
+        # username = request.user.get('username')
+        logout(request)
+        # logout_then_login(request, login_url=None, extra_context=None)
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -84,10 +96,14 @@ class UserCreate(CreateView):
 
     form_class = UserCreationForm
     model = UserModel
-    template_name = 'identity/register.html'
+    template_name = REGISTER_TEMPLATE
 
     def get_context_data(self, **kwargs):
-        return {'register_form': self.form_class()}
+        return {'form': self.form_class()}
+
+    # @method_decorator(login_required, name='dispatch')
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     # @method_decorator(login_required, name='dispatch')
     # @permission_required('identity.create')
@@ -100,17 +116,12 @@ class UserCreate(CreateView):
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
-            return JsonResponse({'username': username})
+            messages.add_message(request, messages.SUCCESS,
+                                 _('You have registered successfully, please login.'))
+            return render(request, LOGIN_TEMPLATE,
+                          {'form': AuthenticationForm()})
         else:
-            err_data = form.errors.as_data()
-            if err_data.get('username'):
-                raise InvalidUsernameFormat
-            elif err_data.get('email'):
-                raise InvalidEmailFormat
-            elif err_data.get('password') or err_data.get('password_length'):
-                raise InvalidPasswordFormat
-            else:
-                raise UndefinedException
+            render(request, self.template_name, {'form': form})
 
 
 class UserUpdate(UpdateView):

@@ -1,0 +1,15 @@
+/*
+Base CSS
+ */
+
+.messages {
+  position: relative;
+  width: 100%;
+  z-index: 999;
+}
+
+.message {
+  position: absolute;
+  height: inherit;
+  width: inherit;
+}

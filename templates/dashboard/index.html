@@ -1,3 +1,6 @@
 {% extends "base/dashboard.html" %}
 
-{% block main %}I'm dashboard{% endblock %}
+{% block main %}
+  I'm dashboard
+  <p><a href="{% url 'compute:list' %}">Compute</a></p>
+{% endblock %}

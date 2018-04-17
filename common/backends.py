@@ -1,9 +1,10 @@
-# coding=utf8
+# coding=utf-8
 from django.contrib.auth import get_user_model
+
 UserModel = get_user_model()
 
 
-class AccountAuthBackend(object):
+class UserAuthBackend(object):
 
     @staticmethod
     def authenticate(username=None, password=None):
@@ -17,6 +18,6 @@ class AccountAuthBackend(object):
     @staticmethod
     def get_user(id_):
         try:
-            return UserModel.objects.get(pk=id_)  # <-- tried to get by email here
+            return UserModel.objects.get(pk=id_)
         except UserModel.DoesNotExist:
             return None

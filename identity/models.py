@@ -1,9 +1,9 @@
 # coding=utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-# from common.utils.validators import validate_password, validate_email
 from django.contrib.auth.models import (
-    AbstractBaseUser, AbstractUser, Group, Permission, BaseUserManager, UserManager)
+    AbstractBaseUser, AbstractUser, Group, Permission, BaseUserManager,
+    PermissionsMixin)
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from uuid import uuid4
 from django.utils import timezone
@@ -14,7 +14,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 
-class MyUserManager(BaseUserManager):
+class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, username, email, password, **extra_fields):
@@ -54,6 +54,8 @@ class GroupModel(Group):
     """
     class Meta:
         db_table = 'identity_group'
+        verbose_name = _('group')
+        verbose_name_plural = _('groups')
 
 
 class PermissionModel(Permission):
@@ -64,9 +66,14 @@ class PermissionModel(Permission):
     """
     class Meta:
         db_table = 'identity_permission'
+        verbose_name = _('permission')
+        verbose_name_plural = _('permissions')
+        unique_together = (('content_type', 'codename'),)
+        ordering = ('content_type__app_label', 'content_type__model',
+                    'codename')
 
 
-class UserModel(AbstractBaseUser, MyUserManager):
+class UserModel(AbstractUser, BaseUserManager):
     """
     用户
     """
@@ -97,19 +104,7 @@ class UserModel(AbstractBaseUser, MyUserManager):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
-    is_staff = models.BooleanField(
-        _('staff status'),
-        default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
-    )
-    is_active = models.BooleanField(
-        _('active'),
-        default=True,
-        help_text=_(
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
-        ),
-    )
+
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     objects = UserManager()

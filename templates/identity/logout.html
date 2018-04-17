@@ -1,0 +1,13 @@
+{% extends "base/user.html" %}
+{% load i18n %}
+{% block main %}
+  <p>
+    {% trans 'Hello' %}, {{ username }}
+    {% trans 'Thanks for spending some quality time with the Web site today.' %}
+  </p>
+  <p>
+    <a class="btn btn-primary" href="{% url 'identity:user_login' %}" role="button" aria-pressed="true">
+      {% trans 'Login in again' %}
+    </a>
+  </p>
+{% endblock %}

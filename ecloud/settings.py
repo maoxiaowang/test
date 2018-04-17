@@ -66,10 +66,6 @@ MIDDLEWARE = [
     'common.middlewares.CommonMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'common.backends.AccountAuthBackend'
-]
-
 ROOT_URLCONF = 'ecloud.urls'
 
 TEMPLATES = [
