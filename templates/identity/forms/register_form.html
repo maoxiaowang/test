@@ -1,43 +1,42 @@
-<form class="form-signin" method="post" action="{% url 'identity:user_create' %}">
-{% csrf_token %}
+<form class="col s12 m6 offset-m3" method="post" action="{% url 'identity:user_create' %}">
+  {% csrf_token %}
 
-  {% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-    <div class="message text-center alert alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+  <div class="card-panel" style="background: rgba(255,255,255,0.85);">
+    <div class="row">
+      <h4 class="center">{{ form.form_slogan }}</h4>
     </div>
-    {% endfor %}
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">account_circle</i>
+        {{ form.username }}
+        {{ form.username.label_tag }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">lock</i>
+        {{ form.password1 }}
+        {{ form.password1.label_tag }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">lock</i>
+        {{ form.password2 }}
+        {{ form.password2.label_tag }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">email</i>
+          {{ form.email }}
+          {{ form.email.label_tag }}
+      </div>
+    </div>
+    <div class="row">
+      <button  class="waves-effect waves-light btn col l8 m10 s12 offset-l2 offset-m1"
+               type="submit" name="action">{{ form.submit_btn }}</button >
+    </div>
   </div>
-  {% endif %}
 
-  <div class="text-center mb-4">
-    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">{{ form.form_slogan }}</h1>
-  </div>
-
-  <div class="form-label-group">
-    {{ form.username }}
-    {{ form.username.label_tag }}
-  </div>
-
-  <div class="form-label-group">
-    {{ form.password1 }}
-    {{ form.password1.label_tag }}
-  </div>
-      <div class="form-label-group">
-    {{ form.password2 }}
-    {{ form.password2.label_tag }}
-  </div>
-
-  <div class="form-label-group">
-    {{ form.email }}
-    {{ form.email.label_tag }}
-  </div>
-
-  <button class="btn btn-lg btn-primary btn-block" type="submit">{{ form.submit_btn }}</button>
-  <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
 </form>

@@ -1,47 +1,42 @@
-<form class="form-signin" method="post" action="{% url 'identity:user_login' %}">
-{% csrf_token %}
-
-  {% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-    <div class="message text-center alert alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<form id="login-form" class="col s12 m8 l6 offset-m2 offset-l3" method="post" action="{% url 'identity:user_login' %}">
+  {% csrf_token %}
+  <div class="card-panel" style="background: rgba(255,255,255,0.85);">
+    <div class="row">
+      <h4 class="center">{{ form.form_slogan }}</h4>
     </div>
-    {% endfor %}
+    {{ form.non_field_errors }}
+    <div class="row">
+      <div class="input-field col s12">
+        {{ form.username.errors|safe }}
+        <i class="material-icons prefix">account_circle</i>
+        {{ form.username }}
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        {{ form.password.errors|safe }}
+        <i class="material-icons prefix">lock</i>
+        {{ form.password }}
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+      </div>
+    </div>
+    {{ form.password_length }}
+    <div class="row">
+      <div>
+        {{ form.remember_me.errors|safe }}
+        <i class="material-icons prefix"></i>
+        {{ form.remember_me }}
+        <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label_tag }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <button  class="waves-effect waves-light btn col l8 m10 s12 offset-l2 offset-m1"
+               type="submit" name="action">{{ form.submit_btn }}</button >
+    </div>
+    <div class="divider"></div>
+    <p><a href="{% url 'identity:users_password_change' %}">{{ form.lost_password }}</a></p>
+    <p class="center-align grey-text text-lighten-1">© 2017-2018</p>
   </div>
-  {% endif %}
 
-  <div class="text-center mb-4">
-    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">{{ form.form_slogan }}</h1>
-  </div>
-
-  {{ form.non_field_errors|safe }}
-
-  <div class="form-label-group">
-    {{ form.username }}
-    {{ form.username.errors }}
-    {{ form.username.label_tag }}
-  </div>
-
-  <div class="form-label-group">
-    {{ form.password }}
-    {{ form.password.errors }}
-    {{ form.password.label_tag }}
-  </div>
-
-  <div class="checkbox mb-3">
-    {{ form.remember_me }}
-    {{ form.remember_me.errors }}
-    <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label_tag }}</label>
-  </div>
-
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'identity:users_password_change' %}">{{ form.lost_password }}</a></p>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">{{ form.submit_btn }}</button>
-  <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
 </form>

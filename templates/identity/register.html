@@ -1,19 +1,13 @@
-{% extends "base/user.html" %}
+{% extends "base/identity.html" %}
+{% load i18n %}
 
-{% block main %}
+{% block title %}{% trans 'Register' %}{% endblock %}
+{% block css_user %}{% endblock %}
+{% block header %}{% endblock %}
+{% block body_tag %}style="background: url(https://cn.bing.com/az/hprichbg/rb/GreatSaltLake_ZH-CN12553220159_1920x1080.jpg);"{% endblock %}
+{% block main_tag %}class="valign-wrapper"{% endblock %}
 
-  {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
-
-  {% if next %}
-      {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-      {% else %}
-      <p>Please login to see this page.</p>
-      {% endif %}
-  {% endif %}
+{% block content_identity %}
 
   {# Login form #}
   {% include "identity/forms/register_form.html" with form=form %}

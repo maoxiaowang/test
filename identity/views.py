@@ -49,7 +49,7 @@ class Login(auth_views.LoginView):
     initial = {'key': 'value'}
 
     def get(self, request, *args, **kwargs):
-        form = self.authentication_form(initial=self.initial, auto_id=False)
+        form = self.authentication_form(initial=self.initial, auto_id=True)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):

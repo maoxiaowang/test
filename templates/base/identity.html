@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% block css %}
+  <link href="{% static 'css/identity/base.css' %}" rel="stylesheet">
+  {% block css_user %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+    {% block content_identity %}{% endblock %}
+
+    </div>
+  </div>
+{% endblock %}
+{% block footer_tag %}class="page-footer" style="background: rgba(0, 0, 0, 0.25);"{% endblock %}
+{% block js %}
+{#  <script src="{% static 'js/common/utils.js' %}"></script>#}
+  {% block js_user %}{% endblock %}
+{% endblock %}

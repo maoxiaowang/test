@@ -1,0 +1,16 @@
+form {
+  margin-top: 2em;
+}
+
+.bg {
+  background: url(https://timcreative.github.io/material-dashboard-pro-react/static/media/register.49b54380.jpeg);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: block;
+  position: absolute;
+  background-size: cover;
+  background-position: center center;
+}

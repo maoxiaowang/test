@@ -1,6 +1,13 @@
-{% extends "base/user.html" %}
+{% extends "base/identity.html" %}
 {% load i18n %}
-{% block main %}
+
+{% block title %}{% trans 'Logged out' %}{% endblock %}
+{% block css_user %}{% endblock %}
+{% block header %}{% endblock %}
+{% block body_tag %}style="background: url(https://cn.bing.com/az/hprichbg/rb/GreatSaltLake_ZH-CN12553220159_1920x1080.jpg);"{% endblock %}
+{% block main_tag %}class="valign-wrapper"{% endblock %}
+
+{% block content_identity %}
   <p>
     {% trans 'Hello' %}, {{ username }}
     {% trans 'Thanks for spending some quality time with the Web site today.' %}
