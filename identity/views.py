@@ -55,7 +55,7 @@ class Login(auth_views.LoginView):
     def post(self, request, *args, **kwargs):
         context = {}
         form = self.authentication_form(data=request.POST, auto_id=True,
-                                        error_class=DivErrorList)
+                                        error_class=UlErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
 
@@ -107,7 +107,8 @@ class UserCreate(CreateView):
     # @method_decorator(login_required, name='dispatch')
     # @permission_required('identity.create')
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(data=request.POST, auto_id=True,
+                               error_class=UlErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
             self.model().create_user(
@@ -119,7 +120,7 @@ class UserCreate(CreateView):
                                  _('You have registered successfully, please login.'))
             return HttpResponseRedirect(reverse('identity:user_login'))
         else:
-            render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form})
 
 
 class UserUpdate(UpdateView):

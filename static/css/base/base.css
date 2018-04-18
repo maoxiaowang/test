@@ -21,40 +21,22 @@ main {
   background-color: rgba(0,0,0,0.15);
 }
 
-.messages {
+.alert {
   position: relative;
-  margin: 0;
-  height: 48px;
-  width: 100%;
-  z-index: 999;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
 }
 
-.message {
-  position: absolute;
-  height: inherit;
-  width: inherit;
-  line-height: 48px;
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
-.message-debug {
-  color: #37474f;
-  background-color: #cfd8dc;
-}
-.message-info {
-  color: #0277bd;
-  background-color: #b3e5fc;
-}
-.message-success {
-  color: #2e7d32;
-  background-color: #c8e6c9;
-}
-.message-warning {
-  color: #ef6c00;
-  background-color: #ffe0b2;
-}
-.message-error {
-  color: #c62828;
-  background-color: #ffcdd2;
+.messages > .alert {
+  margin-bottom: 0!important;
 }
 
 

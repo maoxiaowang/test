@@ -1,4 +1,5 @@
 # coding=utf-8
+import re
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import forms as auth_forms
@@ -7,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 
 __all__ = [
+    'UlErrorList',
     'DivErrorList',
     'AuthenticationForm',
     'UserCreationForm',
@@ -27,8 +29,20 @@ class DivErrorList(ErrorList):
         if not self:
             return ''
 
-        return ('<div class="form-error-list">%s</div>' %
+        return ('<div class="messages">%s</div>' %
                 ''.join(['<div class="alert alert-danger">%s</div>' % e for e in self]))
+
+
+class UlErrorList(ErrorList):
+    def __str__(self):
+        return self.as_divs()
+
+    def as_divs(self):
+        if not self:
+            return ''
+
+        return ('<ul class="messages">%s</ul>' %
+                ''.join(['<li class="alert alert-danger">%s</li>' % e for e in self]))
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
@@ -39,7 +53,7 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
-    error_css_class = 'list-group'
+    error_css_class = 'error'
     required_css_class = 'required'
 
     # email = forms.EmailField(
@@ -52,11 +66,12 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         max_length=32,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
+                # 'class': 'form-control',
                 'id': 'inputUsername',
                 'autofocus': True,
-                'placeholder': _('Username'),
-                'required': True
+                # 'placeholder': _('Username'),
+                'required': True,
+                'spellcheck': 'false'
             }
         ),
     )
@@ -65,9 +80,9 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
+                # 'class': 'form-control',
                 'id': 'inputPassword',
-                'placeholder': _('Password'),
+                # 'placeholder': _('Password'),
                 'maxlength': 32,
                 'minlength': 8,
                 'required': True
@@ -88,10 +103,6 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         ),
         required=False,
     )
-
-    submit_btn = _('Sign in')
-    form_slogan = _('Please sign in')
-    lost_password = _('Lost password?')
 
     def clean_username(self):
         # Just an example of cleaning a specific filed attribute
@@ -116,10 +127,8 @@ class UserCreationForm(auth_forms.UserCreationForm):
         max_length=32,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
                 'id': 'inputUsername',
                 'autofocus': True,
-                'placeholder': _('Username'),
                 'required': True
             }
         ),
@@ -130,9 +139,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
                 'id': 'inputPassword1',
-                'placeholder': _('Password'),
                 'maxlength': 32,
                 'minlength': 8,
                 'required': True
@@ -145,9 +152,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
                 'id': 'inputPassword2',
-                'placeholder': _('Password confirm'),
                 'maxlength': 32,
                 'minlength': 8,
                 'required': True
@@ -159,9 +164,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         label=_('Email Address'),
         widget=forms.EmailInput(
             attrs={
-                'class': 'form-control',
                 'id': 'inputEmail',
-                'placeholder': _('Email Address'),
                 'max_length': 64,
                 'min_length': 8,
                 'required': True
@@ -174,8 +177,6 @@ class UserCreationForm(auth_forms.UserCreationForm):
         min_value=8,
         required=False
     )
-    submit_btn = _('Register')
-    form_slogan = _('Please Register')
 
     class Meta:
         model = get_user_model()
@@ -185,9 +186,11 @@ class UserCreationForm(auth_forms.UserCreationForm):
         # Just an example of cleaning a specific filed attribute
         # cleaned_data = super(LoginForm, self).clean()
         username = self.cleaned_data['username']
-        for i in '!@#$%^&*':
-            if i in username:
-                raise forms.ValidationError
+
+        if not re.match('^\w+$', username):
+            self.add_error('username',
+                           'Enter a valid username. This value may contain only letters, '
+                           'numbers, and _ characters.')
         return username
 
 

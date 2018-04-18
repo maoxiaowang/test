@@ -1,13 +1,16 @@
-<form id="login-form" class="col s12 m8 l6 offset-m2 offset-l3" method="post" action="{% url 'identity:user_login' %}">
+{% load i18n %}
+<form class="col s12 m8 l4 offset-m2 offset-l4" method="post" action="{% url 'identity:user_login' %}">
   {% csrf_token %}
-  <div class="card-panel" style="background: rgba(255,255,255,0.85);">
+  <div class="card-panel">
     <div class="row">
-      <h4 class="center">{{ form.form_slogan }}</h4>
+      <h4 class="center">{% trans 'Please login' %}</h4>
     </div>
-    {{ form.non_field_errors }}
+    {{ form.non_field_errors|safe }}
+    {{ form.username.errors|safe }}
+    {{ form.password.errors|safe }}
+    {{ form.remember_me.errors|safe }}
     <div class="row">
       <div class="input-field col s12">
-        {{ form.username.errors|safe }}
         <i class="material-icons prefix">account_circle</i>
         {{ form.username }}
         <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
@@ -15,7 +18,6 @@
     </div>
     <div class="row">
       <div class="input-field col s12">
-        {{ form.password.errors|safe }}
         <i class="material-icons prefix">lock</i>
         {{ form.password }}
         <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
@@ -23,19 +25,19 @@
     </div>
     {{ form.password_length }}
     <div class="row">
-      <div>
-        {{ form.remember_me.errors|safe }}
-        <i class="material-icons prefix"></i>
-        {{ form.remember_me }}
-        <label for="{{ form.remember_me.id_for_label }}">{{ form.remember_me.label_tag }}</label>
+      <div class="col s12">
+        <label for="{{ form.remember_me.id_for_label }}">
+          {{ form.remember_me }}
+          <span>{{ form.remember_me.label_tag }}</span>
+        </label>
       </div>
     </div>
     <div class="row">
       <button  class="waves-effect waves-light btn col l8 m10 s12 offset-l2 offset-m1"
-               type="submit" name="action">{{ form.submit_btn }}</button >
+               type="submit" name="action">{% trans 'Sign in' %}</button >
     </div>
     <div class="divider"></div>
-    <p><a href="{% url 'identity:users_password_change' %}">{{ form.lost_password }}</a></p>
+    <p><a href="{% url 'identity:users_password_change' %}">{% trans 'Lost password?' %}</a></p>
     <p class="center-align grey-text text-lighten-1">© 2017-2018</p>
   </div>
 
