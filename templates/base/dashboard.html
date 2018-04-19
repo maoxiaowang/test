@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block css %}
-  <link href="http://materializecss.com/css/ghpages-materialize.css", rel="stylesheet">
+  <link href="{% static 'css/assets/ghpages-materialize.css' %}" rel="stylesheet">
   {% block css_dashboard %}{% endblock %}
 {% endblock %}
 
@@ -24,9 +24,36 @@
     {% endblock %}
     <div class="container"><a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger full hide-on-large-only"><i class="material-icons">menu</i></a></div>
     {# side nav #}
-    <ul id="nav-mobile" class="sidenav sidenav-fixed">
+    <ul id="nav-side" class="sidenav sidenav-fixed">
       <li class="logo"><a id="logo-container" href="/" class="brand-logo">
         <img src="{% static 'images/logo/logo.jpg' %}" style="width: 100%;"></a>
+      </li>
+
+      <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          {% for menu in side_nav_menus %}
+            {% with menu=menu.menu submenu=menu.submenu %}
+              {% if menu|length > 0 %}
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-teal">{{ menu.name }}</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      {% for item in submenu %}
+                      <li><a href="">
+                        {{ submenu.name }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </li>
+              {% else %}
+                {# no sub menu #}
+                <li class="bold">
+                  <a class="waves-effect waves-teal" href="/{{ menu.name }}"></a>
+                </li>
+              {% endif %}
+            {% endwith %}
+          {% endfor %}
+        </ul>
       </li>
     </ul>
     <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>

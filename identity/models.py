@@ -90,7 +90,7 @@ class UserModel(AbstractUser, UserManager):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        db_table = 'identity_user'
+        db_table = 'identity_users'
         ordering = ['username']
         verbose_name = _('user')
         verbose_name_plural = _('users')

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'billing',
     'backup',
     'compute',
+    'dashboard',
     'hosts',
     'identity',
     'images',

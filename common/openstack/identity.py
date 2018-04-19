@@ -1,5 +1,5 @@
 # coding=utf-8
-from common.openstack.base import OpenStackRequest
+from .base import OpenStackRequest
 
 
 class IdentityRequest(OpenStackRequest):

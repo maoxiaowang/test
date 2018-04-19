@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 from common.exceptions import ECloudException
 from django.shortcuts import HttpResponse
 import json
+from dashboard.models import Menu, SubMenu
 
 
 class CommonMiddleware(object):
@@ -18,6 +19,9 @@ class CommonMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
         # One-time configuration and initialization.
+        menus = Menu.objects.all()
+        self.menus_obj = menus
+        self.menus_list = [item.name for item in menus]
 
     def __call__(self, request):
         # Code to be executed for each request before
@@ -69,6 +73,29 @@ class CommonMiddleware(object):
         :param response:
         :return:
         """
-        path_info = request.path_info.strip('/').split('/')
-
+        path = request.path_info.strip('/').split('/')
+        path_len = len(path)
+        if path[0] in self.menus_list:
+            if not response.context_data:
+                response.context_data = {}
+            response.context_data['side_nav_menus'] = self.menus_obj
+            # if path_len == 1:
+            #     # no submenu
+            #     menu = None
+            #     for item in self.menus_obj:
+            #         if item['region'].address == menu_name:
+            #             menu = item
+            #             response.context_data['current_region'] = menu['region']
+            #     if path_len > 2:
+            #         board_address = path[2]
+            #         if menu :
+            #             # if there is any sub menu
+            #             for board in menu.get('boards', []):
+            #                 if board.address == board_address:
+            #                     response.context_data['current_board'] = board
+            # elif path_len == 2:
+            #     pass
+            # else:
+            #     raise ValueError
         return response
+

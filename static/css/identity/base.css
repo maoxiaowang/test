@@ -5,7 +5,7 @@ form {
 body {
   z-index: 1;
   background: url(/static/images/backgroud/register.49b54380.jpeg) center center;
-  background-size: cover;
+  background-size: auto;
 }
 
 main {
