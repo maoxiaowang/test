@@ -13,7 +13,7 @@ register_converter(UUIDConverters, 'uuid')
 urlpatterns = [
     # path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),
     # path('vote/', permission_required('polls.can_vote')(views.Login.as_view())),
-    path('list/', compute_list, name='list'),
-    path('detail/<uuid:uuid>/', compute_detail, name='detail'),
+    path('server/', server_list, name='server_list'),
+    path('server/<uuid:uuid>/', server_detail, name='server_detail'),
 
 ]

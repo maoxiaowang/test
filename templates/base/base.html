@@ -12,7 +12,7 @@
   {% block base_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% block materialize_css %}<link href="{% static 'css/assets/materialize.min.css' %}" rel="stylesheet">{% endblock %}
-    <link href="{% static 'css/base/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base/base.css' %}?v=1" rel="stylesheet">
     {% block css %}{% endblock %}
   {% endblock %}
 
@@ -21,9 +21,9 @@
   {# global messages display here #}
   {% block messages %}
     {% if messages %}
-    <ul class="">
+    <ul class="messages">
       {% for message in messages %}
-      <li class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} center-align">{{ message }}</li>
+      <li class="message alert {% if message.tags %}alert-{{ message.tags }}{% endif %} center-align">{{ message }}</li>
       {% endfor %}
     </ul>
     {% endif %}

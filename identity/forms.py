@@ -30,7 +30,7 @@ class DivErrorList(ErrorList):
             return ''
 
         return ('<div class="messages">%s</div>' %
-                ''.join(['<div class="alert alert-danger">%s</div>' % e for e in self]))
+                ''.join(['<div class="alert alert-error">%s</div>' % e for e in self]))
 
 
 class UlErrorList(ErrorList):
@@ -41,8 +41,8 @@ class UlErrorList(ErrorList):
         if not self:
             return ''
 
-        return ('<ul class="messages">%s</ul>' %
-                ''.join(['<li class="alert alert-danger">%s</li>' % e for e in self]))
+        return ('<ul class="form-error-list">%s</ul>' %
+                ''.join(['<li class="alert alert-error">%s</li>' % e for e in self]))
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):

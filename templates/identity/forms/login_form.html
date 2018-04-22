@@ -13,23 +13,21 @@
       <div class="input-field col s12">
         <i class="material-icons prefix">account_circle</i>
         {{ form.username }}
-        <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+        {{ form.username.label_tag }}
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">lock</i>
         {{ form.password }}
-        <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+        {{ form.password.label_tag }}
       </div>
     </div>
     {{ form.password_length }}
     <div class="row">
       <div class="col s12">
-        <label for="{{ form.remember_me.id_for_label }}">
-          {{ form.remember_me }}
-          <span>{{ form.remember_me.label_tag }}</span>
-        </label>
+        {{ form.remember_me }}
+        <span>{{ form.remember_me.label_tag }}</span>
       </div>
     </div>
     <div class="row">

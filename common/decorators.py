@@ -3,6 +3,8 @@
 
 """
 from django.http import Http404, HttpResponseForbidden
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.decorators import user_passes_test
 
 
 def request_method(method):
@@ -28,41 +30,16 @@ def request_method(method):
     return wrapper
 
 
-# def login_required(role=None):
-#     """
-#     Restrict request by the
-#     Role is a string or list/tuple.
-#
-#     """
-#     def wrapper(func):
-#         def _restrict(request, *args, **kwargs):
-#             expect_roles = obj2iter(role)
-#             login_user = get_login_session(request)
-#             if login_user:
-#                 if role:
-#                     if login_user.get('role') in expect_roles:
-#                         return func(request, *args, **kwargs)
-#                     else:
-#                         # unsatisfied role
-#                         if request.method == 'GET':
-#                             messages.add_message(
-#                                 request, messages.ERROR,
-#                                 Privileges.NOT_ALLOWED_TO_ACCESS)
-#                             return HttpResponseRedirect(
-#                                 reverse('users:accounts:login_page'))
-#                         else:
-#                             raise UserRoleVerificationFailed
-#                 else:
-#                     return func(request, *args, **kwargs)
-#             else:
-#                 # has not login
-#                 if request.method == 'GET':
-#                     messages.add_message(request, messages.WARNING,
-#                                          Privileges.NEED_LOGIN_FIRST)
-#                     return HttpResponseRedirect(
-#                         reverse('users:accounts:login_page'))
-#                 else:
-#                     raise LoginRequired
-#
-#         return _restrict
-#     return wrapper
+def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+    """
+    Decorator for views that checks that the user is logged in, redirecting
+    to the log-in page if necessary.
+    """
+    actual_decorator = user_passes_test(
+        lambda u: u.is_authenticated,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator

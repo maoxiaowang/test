@@ -18,10 +18,10 @@ urlpatterns = [
     path('users/list/', views.UserList.as_view(), name='user_list'),
     path('users/detail/', views.UserDetail.as_view(), name='user_detail'),
 
-    path('users/perms/update/', views.UserPermissionUpdate.as_view(),
-         name='user_perms_update'),
-    path('group/perms/update/', views.GroupPermissionUpdate.as_view(),
-         name='group_perms_update'),
+    # path('users/perms/update/', views.UserPermissionUpdate.as_view(),
+    #      name='user_perms_update'),
+    # path('group/perms/update/', views.GroupPermissionUpdate.as_view(),
+    #      name='group_perms_update'),
 
     path('users/password/change/', views.PasswordChange.as_view(),
          name='users_password_change')

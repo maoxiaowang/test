@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from identity.models import UserModel
+from django.contrib.auth.backends import get_user_model
 
 # Create your models here.
+
+UserModel = get_user_model()
 
 
 class ComputeModel(models.Model):

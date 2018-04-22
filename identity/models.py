@@ -1,15 +1,14 @@
 # coding=utf-8
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import (
-    AbstractBaseUser, AbstractUser, Group, Permission, BaseUserManager,
-    PermissionsMixin)
-from django.contrib.auth.validators import ASCIIUsernameValidator
 from uuid import uuid4
-from django.utils import timezone
-from django.core.mail import send_mail
+
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import (
+    AbstractUser, BaseUserManager, GroupManager,
+    PermissionManager, ContentType)
+from django.contrib.auth.validators import ASCIIUsernameValidator
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
@@ -49,7 +48,61 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
-class UserModel(AbstractUser, UserManager):
+class Permission(models.Model):
+
+    name = models.CharField(_('name'), max_length=255)
+    content_type = models.ForeignKey(
+        ContentType,
+        models.CASCADE,
+        verbose_name=_('content type'),
+        related_name='content_type_of_permission'
+    )
+    codename = models.CharField(_('codename'), max_length=100)
+    objects = PermissionManager()
+
+    class Meta:
+        db_table = 'identity_permission'
+        verbose_name = _('permission')
+        verbose_name_plural = _('permissions')
+        unique_together = (('content_type', 'codename'),)
+        ordering = ('content_type__app_label', 'content_type__model',
+                    'codename')
+
+    def __str__(self):
+        return "%s | %s | %s" % (
+            self.content_type.app_label,
+            self.content_type,
+            self.name,
+        )
+
+    def natural_key(self):
+        return (self.codename,) + self.content_type.natural_key()
+    natural_key.dependencies = ['contenttypes.contenttype']
+
+
+class Group(models.Model):
+    name = models.CharField(_('name'), max_length=80, unique=True)
+    permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('permissions'),
+        blank=True,
+    )
+
+    objects = GroupManager()
+
+    class Meta:
+        db_table = 'identity_groups'
+        verbose_name = _('group')
+        verbose_name_plural = _('groups')
+
+    def __str__(self):
+        return self.name
+
+    def natural_key(self):
+        return (self.name,)
+
+
+class User(AbstractUser, UserManager):
     """
     用户
     """
@@ -77,8 +130,6 @@ class UserModel(AbstractUser, UserManager):
             'unique': _("A user with that username already exists."),
         },
     )
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
 
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
@@ -102,17 +153,6 @@ class UserModel(AbstractUser, UserManager):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
-    def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
-        """
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
 
-    def get_short_name(self):
-        """Return the short name for the user."""
-        return self.first_name
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        """Send an email to this user."""
-        send_mail(subject, message, from_email, [self.email], **kwargs)
+

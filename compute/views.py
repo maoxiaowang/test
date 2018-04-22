@@ -15,7 +15,7 @@ from common.openstack.compute import ComputeRequest
 @request_method('GET')
 @login_required
 @permission_required('compute.list', raise_exception=True)
-def compute_list(request):
+def server_list(request):
     context = {}
     page = request.GET.get('page')
     items_per_page = str2digit(request.GET.get('items', 5), 20)
@@ -37,7 +37,7 @@ def compute_list(request):
 @request_method('GET')
 @login_required
 @permission_required('compute.detail', raise_exception=True)
-def compute_detail(request, **kwargs):
+def server_detail(request, **kwargs):
     # get from OpenStack later
     uuid = kwargs.get('id')
     compute_obj = get_object_or_404(ComputeModel, uuid)
@@ -46,7 +46,8 @@ def compute_detail(request, **kwargs):
 
 @request_method('POST')
 @login_required
-def compute_create(request):
+@permission_required('compute.create', raise_exception=True)
+def server_create(request):
     name = request.POST.get('name')
     # and more params
     ComputeRequest(request).compute_create(name)

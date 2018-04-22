@@ -11,14 +11,16 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 from common.exceptions import ECloudException
 from django.shortcuts import HttpResponse
 import json
-from dashboard.models import Menu, SubMenu
+from django.utils.deprecation import MiddlewareMixin
 
 
-class CommonMiddleware(object):
+class CommonMiddleware(MiddlewareMixin):
 
     def __init__(self, get_response):
-        self.get_response = get_response
+        # self.get_response = get_response
+        super().__init__(get_response)
         # One-time configuration and initialization.
+        from dashboard.models import Menu
         menus = Menu.objects.all()
         self.menus_obj = menus
         self.menus_list = [item.name for item in menus]
@@ -27,10 +29,10 @@ class CommonMiddleware(object):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         response = self.get_response(request)
-
-        # Code to be executed for each request/response after
-        # the view is called.
-
+        #
+        # # Code to be executed for each request/response after
+        # # the view is called.
+        #
         return response
 
     # def process_view(self, request, view_func, *view_args, **view_kwargs):
@@ -66,9 +68,23 @@ class CommonMiddleware(object):
             # django or openstack
             pass
 
+    # def process_request(self, request):
+    #     return request
+    #
+    # def process_response(self, request, response):
+    #     path = request.path_info.strip('/').split('/')
+    #     response = self.get_response(request)
+    #     path_len = len(path)
+    #     if path[0] in self.menus_list:
+    #         if not hasattr(response, 'context_data'):
+    #             response.context_data = {}
+    #         response.context_data['side_nav_menus'] = self.menus_obj
+    #     return response
+
     def process_template_response(self, request, response):
         """
         view 执行完毕后调用。
+        view返回对象必须包含render方法，如django.template.response.TemplateResponse
         :param request:
         :param response:
         :return:
@@ -76,6 +92,7 @@ class CommonMiddleware(object):
         path = request.path_info.strip('/').split('/')
         path_len = len(path)
         if path[0] in self.menus_list:
+            print(self.menus_list)
             if not response.context_data:
                 response.context_data = {}
             response.context_data['side_nav_menus'] = self.menus_obj

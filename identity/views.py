@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import get_user_model, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.http import require_http_methods, require_GET
-from identity.models import Permission
+# from identity.models import Permission
 from identity.exceptions import *
 from identity.forms import *
 from identity.constants import *
@@ -179,22 +179,22 @@ class UserGroupUpdate(UpdateView):
     form_class = GroupPermissionUpdateForm
 
 
-# @method_decorator(login_required, name='dispatch')
-class UserPermissionUpdate(UpdateView):
-
-    form = UserPermissionUpdateForm
-    model = Permission
-    template_name = ''
-    template_name_field = ['permissions']
-
-
-# @method_decorator(login_required, name='dispatch')
-class GroupPermissionUpdate(UpdateView):
-
-    form = GroupPermissionUpdateForm
-    model = Permission
-    template_name = ''
-    template_name_field = ['permissions']
+# # @method_decorator(login_required, name='dispatch')
+# class UserPermissionUpdate(UpdateView):
+#
+#     form = UserPermissionUpdateForm
+#     model = Permission
+#     template_name = ''
+#     template_name_field = ['permissions']
+#
+#
+# # @method_decorator(login_required, name='dispatch')
+# class GroupPermissionUpdate(UpdateView):
+#
+#     form = GroupPermissionUpdateForm
+#     model = Permission
+#     template_name = ''
+#     template_name_field = ['permissions']
 
 
 # @method_decorator(login_required, name='dispatch')

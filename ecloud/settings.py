@@ -172,4 +172,5 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/'
-AUTH_USER_MODEL = 'identity.UserModel'
+AUTH_USER_MODEL = 'identity.User'
+AUTHENTICATION_BACKENDS = ('common.backends.UserAuthBackend',)
