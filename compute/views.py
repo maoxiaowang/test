@@ -7,12 +7,12 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from compute.models import ComputeModel
 from django.template.response import TemplateResponse
-from common.decorators import request_method
 from common.utils.string_ import str2digit
 from common.openstack.compute import ComputeRequest
+from django.views.decorators.http import require_GET, require_POST
 
 
-@request_method('GET')
+@require_GET
 @login_required
 @permission_required('compute.list', raise_exception=True)
 def server_list(request):
@@ -34,7 +34,7 @@ def server_list(request):
     return TemplateResponse(request, 'compute/list.html', context=context)
 
 
-@request_method('GET')
+@require_GET
 @login_required
 @permission_required('compute.detail', raise_exception=True)
 def server_detail(request, **kwargs):
@@ -44,7 +44,7 @@ def server_detail(request, **kwargs):
     return TemplateResponse(request, 'compute/detail.html', compute_obj)
 
 
-@request_method('POST')
+@require_POST
 @login_required
 @permission_required('compute.create', raise_exception=True)
 def server_create(request):

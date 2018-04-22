@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 # coding=utf-8
 
 from common.exceptions import ECloudException
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect
 import json
 from django.utils.deprecation import MiddlewareMixin
+from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -66,7 +68,8 @@ class CommonMiddleware(MiddlewareMixin):
                 pass
         else:
             # django or openstack
-            pass
+            if isinstance(exception, PermissionDenied):
+                pass
 
     # def process_request(self, request):
     #     return request

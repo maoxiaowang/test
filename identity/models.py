@@ -2,9 +2,7 @@
 from uuid import uuid4
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import (
-    AbstractUser, BaseUserManager, GroupManager,
-    PermissionManager, ContentType)
+from django.contrib.auth import models as auth_models
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.db import models
 from django.utils import timezone
@@ -14,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 
-class UserManager(BaseUserManager):
+class UserManager(auth_models.BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, username, email, password, **extra_fields):
@@ -48,11 +46,28 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
+class GroupManager(auth_models.GroupManager):
+    use_in_migrations = True
+
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
+
+
+class PermissionManager(auth_models.PermissionManager):
+    use_in_migrations = True
+
+    def get_by_natural_key(self, codename, app_label, model):
+        return self.get(
+            codename=codename,
+            content_type=auth_models.ContentType.objects.db_manager(self.db).get_by_natural_key(app_label, model),
+        )
+
+
 class Permission(models.Model):
 
     name = models.CharField(_('name'), max_length=255)
     content_type = models.ForeignKey(
-        ContentType,
+        auth_models.ContentType,
         models.CASCADE,
         verbose_name=_('content type'),
         related_name='content_type_of_permission'
@@ -102,7 +117,7 @@ class Group(models.Model):
         return (self.name,)
 
 
-class User(AbstractUser, UserManager):
+class User(auth_models.AbstractUser, UserManager):
     """
     用户
     """
