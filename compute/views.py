@@ -2,8 +2,7 @@
 """
 Create your views here.
 """
-from django.contrib.auth.decorators import login_required
-from common.decorators import permission_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from compute.models import Compute
@@ -54,3 +53,5 @@ def server_create(request):
     ComputeRequest(request).compute_create(name)
 
 
+def host_add(request):
+    name = request.POST.get('name')
