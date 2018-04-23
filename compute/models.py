@@ -7,7 +7,7 @@ from django.contrib.auth.backends import get_user_model
 UserModel = get_user_model()
 
 
-class ComputeModel(models.Model):
+class Compute(models.Model):
     """
     云主机，测试用
     """
@@ -19,10 +19,11 @@ class ComputeModel(models.Model):
     class Meta:
         ordering = ["name"]
         permissions = (
-            ("list", _("Can see instance list")),
-            ("detail", _("Can see instance detail")),
-            ("create", _("Can create an instance")),
-            ("delete", _("Can delete an instance")),
+            ("list", _("Can see server list")),
+            ("detail", _("Can see server detail")),
+            ("create", _("Can create servers")),
+            ("change", _("Can change servers")),
+            ("delete", _("Can delete servers")),
         )
         db_table = 'compute_resource'
 

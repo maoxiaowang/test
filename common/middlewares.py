@@ -9,11 +9,10 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 # coding=utf-8
 
 from common.exceptions import ECloudException
-from django.shortcuts import HttpResponse, HttpResponseRedirect
-import json
+from django.http.response import JsonResponse, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.core.exceptions import PermissionDenied
-from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -27,15 +26,16 @@ class CommonMiddleware(MiddlewareMixin):
         self.menus_obj = menus
         self.menus_list = [item.name for item in menus]
 
-    def __call__(self, request):
-        # Code to be executed for each request before
-        # the view (and later middleware) are called.
-        response = self.get_response(request)
-        #
-        # # Code to be executed for each request/response after
-        # # the view is called.
-        #
-        return response
+    # def __call__(self, request):
+    #     # Code to be executed for each request before
+    #     # the view (and later middleware) are called.
+    #     super().__call__(request)
+    #     response = self.get_response(request)
+    #
+    #     # Code to be executed for each request/response after
+    #     # the view is called.
+    #
+    #     return response
 
     # def process_view(self, request, view_func, *view_args, **view_kwargs):
     #     """
@@ -54,26 +54,32 @@ class CommonMiddleware(MiddlewareMixin):
         """
         if isinstance(exception, ECloudException):
             if request.method in ('POST', 'PUT', 'DELETE'):
-                result = dict(result=False, message={}, redirect='', data={})
-                result['message'] = {
+                result = dict(result=False, messages=[], data={})
+                result['messages'].append({
                         'code': exception.code,
                         'desc': exception.desc,
                         'level': exception.level
-                }
-                return HttpResponse(json.dumps(result))
+                })
+                return JsonResponse(result)
             elif request.method == 'GET':
                 pass
             else:
                 # other HTTP methods
                 pass
         else:
-            # django or openstack
+            # django or openstack exceptions
             if isinstance(exception, PermissionDenied):
-                pass
-
+                if request.method in ('POST', 'PUT', 'DELETE'):
+                    result = dict(result=False, messages=[], data={})
+                    result['messages'].append({
+                        'code': 403,
+                        'desc': _("You don't have permission to do this"),
+                        'level': 'error'
+                    })
+                    return JsonResponse(result)
     # def process_request(self, request):
     #     return request
-    #
+
     # def process_response(self, request, response):
     #     path = request.path_info.strip('/').split('/')
     #     response = self.get_response(request)
@@ -95,7 +101,6 @@ class CommonMiddleware(MiddlewareMixin):
         path = request.path_info.strip('/').split('/')
         path_len = len(path)
         if path[0] in self.menus_list:
-            print(self.menus_list)
             if not response.context_data:
                 response.context_data = {}
             response.context_data['side_nav_menus'] = self.menus_obj

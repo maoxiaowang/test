@@ -49,7 +49,7 @@
               {% else %}
                 {# no sub menu #}
                 <li class="bold">
-                  <a class="waves-effect waves-teal" href="/{{ menu.name }}">{{ menu.display_name }}</a>
+                  <a class="waves-effect waves-teal" href="/{{ menu.name }}/">{{ menu.display_name }}</a>
                 </li>
               {% endif %}
             {% endwith %}
@@ -78,6 +78,6 @@
 
 {% block footer %}{% endblock %}
 {% block js %}
-  <script src="{% static 'js/dashboard/base.js' %}?v=2"></script>
+  <script src="{% static 'js/dashboard/base.js' %}?v=3"></script>
   {% block js_dashboard %}{% endblock %}
 {% endblock %}

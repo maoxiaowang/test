@@ -68,9 +68,10 @@
   {% endblock %}
 
   {% block base_js %}
-  <script src="{% static 'js/assets/jquery.min.js' %}"></script>
+{#  <script src="{% static 'js/assets/jquery.min.js' %}"></script>#}
+    <script src="https://cdn.bootcss.com/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
   <script src="{% static 'js/assets/materialize.min.js' %}"></script>
-  <script src="{% static 'js/common/base.js' %}"></script>
+  <script src="{% static 'js/common/base.js' %}?v=1"></script>
   <script src="{% static 'js/common/utils.js' %}"></script>
   {% block js %}{% endblock %}
   {% endblock %}

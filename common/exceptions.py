@@ -1,7 +1,8 @@
 # coding=utf-8
 """
 Exceptions codes:
-1 - 999: common
+1 - 599: Http
+600 - 999: common
 1000 - 1999:   compute
 2000 - 2999:   volumes
 3000 - 3999:   hosts
@@ -24,6 +25,7 @@ Exceptions desc:
 short and accurate description for an exception
 """
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import PermissionDenied
 
 
 class ECloudException(Exception):
@@ -36,21 +38,15 @@ class ECloudException(Exception):
 
 """
 System common exceptions
-1 - 999
+600 - 999
 """
 
 
 class UndefinedException(ECloudException):
     desc = _('Undefined common exception')
-    code = 1
-
-
-class EmptyContent(ECloudException):
-    level = 'warning'
-    desc = _('Empty content is not allowed')
-    code = 2
+    code = 600
 
 
 class InvalidParameters(ECloudException):
     desc = _('Invalid Parameters')
-    code = 3
+    code = 601

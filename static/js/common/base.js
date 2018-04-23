@@ -239,3 +239,10 @@ function removeLoadingCover(obj) {
         return null;
     }
  })(jQuery);
+
+$(function () {
+	setTimeout(function () {
+		$('.messages').slideUp();
+	}, 3000)
+});
+
