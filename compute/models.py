@@ -21,11 +21,11 @@ class Server(models.Model):
     class Meta:
         ordering = ['name', 'id']
         permissions = (
-            ('list', _('Can see server list')),
-            ('detail', _('Can see server detail')),
-            ('create', _('Can create server')),
-            ('change', _('Can change server')),
-            ('delete', _('Can delete server')),
+            ('server_list', _('Can see server list')),
+            ('server_detail', _('Can see server detail')),
+            ('server_create', _('Can create server')),
+            ('server_change', _('Can change server')),
+            ('server_delete', _('Can delete server')),
         )
 
     def __str__(self):
@@ -44,11 +44,11 @@ class Host(models.Model):
     class Meta:
         ordering = ['name', 'id']
         permissions = (
-            ('list', _('Can see host list')),
-            ('detail', _('Can see host detail')),
-            ('add', _('Can add host')),
-            ('change', _('Can change host')),
-            ('remove', _('Can remove host')),
+            ('host_list', _('Can see host list')),
+            ('host_detail', _('Can see host detail')),
+            ('host_add', _('Can add host')),
+            ('host_change', _('Can change host')),
+            ('host_remove', _('Can remove host')),
         )
 
     def __str__(self):

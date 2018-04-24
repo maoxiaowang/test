@@ -5,7 +5,7 @@ Create your views here.
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from compute.models import Compute
+from compute.models import Server
 from django.template.response import TemplateResponse
 from common.utils.string_ import str2digit
 from common.openstack.compute import ComputeRequest
@@ -19,19 +19,19 @@ def server_list(request):
     context = {}
     page = request.GET.get('page')
     items_per_page = str2digit(request.GET.get('items', 5), 20)
-    compute_objects = Compute.objects.filter()
+    server_objects = Server.objects.filter()
 
     # Pagination
-    paginator = Paginator(compute_objects, items_per_page)
+    paginator = Paginator(server_objects, items_per_page)
     try:
-        computes = paginator.page(page)
+        servers = paginator.page(page)
     except PageNotAnInteger:
-        computes = paginator.page(1)
+        servers = paginator.page(1)
     except EmptyPage:
-        computes = paginator.page(paginator.num_pages)
+        servers = paginator.page(paginator.num_pages)
 
-    context['computes'] = computes
-    return TemplateResponse(request, 'compute/list.html', context=context)
+    context['servers'] = servers
+    return TemplateResponse(request, 'compute/server_list.html', context=context)
 
 
 @require_GET
@@ -40,8 +40,8 @@ def server_list(request):
 def server_detail(request, **kwargs):
     # get from OpenStack later
     uuid = kwargs.get('id')
-    compute_obj = get_object_or_404(Compute, uuid)
-    return TemplateResponse(request, 'compute/detail.html', compute_obj)
+    compute_obj = get_object_or_404(Server, uuid)
+    return TemplateResponse(request, 'compute/server_detail.html', compute_obj)
 
 
 @require_POST
