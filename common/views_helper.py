@@ -4,6 +4,23 @@ from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin, BaseDetailView)
 
 
+def ret_format(result=True, messages=None, data=None):
+    """
+    格式化Json返回数据
+    :param result: [bool] 一般为True
+    :param messages: [str|dict] 要在页面展示的消息，多条消息使用列表
+    :param data: [dict] 返回给前端的数据
+    :return: [dict]
+    """
+    assert isinstance(result, bool)
+    if messages:
+        assert isinstance(messages, (list, str))
+    if data:
+        assert isinstance(data, dict)
+
+    return {'result':False, 'messages':messages or [], 'data':data or {}}
+
+
 class JSONResponseMixin:
     """
     A mixin that can be used to render a JSON response.

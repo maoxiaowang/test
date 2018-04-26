@@ -7,14 +7,17 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from compute.models import Server
 from django.template.response import TemplateResponse
+from django.http.response import JsonResponse
 from common.utils.string_ import str2digit
-from common.openstack.compute import ComputeRequest
-from django.views.decorators.http import require_GET, require_POST
+from common.views_helper import ret_format
+from django.views.decorators.http import (
+    require_GET, require_POST, require_http_methods)
+from .tasks import create_server_task
 
 
 @require_GET
 @login_required
-@permission_required('compute.list')
+@permission_required('compute.server_list')
 def server_list(request):
     context = {}
     page = request.GET.get('page')
@@ -36,7 +39,7 @@ def server_list(request):
 
 @require_GET
 @login_required
-@permission_required('compute.detail')
+@permission_required('compute.server_detail')
 def server_detail(request, **kwargs):
     # get from OpenStack later
     uuid = kwargs.get('id')
@@ -46,12 +49,40 @@ def server_detail(request, **kwargs):
 
 @require_POST
 @login_required
-@permission_required('compute.create')
+@permission_required('compute.server_create')
 def server_create(request):
-    name = request.POST.get('name')
+
     # and more params
-    ComputeRequest(request).compute_create(name)
+    create_server_task.delay(body=request.POST)
+    return JsonResponse(ret_format(data={}))
+
+
+def server_change(request):
+    pass
+
+
+@require_http_methods(['DELETE'])
+@login_required
+@permission_required('compute.server_delete')
+def server_delete(request, server_id, **kwargs):
+    pass
+
+
+def host_list(request):
+    pass
+
+
+def host_detail(request):
+    pass
 
 
 def host_add(request):
-    name = request.POST.get('name')
+    pass
+
+
+def host_change(request):
+    pass
+
+
+def host_remove(request):
+    pass

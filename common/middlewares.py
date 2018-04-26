@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 # coding=utf-8
 
 from common.exceptions import ECloudException
+from .views_helper import ret_format
 from django.http.response import JsonResponse, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.core.exceptions import PermissionDenied
@@ -54,13 +55,11 @@ class CommonMiddleware(MiddlewareMixin):
         """
         if isinstance(exception, ECloudException):
             if request.method in ('POST', 'PUT', 'DELETE'):
-                result = dict(result=False, messages=[], data={})
-                result['messages'].append({
-                        'code': exception.code,
+                data = {'code': exception.code,
                         'desc': exception.desc,
                         'level': exception.level
-                })
-                return JsonResponse(result)
+                }
+                return JsonResponse(ret_format(result=False, data=data))
             elif request.method == 'GET':
                 pass
             else:
@@ -70,13 +69,12 @@ class CommonMiddleware(MiddlewareMixin):
             # django or openstack exceptions
             if isinstance(exception, PermissionDenied):
                 if request.method in ('POST', 'PUT', 'DELETE'):
-                    result = dict(result=False, messages=[], data={})
-                    result['messages'].append({
+                    data = {
                         'code': 403,
                         'desc': _("You don't have permission to do this"),
                         'level': 'error'
-                    })
-                    return JsonResponse(result)
+                    }
+                    return JsonResponse(ret_format(result=False, data=data))
     # def process_request(self, request):
     #     return request
 
@@ -99,7 +97,6 @@ class CommonMiddleware(MiddlewareMixin):
         :return:
         """
         path = request.path_info.strip('/').split('/')
-        path_len = len(path)
         if path[0] in self.menus_list:
             if not response.context_data:
                 response.context_data = {}

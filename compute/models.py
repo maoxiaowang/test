@@ -13,10 +13,10 @@ class Server(models.Model):
     云主机
     """
     id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
-    name = models.CharField(max_length=16, verbose_name=_('username'))
+    name = models.CharField(max_length=16, verbose_name=_('name'))
     # 虚拟机所属用户
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
-                             related_name='user_of_server')
+                             related_name='server_owner')
 
     class Meta:
         ordering = ['name', 'id']

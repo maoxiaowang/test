@@ -91,23 +91,27 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
-        'NAME': 'ecloud',
         'PORT': '3306',
+        'NAME': 'ecloud',
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },
-    # 'ecloud': {
+    'nova': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'NAME': 'nova',
+        'USER': 'root',
+        'PASSWORD': 'kevin123',
+    },
+    # 'cinder': {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'HOST': '127.0.0.1',
     #     'PORT': '3306',
-    #     'NAME': 'ecloud',
+    #     'NAME': 'cinder',
     #     'USER': 'root',
     #     'PASSWORD': 'kevin123',
-    #     # 'OPTIONS': {
-    #     #     'init_command': 'SET default_storage_engine=INNODB',
-    #     # }
-    # }
-
+    # },
 }
 
 
