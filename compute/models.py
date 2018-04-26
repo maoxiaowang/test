@@ -19,6 +19,7 @@ class Server(models.Model):
                              related_name='server_owner')
 
     class Meta:
+        db_table = 'compute_server'
         ordering = ['name', 'id']
         permissions = (
             ('server_list', _('Can see server list')),
@@ -39,9 +40,10 @@ class Host(models.Model):
     id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
     name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
-                             related_name='user_of_host')
+                             related_name='host_owner')
 
     class Meta:
+        db_table = 'compute_host'
         ordering = ['name', 'id']
         permissions = (
             ('host_list', _('Can see host list')),

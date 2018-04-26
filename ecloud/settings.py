@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'security',
     'storage',
     'websocket',
+    'openstack'
 ]
 
 MIDDLEWARE = [
@@ -92,15 +93,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'ecloud',
+        'NAME': 'cinder',
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },
-    'nova': {
+    'cinder': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'nova',
+        'NAME': 'cinder',
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },

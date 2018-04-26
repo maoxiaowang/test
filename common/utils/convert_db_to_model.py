@@ -85,11 +85,14 @@ def clean(string):
 
 def convert(ddl):
     assert isinstance(ddl, str) and ddl.strip().upper().startswith('CREATE TABLE')
-    items = re.findall(r'CREATE TABLE.*?\((.*)\)', ddl, re.I | re.S)
+    items = re.findall(r'CREATE TABLE\s+`?(.*?)`?\s+\((.*)\)', ddl, re.I | re.S)
     if not items:
         assert ValueError('Incorrect sql format')
-    lines = [line.strip(',').strip() for line in items[0].splitlines() if line]
-    results = list()
+    db_name = items[0][0]
+    items = items[0][1]
+
+    lines = [line.strip(',').strip() for line in items.splitlines() if line]
+    fields = list()
 
     # get primary key and its types
     pk_name = ''
@@ -104,7 +107,7 @@ def convert(ddl):
         sl = line.split()
         # find primary key
         if clean(sl[0]) == pk_name:
-            pk_type_re =  get_type(sl[1])
+            pk_type_re = get_type(sl[1])
             if pk_type_re:
                 pk_type = pk_type_re[0]
     if not pk_type:
@@ -151,6 +154,8 @@ def convert(ddl):
             if clean(sl[0]) == pk_name:
                 # primary key
                 other += ', primary_key=True'
+            if pk_type[1] != '':
+                other += ', max_length=%s' % pk_type[1]
 
             _ = {
                 'name': clean(sl[0]),
@@ -162,9 +167,13 @@ def convert(ddl):
             r = "%(name)s = models.%(data_type)s(verbose_name=_('%(vn)s')%(other)s)" % _
 
         if r:
-            results.append(r)
+            fields.append(r)
 
-    print('\n'.join(results))
+    # class Meta
+    result = 'class %s(models.Model):\n' % db_name.capitalize()
+    fields = ' '*4 + '\n    '.join(fields)
+    meta_class = '\n' + ' '*4 + 'class Meta:\n' + ' '*8 + "db_table='%s'" % db_name
+    print(result + fields + '\n' + meta_class)
 
 
 if __name__ == '__main__':
