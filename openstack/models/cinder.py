@@ -420,10 +420,6 @@ class Volumes(models.Model):
     replication_status = models.CharField(max_length=255, blank=True, null=True)
     replication_extended_status = models.CharField(max_length=255, blank=True, null=True)
     replication_driver_data = models.CharField(max_length=255, blank=True, null=True)
-    consistencygroup = models.ForeignKey(Consistencygroups, models.DO_NOTHING, blank=True, null=True)
+    consistencygroup = models.ForeignKey(Consistencygroups, models.CASCADE, blank=True, null=True)
     provider_id = models.CharField(max_length=255, blank=True, null=True)
     multiattach = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'volumes'

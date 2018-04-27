@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cinder',
     'alarm',
     'billing',
     'compute',
@@ -93,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'cinder',
+        'NAME': 'ecloud',
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },
@@ -105,15 +106,17 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },
-    # 'cinder': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
-    #     'NAME': 'cinder',
-    #     'USER': 'root',
-    #     'PASSWORD': 'kevin123',
-    # },
+    'nova': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'NAME': 'nova',
+        'USER': 'root',
+        'PASSWORD': 'kevin123',
+    },
 }
+
+DATABASE_ROUTERS = ['common.routers.DefaultDatabaseRouter']
 
 
 # Password validation

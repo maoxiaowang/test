@@ -19,6 +19,7 @@ class Server(models.Model):
                              related_name='server_owner')
 
     class Meta:
+        app_label = 'nova'
         db_table = 'compute_server'
         ordering = ['name', 'id']
         permissions = (
@@ -43,6 +44,7 @@ class Host(models.Model):
                              related_name='host_owner')
 
     class Meta:
+        app_label = 'nova'
         db_table = 'compute_host'
         ordering = ['name', 'id']
         permissions = (

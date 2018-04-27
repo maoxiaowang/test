@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.backends import get_user_model
-from openstack.models import cinder
 
 # Create your models here.
 
@@ -33,28 +32,23 @@ UserModel = get_user_model()
 #         return self.name
 #
 #
-class Volume(models.Model):
-    """
+# class Volume(models.Model):
+#     """
+#
+#     """
+#     detail = models.OneToOneField(Volumes, on_delete=models.CASCADE,
+#                                   primary_key=True)
+#
+#     user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+#                              related_name='volume_owner')
+#
+#     class Meta:
+#         db_table = 'volume'
+#         permissions = (
+#             ('volume_list', _('Can see volume list')),
+#             ('volume_detail', _('Can see volume detail')),
+#             ('volume_create', _('Can create volume')),
+#             ('volume_update', _('Can update volume')),
+#             ('volume_delete', _('Can delete volume')),
+#         )
 
-    """
-    name = models.CharField(max_length=16, verbose_name=_('name'))
-    type = models.CharField(max_length=16, verbose_name=_('type'))
-    detail = models.OneToOneField(cinder.Volumes, on_delete=models.CASCADE,
-                                  related_name='volume_id')
-
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
-                             related_name='volume_owner')
-
-    class Meta:
-        db_table = 'volume'
-        ordering = ['name', 'id']
-        permissions = (
-            ('volume_list', _('Can see volume list')),
-            ('volume_detail', _('Can see volume detail')),
-            ('volume_create', _('Can create volume')),
-            ('volume_update', _('Can update volume')),
-            ('volume_delete', _('Can delete volume')),
-        )
-
-    def __str__(self):
-        return self.name
