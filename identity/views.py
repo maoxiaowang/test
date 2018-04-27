@@ -2,15 +2,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls.base import reverse
 from django.contrib.auth import views as auth_views
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import get_user_model, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.http import require_http_methods, require_GET
-# from identity.models import Permission
-from identity.exceptions import *
 from identity.forms import *
 from identity.constants import *
 from django.utils.decorators import method_decorator

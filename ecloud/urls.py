@@ -25,4 +25,5 @@ urlpatterns = [
     path(r'compute/', include('compute.urls', namespace='compute')),
     path(r'identity/', include('identity.urls', namespace='identity')),
     path(r'dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path(r'storage/', include('storage.urls', namespace='storage')),
 ]

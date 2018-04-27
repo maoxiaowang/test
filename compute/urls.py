@@ -3,12 +3,12 @@
 from django.views.generic import TemplateView
 from django.urls import path, re_path, register_converter
 from compute.views import *
-from .converters import *
+from django.urls.converters import UUIDConverter
 
 
 app_name = 'compute'
 
-register_converter(UUIDConverters, 'uuid')
+register_converter(UUIDConverter, 'uuid')
 
 urlpatterns = [
     # path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),

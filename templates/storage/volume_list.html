@@ -1,0 +1,11 @@
+{% extends "base/dashboard.html" %}
+
+{% block dashboard_content %}
+  <h1>I am volume list page</h1>
+
+  {% for volume in volumes %}
+  <p>id: {{ volume.id }}  name: {{ volume.name }}</p>
+  {% endfor %}
+
+{#  <p><a href="{% url 'storage:volume_list' %}"></a></p>#}
+{% endblock %}
