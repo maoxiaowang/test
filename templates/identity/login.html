@@ -2,12 +2,8 @@
 {% load i18n %}
 
 {% block title %}{% trans 'Login' %}{% endblock %}
-{% block css_user %}{% endblock %}
-{% block header %}{% endblock %}
-{% block body_tag %}{% endblock %}
-{% block main_tag %}class="valign-wrapper"{% endblock %}
 
-{% block content_identity %}
+{% block form_content %}
 
   {# Login form #}
   {% include "identity/forms/login_form.html" with form=form %}

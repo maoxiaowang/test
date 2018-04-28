@@ -86,7 +86,7 @@ class User(AbstractUser, UserManager):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        db_table = 'identity_users'
+        db_table = 'auth_user'
         ordering = ['username']
         verbose_name = _('user')
         verbose_name_plural = _('users')

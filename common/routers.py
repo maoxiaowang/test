@@ -1,10 +1,9 @@
 """
 Router for database
 """
-from ecloud.settings import INSTALLED_APPS, DATABASES
 
-ECLOUD_APPS = [i for i in INSTALLED_APPS if not i.startswith('django.') and i != 'openstack']
-DEFAULT_DB = DATABASES['default'].get('NAME', 'ecloud')
+DEFAULT_DB = 'default'
+OPENSTACK_DB_ALIAS = ['cinder', 'glance', 'keystone', 'neutron', 'nova']
 
 
 class DefaultDatabaseRouter:
@@ -14,16 +13,16 @@ class DefaultDatabaseRouter:
     """
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label in ECLOUD_APPS:
-            return DEFAULT_DB
-        else:
+        if model._meta.app_label in OPENSTACK_DB_ALIAS:
             return model._meta.app_label
+        else:
+            return DEFAULT_DB
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label in ECLOUD_APPS:
-            return DEFAULT_DB
-        else:
+        if model._meta.app_label in OPENSTACK_DB_ALIAS:
             return model._meta.app_label
+        else:
+            return DEFAULT_DB
 
     def allow_relation(self, obj1, obj2, **hints):
         return True

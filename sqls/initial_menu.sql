@@ -5,7 +5,6 @@ INSERT INTO dashboard_menu (id, name, display_name) VALUES (1, 'dashboard', 'Das
 INSERT INTO dashboard_menu (id, name, display_name) VALUES (2, 'compute', 'Compute');
 INSERT INTO dashboard_menu (id, name, display_name) VALUES (3, 'storage', 'Storage');
 INSERT INTO dashboard_menu (id, name, display_name) VALUES (4, 'network', 'Network');
-INSERT INTO dashboard_menu (id, name, display_name) VALUES (5, 'host', 'Host');
 INSERT INTO dashboard_menu (id, name, display_name) VALUES (5, 'identity', 'Identity');
 
 INSERT INTO dashboard_sub_menu(name, display_name, menu_id) VALUES ('server', 'Server', 2);

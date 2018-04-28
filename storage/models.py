@@ -32,23 +32,20 @@ UserModel = get_user_model()
 #         return self.name
 #
 #
-# class Volume(models.Model):
-#     """
-#
-#     """
-#     detail = models.OneToOneField(Volumes, on_delete=models.CASCADE,
-#                                   primary_key=True)
-#
-#     user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
-#                              related_name='volume_owner')
-#
-#     class Meta:
-#         db_table = 'volume'
-#         permissions = (
-#             ('volume_list', _('Can see volume list')),
-#             ('volume_detail', _('Can see volume detail')),
-#             ('volume_create', _('Can create volume')),
-#             ('volume_update', _('Can update volume')),
-#             ('volume_delete', _('Can delete volume')),
-#         )
+class Volume(models.Model):
+    """
 
+    """
+    id = models.CharField(primary_key=True, max_length=36)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+                             related_name='volume_owner')
+
+    class Meta:
+        db_table = 'volume'
+        permissions = (
+            ('volume_list', _('Can see volume list')),
+            ('volume_detail', _('Can see volume detail')),
+            ('volume_create', _('Can create volume')),
+            ('volume_update', _('Can update volume')),
+            ('volume_delete', _('Can delete volume')),
+        )

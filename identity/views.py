@@ -101,7 +101,7 @@ class UserCreate(CreateView):
         return super().get(request, *args, **kwargs)
 
     # @method_decorator(login_required, name='dispatch')
-    # @permission_required('identity.create')
+    # @permission_required('auth.create')
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST, auto_id=True,
                                error_class=UlErrorList)
@@ -113,7 +113,8 @@ class UserCreate(CreateView):
                 password=form.cleaned_data['password1']
             )
             messages.add_message(request, messages.SUCCESS,
-                                 _('You have registered successfully, please login.'))
+                                 _('You have registered successfully, '
+                                   'please login.'))
             return HttpResponseRedirect(reverse('identity:user_login'))
         else:
             return render(request, self.template_name, {'form': form})
@@ -125,7 +126,7 @@ class UserUpdate(UpdateView):
     form_class = UserUpdateForm
     template_name = ''
 
-    # @permission_required('identity.update')
+    # @permission_required('auth.update')
     def post(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
 
@@ -135,7 +136,7 @@ class UserDelete(DeleteView):
 
     model = UserModel
 
-    # @permission_required('identity.delete')
+    # @permission_required('auth.delete')
     def delete(self, request, *args, **kwargs):
         super().delete(request, *args, **kwargs)
 
@@ -144,11 +145,11 @@ class UserDelete(DeleteView):
 class UserDetail(DetailView):
 
     model = UserModel
-    template_name = 'identity/user_detail.html'
+    template_name = 'auth/user_detail.html'
 
     extra_context = {}
 
-    # @permission_required('identity.detail')
+    # @permission_required('auth.detail')
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
         user_obj = UserModel.objects.filter(username=username)
@@ -165,7 +166,7 @@ class UserList(ListView):
 
     model = UserModel
 
-    # @permission_required('identity.list')
+    # @permission_required('auth.list')
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
 
@@ -196,9 +197,9 @@ class UserGroupUpdate(UpdateView):
 # @method_decorator(login_required, name='dispatch')
 class PasswordChange(auth_views.PasswordChangeView):
 
-    template_name = 'identity/password_change.html'
+    template_name = 'auth/password_change.html'
 
 
 class PasswordChangeDone(auth_views.PasswordChangeDoneView):
 
-    template_name = 'identity/password_change_done.html'
+    template_name = 'auth/password_change_done.html'

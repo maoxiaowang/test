@@ -12,6 +12,7 @@ from .models import Volume
 # Create your views here.
 
 
+@method_decorator(login_required, name='dispatch')
 class VolumeList(ListView, PermissionRequiredMixin):
 
     permission_required = 'storage.volume_list'
@@ -19,10 +20,8 @@ class VolumeList(ListView, PermissionRequiredMixin):
     template_name = 'storage/volume_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        return {'test': 'hello world'}
-
-    def get(self, request, *args, **kwargs):
-        super().get(request, *args, **kwargs)
+        volumes = self.model.objects.filter(user_id=self.request.user.id)
+        return {'volumes': volumes}
 
 
 @method_decorator(login_required, name='dispatch')
@@ -30,6 +29,7 @@ class VolumeDetail(DetailView, PermissionRequiredMixin):
 
     permission_required = 'storage.volume_detail'
     model = Volume
+    template_name = 'storage/volume_detail.html'
 
     def get(self, request, *args, **kwargs):
         pass

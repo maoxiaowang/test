@@ -5,7 +5,7 @@ from django.urls import path
 from django.conf.urls import include
 from identity import views
 
-app_name = 'identity'
+app_name = 'auth'
 
 urlpatterns = [
     # path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),

@@ -66,10 +66,10 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         max_length=32,
         widget=forms.TextInput(
             attrs={
-                # 'class': 'form-control',
+                'class': 'form-control',
                 'id': 'inputUsername',
                 'autofocus': True,
-                # 'placeholder': _('Username'),
+                'placeholder': _('Username'),
                 'required': True,
                 'spellcheck': 'false'
             }
@@ -80,9 +80,9 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                # 'class': 'form-control',
+                'class': 'form-control',
                 'id': 'inputPassword',
-                # 'placeholder': _('Password'),
+                'placeholder': _('Password'),
                 'maxlength': 32,
                 'minlength': 8,
                 'required': True

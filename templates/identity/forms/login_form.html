@@ -40,3 +40,44 @@
   </div>
 
 </form>
+
+
+
+<form class="form-horizontal m-t-20" action="{% url 'identity:user_login' %}">
+
+  <div class="form-group">
+    <div class="col-xs-12">
+      {{ form.username }}
+      {{ form.username.label_tag }}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-12">
+      {{ form.password }}
+      {{ form.password.label_tag }}
+    </div>
+  </div>
+
+  <div class="form-group ">
+    <div class="col-xs-12">
+      <div class="checkbox checkbox-custom">
+        {{ form.remember_me }}
+        {{ form.remember_me.label_tag }}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-group text-center m-t-30">
+    <div class="col-xs-12">
+      <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light" type="submit">{% trans Login %}</button>
+    </div>
+  </div>
+
+  <div class="form-group m-t-30 m-b-0">
+    <div class="col-sm-12">
+      <a href="{% url 'identity:users_password_change' %}" class="text-muted"><i class="fa fa-lock m-r-5"></i> {% trans Forgot your password? %}</a>
+    </div>
+  </div>
+</form>

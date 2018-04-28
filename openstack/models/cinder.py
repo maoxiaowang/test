@@ -3,12 +3,20 @@
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+#   * Remove `` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
-class Backups(models.Model):
+class CinderBase(models.Model):
+
+    class Meta:
+        abstract = True
+        app_label = 'cinder'
+        managed = True
+
+
+class Backups(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -30,12 +38,12 @@ class Backups(models.Model):
     object_count = models.IntegerField(blank=True, null=True)
     parent_id = models.CharField(max_length=36, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'backups'
 
 
-class Cgsnapshots(models.Model):
+class Cgsnapshots(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -48,12 +56,12 @@ class Cgsnapshots(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'cgsnapshots'
 
 
-class Consistencygroups(models.Model):
+class Consistencygroups(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -69,12 +77,12 @@ class Consistencygroups(models.Model):
     status = models.CharField(max_length=255, blank=True, null=True)
     cgsnapshot_id = models.CharField(max_length=36, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'consistencygroups'
 
 
-class DriverInitiatorData(models.Model):
+class DriverInitiatorData(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     initiator = models.CharField(max_length=255)
@@ -82,13 +90,13 @@ class DriverInitiatorData(models.Model):
     key = models.CharField(max_length=255)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'driver_initiator_data'
         unique_together = (('initiator', 'namespace', 'key'),)
 
 
-class Encryption(models.Model):
+class Encryption(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -100,12 +108,12 @@ class Encryption(models.Model):
     volume_type_id = models.CharField(max_length=36)
     encryption_id = models.CharField(primary_key=True, max_length=36)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'encryption'
 
 
-class IscsiTargets(models.Model):
+class IscsiTargets(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -114,22 +122,22 @@ class IscsiTargets(models.Model):
     host = models.CharField(max_length=255, blank=True, null=True)
     volume = models.ForeignKey('Volumes', models.DO_NOTHING, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'iscsi_targets'
 
 
-class MigrateVersion(models.Model):
+class MigrateVersion(CinderBase):
     repository_id = models.CharField(primary_key=True, max_length=250)
     repository_path = models.TextField(blank=True, null=True)
     version = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'migrate_version'
 
 
-class QualityOfServiceSpecs(models.Model):
+class QualityOfServiceSpecs(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -139,12 +147,12 @@ class QualityOfServiceSpecs(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'quality_of_service_specs'
 
 
-class QuotaClasses(models.Model):
+class QuotaClasses(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -153,12 +161,12 @@ class QuotaClasses(models.Model):
     resource = models.CharField(max_length=255, blank=True, null=True)
     hard_limit = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'quota_classes'
 
 
-class QuotaUsages(models.Model):
+class QuotaUsages(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -169,12 +177,12 @@ class QuotaUsages(models.Model):
     reserved = models.IntegerField()
     until_refresh = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'quota_usages'
 
 
-class Quotas(models.Model):
+class Quotas(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -183,12 +191,12 @@ class Quotas(models.Model):
     resource = models.CharField(max_length=255)
     hard_limit = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'quotas'
 
 
-class Reservations(models.Model):
+class Reservations(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -200,12 +208,12 @@ class Reservations(models.Model):
     delta = models.IntegerField()
     expire = models.DateTimeField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'reservations'
 
 
-class Services(models.Model):
+class Services(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -219,12 +227,12 @@ class Services(models.Model):
     disabled_reason = models.CharField(max_length=255, blank=True, null=True)
     modified_at = models.DateTimeField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'services'
 
 
-class SnapshotMetadata(models.Model):
+class SnapshotMetadata(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -233,12 +241,12 @@ class SnapshotMetadata(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'snapshot_metadata'
 
 
-class Snapshots(models.Model):
+class Snapshots(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -259,12 +267,12 @@ class Snapshots(models.Model):
     cgsnapshot = models.ForeignKey(Cgsnapshots, models.DO_NOTHING, blank=True, null=True)
     provider_id = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'snapshots'
 
 
-class Transfers(models.Model):
+class Transfers(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -276,12 +284,12 @@ class Transfers(models.Model):
     crypt_hash = models.CharField(max_length=255, blank=True, null=True)
     expires_at = models.DateTimeField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'transfers'
 
 
-class VolumeAdminMetadata(models.Model):
+class VolumeAdminMetadata(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -290,12 +298,12 @@ class VolumeAdminMetadata(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_admin_metadata'
 
 
-class VolumeAttachment(models.Model):
+class VolumeAttachment(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -310,12 +318,12 @@ class VolumeAttachment(models.Model):
     attach_mode = models.CharField(max_length=36, blank=True, null=True)
     attach_status = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_attachment'
 
 
-class VolumeGlanceMetadata(models.Model):
+class VolumeGlanceMetadata(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -325,12 +333,12 @@ class VolumeGlanceMetadata(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.TextField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_glance_metadata'
 
 
-class VolumeMetadata(models.Model):
+class VolumeMetadata(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -339,12 +347,12 @@ class VolumeMetadata(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_metadata'
 
 
-class VolumeTypeExtraSpecs(models.Model):
+class VolumeTypeExtraSpecs(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -353,12 +361,12 @@ class VolumeTypeExtraSpecs(models.Model):
     key = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_type_extra_specs'
 
 
-class VolumeTypeProjects(models.Model):
+class VolumeTypeProjects(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -366,13 +374,13 @@ class VolumeTypeProjects(models.Model):
     project_id = models.CharField(max_length=255, blank=True, null=True)
     deleted = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_type_projects'
         unique_together = (('volume_type', 'project_id', 'deleted'),)
 
 
-class VolumeTypes(models.Model):
+class VolumeTypes(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -383,12 +391,12 @@ class VolumeTypes(models.Model):
     is_public = models.IntegerField(blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
+    class Meta(CinderBase.Meta):
+        
         db_table = 'volume_types'
 
 
-class Volumes(models.Model):
+class Volumes(CinderBase):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
@@ -420,6 +428,10 @@ class Volumes(models.Model):
     replication_status = models.CharField(max_length=255, blank=True, null=True)
     replication_extended_status = models.CharField(max_length=255, blank=True, null=True)
     replication_driver_data = models.CharField(max_length=255, blank=True, null=True)
-    consistencygroup = models.ForeignKey(Consistencygroups, models.CASCADE, blank=True, null=True)
+    consistencygroup = models.ForeignKey(Consistencygroups, models.DO_NOTHING, blank=True, null=True)
     provider_id = models.CharField(max_length=255, blank=True, null=True)
     multiattach = models.IntegerField(blank=True, null=True)
+
+    class Meta(CinderBase.Meta):
+        
+        db_table = 'volumes'
