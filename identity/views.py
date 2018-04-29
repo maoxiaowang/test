@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls.base import reverse
 from django.contrib.auth import views as auth_views
@@ -13,8 +14,8 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
-
 UserModel = get_user_model()
+logger = logging.getLogger('default')
 
 
 # Create your views here.
@@ -27,6 +28,7 @@ def index(request):
     else:
         _next = request.GET.get('next')
         login_url = reverse('identity:user_login')
+
         if _next:
             login_url = '%s?next=%s' % (login_url, _next)
         return HttpResponseRedirect(login_url)
@@ -45,6 +47,7 @@ class Login(auth_views.LoginView):
     initial = {'key': 'value'}
 
     def get(self, request, *args, **kwargs):
+        logger.debug('login page')
         form = self.authentication_form(initial=self.initial, auto_id=True)
         return render(request, self.template_name, {'form': form})
 
@@ -145,7 +148,7 @@ class UserDelete(DeleteView):
 class UserDetail(DetailView):
 
     model = UserModel
-    template_name = 'auth/user_detail.html'
+    template_name = 'identity/user_detail.html'
 
     extra_context = {}
 
@@ -161,26 +164,38 @@ class UserDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-# @method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class UserList(ListView):
 
     model = UserModel
 
-    # @permission_required('auth.list')
+    # @permission_required('identity.user_list')
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
 
 
-class UserGroupUpdate(UpdateView):
+class GroupList(ListView):
+    pass
 
-    form_class = GroupPermissionUpdateForm
+
+class GroupDetail(DetailView):
+    pass
+
+
+class GroupsUpdate(UpdateView):
+
+    form_class = UserGroupsUpdateForm
+
+
+class PermissionList(ListView):
+    pass
 
 
 # # @method_decorator(login_required, name='dispatch')
 # class UserPermissionUpdate(UpdateView):
 #
 #     form = UserPermissionUpdateForm
-#     model = Permission
+#     model =
 #     template_name = ''
 #     template_name_field = ['permissions']
 #
@@ -194,12 +209,50 @@ class UserGroupUpdate(UpdateView):
 #     template_name_field = ['permissions']
 
 
-# @method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class PasswordChange(auth_views.PasswordChangeView):
+    """
+    Change password by providing current password
+    """
 
-    template_name = 'auth/password_change.html'
+    template_name = 'identity/password_change.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordChangeDone(auth_views.PasswordChangeDoneView):
+    """
+    Change password done
+    """
+    template_name = 'identity/password_change_done.html'
 
-    template_name = 'auth/password_change_done.html'
+
+@method_decorator(login_required, name='dispatch')
+class PasswordReset(auth_views.PasswordResetView):
+    """
+    Validate and send a password reset email
+    """
+    pass
+
+
+@method_decorator(login_required, name='dispatch')
+class PasswordResetDone(auth_views.PasswordResetDoneView):
+    """
+    Email has been sent
+    """
+    pass
+
+
+@method_decorator(login_required, name='dispatch')
+class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
+    """
+    Authorized to set a new password
+    """
+    pass
+
+
+@method_decorator(login_required, name='dispatch')
+class PasswordResetComplete(auth_views.PasswordResetCompleteView):
+    """
+    Password reset all done
+    """
+    pass

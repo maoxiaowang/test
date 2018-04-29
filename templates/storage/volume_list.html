@@ -1,15 +1,10 @@
 {% extends "base/dashboard.html" %}
+{% load i18n %}
 
-{% block dashboard_content %}
-  <h1>I am volume list page</h1>
+{% block sub_title %}{% trans 'Volume' %}{% endblock %}
 
-  <ul class="collection">
-    <li class="collection-item avatar">
-    </li>
-  </ul>
-  {% for volume in volumes %}
-  <p>id: {{ volume.id }}  name: {{ volume.name }}</p>
-  {% endfor %}
+{% block page_title %}{% trans 'Volume' %}{% endblock %}
 
-{#  <p><a href="{% url 'storage:volume_list' %}"></a></p>#}
+{% block container %}
+
 {% endblock %}

@@ -168,11 +168,104 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
 MEDIA_URL = '/media/'
 
+# Self-defined authentication
 
 # if login/logout successful but URL "next" is not provided,
 # it redirects to the URLs
 LOGIN_REDIRECT_URL = '/dashboard/'
+
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/'
+LOGIN_URL = '/identity/users/login/'
 AUTH_USER_MODEL = 'identity.User'
 AUTHENTICATION_BACKENDS = ('common.backends.UserAuthBackend',)
+
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'standard': {
+            'format': ('%(asctime)s [%(pathname)s:%(lineno)d] '
+                       '[%(levelname)s]- %(message)s')
+        },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        }
+    },
+
+    'handlers': {
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+        },
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': r'D:\django_log\default.log',
+            'maxBytes': 1024**3*10,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': r'D:\django_log\error.log',
+            'maxBytes': 1024**3*10,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'scripts': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': r'D:\django_log\scripts.log',
+            'maxBytes': 1024**3*10,
+            'backupCount': 5,
+            'formatter': 'standard',
+        }
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'mail_admins'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'default': {
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'scripts': {
+            'handlers': ['scripts'],
+            'level': 'INFO',
+            'propagate': True
+        },
+    }
+}

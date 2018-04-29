@@ -10,14 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   {% endblock %}
 
-  <title>{% block title %}ECloud{% endblock %}</title>
+  <title>{% block title %}ECloud - {% block sub_title %}{% endblock %}{% endblock %}</title>
   <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
   {% block base_css %}
     <!-- base css -->
     <link href="{% static 'css/assets/bootstrap.min.css' %}" rel="stylesheet">
-    {#    <link href="{% static 'css/assets/icons.css' %}" rel="stylesheet">#}
-    {#    <link href="{% static 'css/assets/style.css' %}" rel="stylesheet">#}
-    <link href="{% static 'css/base/base.css' %}?v=1" rel="stylesheet">
+    <link href="{% static 'css/assets/icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/assets/style.css' %}" rel="stylesheet">
+    {#    <link href="{% static 'css/base/base.css' %}?v=1" rel="stylesheet">#}
     <!-- app css -->
     {% block app_css %}{% endblock %}
   {% endblock %}
@@ -38,7 +38,9 @@
 {% block main %}{% endblock %}  {# custom content #}
 
 {% block base_js %}
-  {#  <script src="{% static 'js/assets/jquery.min.js' %}"></script>#}
+  <script src="{% static 'js/assets/jquery.min.js' %}"></script>
+  <script src="{% static 'js/assets/popper.min.js' %}"></script>
+  <script src="{% static 'js/assets/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/common/base.js' %}?v=1"></script>
   <script src="{% static 'js/common/utils.js' %}"></script>
   {% block app_js %}{% endblock %}

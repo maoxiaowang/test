@@ -86,3 +86,15 @@ def host_change(request):
 
 def host_remove(request):
     pass
+
+
+def snap_list(request):
+    pass
+
+
+def image_list(request):
+    pass
+
+
+def backup_list(request):
+    pass

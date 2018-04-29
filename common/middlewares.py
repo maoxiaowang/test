@@ -14,6 +14,7 @@ from django.http.response import JsonResponse, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -26,6 +27,17 @@ class CommonMiddleware(MiddlewareMixin):
         menus = Menu.objects.all()
         self.menus_obj = menus
         self.menus_list = [item.name for item in menus]
+
+        # Initialize admin user if it does not been created,
+        # And give all permissions to admin.
+        # TODO:
+
+        user_model = get_user_model()
+        if not user_model.objects.filter(username='admin'):
+            user_model().create_user('admin',
+                                     email='admin@example.com',
+                                     password='password',
+                                     is_superuser=True)
 
     # def __call__(self, request):
     #     # Code to be executed for each request before

@@ -15,5 +15,9 @@ urlpatterns = [
     # path('vote/', permission_required('polls.can_vote')(views.Login.as_view())),
     path('server/', server_list, name='server_list'),
     path('server/<uuid:uuid>/', server_detail, name='server_detail'),
-
+    path('host/', host_list, name='host_list'),
+    path('host/<uuid:uuid>/', host_detail, name='host_detail'),
+    path('snapshot/', snap_list, name='snap_list'),
+    path('image/', image_list, name='image_list'),
+    path('backup/', backup_list, name='backup_list'),
 ]

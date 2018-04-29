@@ -70,3 +70,5 @@ class VolumeDelete(DeleteView, PermissionRequiredMixin):
         pass
 
 
+class StorageList(ListView):
+    pass

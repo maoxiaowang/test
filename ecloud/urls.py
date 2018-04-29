@@ -20,10 +20,11 @@ from identity.views import index
 
 
 urlpatterns = [
-    path(r'', index),
+    path('', index),
     path('admin/', admin.site.urls),
-    path(r'compute/', include('compute.urls', namespace='compute')),
-    path(r'identity/', include('identity.urls', namespace='identity')),
-    path(r'dashboard/', include('dashboard.urls', namespace='dashboard')),
-    path(r'storage/', include('storage.urls', namespace='storage')),
+    path('identity/', include('identity.urls', namespace='identity')),
+    path('compute/', include('compute.urls', namespace='compute')),
+    path('dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('storage/', include('storage.urls', namespace='storage')),
+    path('network/', include('networks.urls', namespace='networks')),
 ]

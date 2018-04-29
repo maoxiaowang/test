@@ -17,4 +17,5 @@ urlpatterns = [
     path('volume/create/', views.VolumeCreate.as_view(), name='volume_create'),
     path('volume/update/', views.VolumeUpdate.as_view(), name='volume_update'),
     path('volume/delete/', views.VolumeDelete.as_view(), name='volume_delete'),
+    path('storage/', views.StorageList.as_view(), name='storage_list')
 ]
