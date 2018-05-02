@@ -19,16 +19,16 @@ class Server(models.Model):
                              related_name='server_owner')
 
     class Meta:
-        app_label = 'nova'
         db_table = 'compute_server'
         ordering = ['name', 'id']
         permissions = (
-            ('server_list', _('Can see server list')),
-            ('server_detail', _('Can see server detail')),
-            ('server_create', _('Can create server')),
-            ('server_change', _('Can change server')),
-            ('server_delete', _('Can delete server')),
+            ('list_server', _('Can see server list')),
+            ('detail_server', _('Can see server detail')),
+            ('create_server', _('Can create server')),
+            ('change_server', _('Can change server')),
+            ('delete_server', _('Can delete server')),
         )
+        default_permissions = ()
 
     def __str__(self):
         return self.name
@@ -44,16 +44,83 @@ class Host(models.Model):
                              related_name='host_owner')
 
     class Meta:
-        app_label = 'nova'
         db_table = 'compute_host'
         ordering = ['name', 'id']
         permissions = (
-            ('host_list', _('Can see host list')),
-            ('host_detail', _('Can see host detail')),
-            ('host_add', _('Can add host')),
-            ('host_change', _('Can change host')),
-            ('host_remove', _('Can remove host')),
+            ('list_host', _('Can see host list')),
+            ('detail_host', _('Can see host detail')),
+            ('add_host', _('Can add host')),
+            ('change_host', _('Can change host')),
+            ('remove_host', _('Can remove host')),
         )
+        default_permissions = ()
+
+    def __str__(self):
+        return self.name
+
+
+class Snapshot(models.Model):
+    id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
+    name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+                             related_name='snapshot_owner')
+
+    class Meta:
+        db_table = 'compute_snapshot'
+        ordering = ['name', 'id']
+        permissions = (
+            ('list_snapshot', _('Can see snapshot list')),
+            ('detail_snapshot', _('Can see snapshot detail')),
+            ('create_snapshot', _('Can create snapshot')),
+            ('change_snapshot', _('Can change snapshot')),
+            ('delete_snapshot', _('Can delete snapshot')),
+        )
+        default_permissions = ()
+
+    def __str__(self):
+        return self.name
+
+
+class Image(models.Model):
+    id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
+    name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+                             related_name='image_owner')
+
+    class Meta:
+        db_table = 'compute_image'
+        ordering = ['name', 'id']
+        permissions = (
+            ('list_image', _('Can see image list')),
+            ('detail_image', _('Can see image detail')),
+            ('upload_image', _('Can upload image')),
+            ('download_image', _('Can download image')),
+            ('change_image', _('Can change image')),
+            ('delete_image', _('Can delete image')),
+        )
+        default_permissions = ()
+
+    def __str__(self):
+        return self.name
+
+
+class Backup(models.Model):
+    id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
+    name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
+                             related_name='backup_owner')
+
+    class Meta:
+        db_table = 'compute_backup'
+        ordering = ['name', 'id']
+        permissions = (
+            ('list_backup', _('Can see backup list')),
+            ('detail_backup', _('Can see backup detail')),
+            ('create_backup', _('Can create backup')),
+            ('change_backup', _('Can change backup')),
+            ('delete_backup', _('Can delete backup')),
+        )
+        default_permissions = ()
 
     def __str__(self):
         return self.name

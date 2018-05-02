@@ -8,20 +8,22 @@ from django.contrib.auth import get_user_model
 
 
 __all__ = [
-    'UlErrorList',
     'DivErrorList',
     'AuthenticationForm',
     'UserCreationForm',
     'UserUpdateForm',
     'PasswordChangeForm',
+    'GroupCreateForm',
+    'GroupUpdateForm',
     'UserPermissionUpdateForm',
-    'UserGroupsUpdateForm',
     'GroupPermissionUpdateForm'
 ]
 
 
 class DivErrorList(ErrorList):
 
+    error_class = 'form-error-list'
+
     def __str__(self):
         return self.as_divs()
 
@@ -29,20 +31,10 @@ class DivErrorList(ErrorList):
         if not self:
             return ''
 
-        return ('<div class="messages">%s</div>' %
-                ''.join(['<div class="alert alert-error">%s</div>' % e for e in self]))
-
-
-class UlErrorList(ErrorList):
-    def __str__(self):
-        return self.as_divs()
-
-    def as_divs(self):
-        if not self:
-            return ''
-
-        return ('<ul class="form-error-list">%s</ul>' %
-                ''.join(['<li class="alert alert-error">%s</li>' % e for e in self]))
+        return ('<div class="%s">%s</div>' %
+                (self.error_class,
+                 ''.join(['<div class="alert alert-danger">%s</div>'
+                          % e for e in self])))
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
@@ -189,8 +181,8 @@ class UserCreationForm(auth_forms.UserCreationForm):
 
         if not re.match('^\w+$', username):
             self.add_error('username',
-                           'Enter a valid username. This value may contain only letters, '
-                           'numbers, and _ characters.')
+                           'Enter a valid username. This value may contain '
+                           'only letters, numbers, and _ characters.')
         return username
 
 
@@ -205,7 +197,24 @@ class PasswordChangeForm(auth_forms.PasswordChangeForm):
     pass
 
 
-class UserGroupsUpdateForm(forms.Form):
+class GroupCreateForm(forms.Form):
+
+    name = forms.CharField(
+        label=_('Group name'),
+        strip=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'groupName',
+                'class': 'form-control',
+                'maxlength': 80,
+                'required': True,
+                'placeholder': _('Group name')
+            }
+        ),
+    )
+
+
+class GroupUpdateForm(forms.Form):
     """
     把用户加入到(移除出)组
     """

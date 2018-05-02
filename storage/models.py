@@ -7,7 +7,7 @@ from django.contrib.auth.backends import get_user_model
 UserModel = get_user_model()
 
 
-# class Storage(models.Model):
+# class StorageResource(models.Model):
 #     """
 #
 #     """
@@ -37,15 +37,17 @@ class Volume(models.Model):
 
     """
     id = models.CharField(primary_key=True, max_length=36)
+    name = models.CharField(max_length=16, verbose_name=_('name'))
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
                              related_name='volume_owner')
 
     class Meta:
-        db_table = 'volume'
+        db_table = 'storage_volume'
         permissions = (
-            ('volume_list', _('Can see volume list')),
-            ('volume_detail', _('Can see volume detail')),
-            ('volume_create', _('Can create volume')),
-            ('volume_update', _('Can update volume')),
-            ('volume_delete', _('Can delete volume')),
+            ('list_volume', _('Can see volume list')),
+            ('detail_volume', _('Can see volume detail')),
+            ('create_volume', _('Can create volume')),
+            ('update_volume', _('Can update volume')),
+            ('delete_volume', _('Can delete volume')),
         )
+        default_permissions = ()

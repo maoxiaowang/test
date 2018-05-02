@@ -30,3 +30,8 @@ class InvalidPasswordFormat(ECloudException):
 class InvalidEmailFormat(ECloudException):
     code = 10004
     desc = _('Invalid email format')
+
+
+class InvalidGroupFormat(ECloudException):
+    code = 10005
+    desc = _('Invalid group format')

@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% block sub_title %}404 Not Found{% endblock %}
 
-</body>
-</html>
+{% block main %}
+  <div class="account-pages"></div>
+  <div class="clearfix"></div>
+  <div class="wrapper-page">
+    <div class="ex-page-content text-center">
+      <div class="text-error">404</div>
+      <h3 class="text-uppercase font-600">{% trans 'Page not Found' %}</h3>
+      <p class="text-muted">
+        {% blocktrans %}
+          It's looking like you may have taken a wrong turn. Don't worry... it happens to
+        the best of us. You might want to check your internet connection. Here's a little tip that might
+        help you get back on track.
+        {% endblocktrans %}
+      </p>
+      <br>
+      <a class="btn btn-success waves-effect waves-light" href="{% url 'dashboard:index' %}"> {% trans 'Return Home' %}</a>
+
+    </div>
+  </div>
+{% endblock %}

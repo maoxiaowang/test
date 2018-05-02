@@ -1,13 +1,17 @@
 {% extends "base/base.html" %}
-{% load staticfiles %}
-{% load i18n %}
+{% load static i18n %}
 
+{% block app_title %}{% endblock %}
 {% block app_css %}
+  {% block dashboard_css_front %}{% endblock %}
   <link href="{% static 'css/assets/material-design-iconic-font.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/pages/dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/toastr/toastr.min.css' %}" rel="stylesheet">
   <script src="{% static 'js/assets/modernizr.min.js' %}"></script>
   {% block dashboard_css %}{% endblock %}
 {% endblock %}
 
+{% block body_tags %}class="fixed-left"{% endblock %}
 {% block main %}
 
   <div id="wrapper">
@@ -33,7 +37,24 @@
                 </button>
               </li>
               <li class="list-inline-item">
-                <h4 class="page-title">{% block page_title %}{% trans 'Dashboard' %}{% endblock %}</h4>
+{#                <h4 class="page-title">{% block page_title %}{% trans 'Dashboard' %}{% endblock %}</h4>#}
+                <ol class="breadcrumb m-b-20">
+{#                  <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">{% trans 'Dashboard' %}</a></li>#}
+
+                  {% for item in breadcrumb_paths %}
+                    <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
+                    {% if breadcrumb_paths|length > 1 %}
+                      {% if forloop.counter == 1 %}
+                        <a href="">{{ item.name }}</a>
+                      {% else %}
+                        {{ item.name }}
+                      {% endif %}
+                    {% else %}
+                      {{ item.name }}
+                    {% endif %}
+                    </li>
+                  {% endfor %}
+                </ol>
               </li>
             </ul>
 
@@ -75,30 +96,30 @@
     {% block left_sidebar %}
       <!-- ========== Left Sidebar Start ========== -->
       <div class="left side-menu">
-        <div class="slimScrollDiv">
+        <div>
           <div class="sidebar-inner slimscrollleft">
 
             <!-- User -->
-            {#        <div class="user-box">#}
-            {#          <div class="user-img">#}
-            {#            <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">#}
-            {#            <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>#}
-            {#          </div>#}
-            {#          <h5><a href="#">Mat Helme</a> </h5>#}
-            {#          <ul class="list-inline">#}
-            {#            <li class="list-inline-item">#}
-            {#              <a href="#">#}
-            {#                <i class="mdi mdi-settings"></i>#}
-            {#              </a>#}
-            {#            </li>#}
-            {##}
-            {#            <li class="list-inline-item">#}
-            {#              <a href="#" class="text-custom">#}
-            {#                <i class="mdi mdi-power"></i>#}
-            {#              </a>#}
-            {#            </li>#}
-            {#          </ul>#}
-            {#        </div>#}
+            <div class="user-box">
+              <div class="user-img">
+                <img src="{% static 'images/users/avatar-1.jpg' %}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+              </div>
+              <h5><a href="#">Mat Helme</a> </h5>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="mdi mdi-settings"></i>
+                  </a>
+                </li>
+
+                <li class="list-inline-item">
+                  <a href="#" class="text-custom">
+                    <i class="mdi mdi-power"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
             <!-- End User -->
 
             <!--- Sidebar menu -->
@@ -106,25 +127,26 @@
               <ul>
                 <li class="text-muted menu-title">Navigation</li>
                 <li>
-                  <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Dashboard </span> </a>
+                  <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
                 </li>
+                {% if perms.compute %}
                 <li class="has_sub">
                   <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-invert-colors"></i> <span> Compute </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled" style="display: none;">
-                    <li><a href="{% url 'compute:server_list' %}">Server</a></li>
-                    <li><a href="{% url 'compute:host_list' %}">Host</a></li>
-                    <li><a href="{% url 'compute:snap_list' %}">Snapshot</a></li>
-                    <li><a href="{% url 'compute:image_list' %}">Image</a></li>
-                    <li><a href="{% url 'compute:backup_list' %}">Backup</a></li>
-
+                    <i class="mdi mdi-memory"></i> <span> Compute </span> <span class="menu-arrow"></span></a>
+                  <ul class="list-unstyled">
+                    {% if perms.compute.server_list %}<li><a href="{% url 'compute:server_list' %}">Server</a></li>{% endif %}
+                    {% if perms.compute.host_list %}<li><a href="{% url 'compute:host_list' %}">Host</a></li>{% endif %}
+                    {% if perms.compute.snapshot_list %}<li><a href="{% url 'compute:snap_list' %}">Snapshot</a></li>{% endif %}
+                    {% if perms.compute.image_list %}<li><a href="{% url 'compute:image_list' %}">Image</a></li>{% endif %}
+                    {% if perms.compute.backup_list %}<li><a href="{% url 'compute:backup_list' %}">Backup</a></li>{% endif %}
                   </ul>
                 </li>
+                {% endif %}
 
                 <li class="has_sub">
                   <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-invert-colors"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled" style="display: none;">
+                    <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
+                  <ul class="list-unstyled">
                     <li><a href="{% url 'storage:storage_list' %}">Storage</a></li>
                     <li><a href="{% url 'storage:volume_list' %}">Volume</a></li>
                   </ul>
@@ -132,30 +154,32 @@
 
                 <li class="has_sub">
                   <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-invert-colors"></i> <span> Network </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled" style="display: none;">
-                    <li><a href="{% url 'networks:network_list' %}">Network</a></li>
+                    <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
+                  <ul class="list-unstyled">
+                    <li><a href="{% url 'network:network_list' %}">Network</a></li>
                   </ul>
                 </li>
 
                 <li class="has_sub">
                   <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-invert-colors"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
+                    <i class="mdi mdi-security"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
                   <ul class="list-unstyled">
                     <li><a href="{% url 'identity:user_list' %}">User</a></li>
                     <li><a href="{% url 'identity:group_list' %}">Group</a></li>
                     <li><a href="{% url 'identity:permission_list' %}">Permission</a></li>
                   </ul>
                 </li>
+
+                <li>
+                  <a href="{% url 'settings:settings_list' %}" class="waves-effect"><i class="mdi mdi-settings"></i> <span> {% trans 'Settings' %} </span> </a>
+                </li>
               </ul>
               <div class="clearfix"></div>
             </div>
             <!-- End sidebar menu-->
             <div class="clearfix"></div>
-
           </div>
-          <div class="slimScrollBar"></div>
-          <div class="slimScrollRail"></div>
+
         </div>
       </div>
       <!-- Left Sidebar End -->
@@ -195,7 +219,7 @@
             <li class="list-group-item">
               <a href="#" class="user-list-item">
                 <div class="avatar">
-                  <img src="assets/images/users/avatar-2.jpg" alt="">
+                  <img src="{% static 'images/users/avatar-2.jpg' %}" alt="">
                 </div>
                 <div class="user-desc">
                   <span class="name">Michael Zenaty</span>
@@ -231,7 +255,7 @@
             <li class="list-group-item active">
               <a href="#" class="user-list-item">
                 <div class="avatar">
-                  <img src="assets/images/users/avatar-3.jpg" alt="">
+                  <img src="{% static 'images/users/avatar-3.jpg' %}" alt="">
                 </div>
                 <div class="user-desc">
                   <span class="name">James Anderson</span>
@@ -255,10 +279,6 @@
 
           </ul>
         </div>
-        {#        <div id="ascrail2000" class="nicescroll-rails">#}
-        {#          <div style="position: relative; top: 0px; float: right; width: 6px; height: 234px; background-color: rgb(152, 166, 173); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px;"></div></div>#}
-        {#        <div id="ascrail2000-hr" class="nicescroll-rails" style="height: 8px; z-index: 999; top: 287.333px; left: 0px; position: absolute; cursor: default; display: none; width: 232px; opacity: 0;">#}
-        {#          <div style="position: relative; top: 0px; height: 6px; width: 240px; background-color: rgb(152, 166, 173); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px;"></div>#}
 
       </div>  <!-- /Right-bar -->
       </div>
@@ -278,11 +298,13 @@
   <script src="{% static 'js/assets/jquery.blockUI.js' %}"></script>
   <script src="{% static 'js/assets/waves.js' %}"></script>
   <script src="{% static 'js/assets/jquery.nicescroll.js' %}"></script>
-  <script src="{% static 'js/assets/jquery.slimscroll.js' %}"></script>
+  <script src="{% static 'js/assets/jquery.slimscroll.min.js' %}"></script>
   <script src="{% static 'js/assets/jquery.scrollTo.min.js' %}"></script>
-
+  <!-- App js -->
   <script src="{% static 'js/assets/jquery.core.js' %}"></script>
   <script src="{% static 'js/assets/jquery.app.js' %}"></script>
 
+  <!-- plugins -->
+  <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
   {% block dashboard_js %}{% endblock %}
 {% endblock %}

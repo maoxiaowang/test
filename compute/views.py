@@ -5,6 +5,10 @@ Create your views here.
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import (CreateView, UpdateView, DeleteView,
+                                  DetailView, ListView)
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.utils.decorators import method_decorator
 from compute.models import Server
 from django.template.response import TemplateResponse
 from django.http.response import JsonResponse
@@ -17,7 +21,7 @@ from .tasks import create_server_task
 
 @require_GET
 @login_required
-@permission_required('compute.server_list')
+@permission_required('compute.list_server', raise_exception=True)
 def server_list(request):
     context = {}
     page = request.GET.get('page')
@@ -37,9 +41,15 @@ def server_list(request):
     return TemplateResponse(request, 'compute/server_list.html', context=context)
 
 
+@method_decorator(login_required, name='dispatch')
+class ServerList(ListView, PermissionRequiredMixin):
+
+    permission_required = 'compute.list_server'
+
+
 @require_GET
 @login_required
-@permission_required('compute.server_detail')
+@permission_required('compute.detail_server')
 def server_detail(request, **kwargs):
     # get from OpenStack later
     uuid = kwargs.get('id')
@@ -49,7 +59,7 @@ def server_detail(request, **kwargs):
 
 @require_POST
 @login_required
-@permission_required('compute.server_create')
+@permission_required('compute.create_server')
 def server_create(request):
 
     # and more params
@@ -63,7 +73,7 @@ def server_change(request):
 
 @require_http_methods(['DELETE'])
 @login_required
-@permission_required('compute.server_delete')
+@permission_required('compute.delete_server')
 def server_delete(request, server_id, **kwargs):
     pass
 

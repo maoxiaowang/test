@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.conf.urls import include
 from identity.views import index
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -26,5 +28,8 @@ urlpatterns = [
     path('compute/', include('compute.urls', namespace='compute')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('storage/', include('storage.urls', namespace='storage')),
-    path('network/', include('networks.urls', namespace='networks')),
+    path('network/', include('network.urls', namespace='network')),
+    path('settings/', include('settings.urls', namespace='settings')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

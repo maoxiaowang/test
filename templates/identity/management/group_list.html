@@ -1,0 +1,71 @@
+{% extends "base/dashboard.html" %}
+{% load i18n static %}
+
+{% block app_title %}{% trans 'Group' %}{% endblock %}
+
+{% block modals %}
+  <div class="modal fade" id="groupCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      {% include 'identity/management/forms/group_create_form.html' with form=group_create_form%}
+    </div>
+  </div>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box" id="group-list">
+        <div class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupCreateModal">{% trans 'New group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">{% trans 'Edit group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+          </div>
+        </div>
+
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Group List' %}</h4>
+
+        <p class="text-muted font-13 m-b-25">
+          {% blocktrans %}
+            Welcome to group list, please click top-right icon to discover more.
+          {% endblocktrans %}
+        </p>
+
+        <div class="table-responsive">
+          <table class="table m-0">
+            <thead>
+            <tr>
+              <th>{% trans 'Group' %}</th>
+              <th>{% trans 'Id' %}</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for g in group_list %}
+              <tr>
+                <td><a href="{% url 'identity:group_detail' g.id %}">{{ g.name }}</a></td>
+                <td>{{ g.id }}</td>
+
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- end col -->
+
+  </div>
+
+{% endblock %}
+
+{% block dashboard_js %}
+  <script>
+      {# django value to js #}
+
+  </script>
+  <script src="{% static 'js/pages/group.js' %}"></script>
+{% endblock %}

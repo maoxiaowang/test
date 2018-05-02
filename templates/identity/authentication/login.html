@@ -1,0 +1,11 @@
+{% extends "identity/authentication/layout.html" %}
+{% load i18n %}
+
+{% block app_sub_title %}{% trans 'Login' %}{% endblock %}
+
+{% block content_title %}{% trans 'Login' %}{% endblock %}
+{% block block_content %}
+
+  {% include "identity/authentication/forms/login_form.html" with form=form %}
+
+{% endblock %}

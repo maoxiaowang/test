@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,23 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% endblock %}
 
-  <title>{% block title %}ECloud - {% block sub_title %}{% endblock %}{% endblock %}</title>
+  <title>{% block title %}ECloud - {% block app_title %}{% endblock %}{% endblock %}</title>
   <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
   {% block base_css %}
     <!-- base css -->
+
     <link href="{% static 'css/assets/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/assets/icons.css' %}" rel="stylesheet">
     <link href="{% static 'css/assets/style.css' %}" rel="stylesheet">
-    {#    <link href="{% static 'css/base/base.css' %}?v=1" rel="stylesheet">#}
+    <link href="{% static 'css/pages/base.css' %}?v=1" rel="stylesheet">
     <!-- app css -->
     {% block app_css %}{% endblock %}
   {% endblock %}
 
 </head>
-<body>
+<body {% block body_tags %}{% endblock %}>
 {# global messages here #}
 {% block messages %}
   {% if messages %}
@@ -35,14 +36,26 @@
   {% endif %}
 {% endblock %}
 
+<div id="loadingCover">
+  <div>
+    <div class="col align-self-center">
+      <img src="{% static 'images/spinners/rotate-palette-loader.svg' %}">
+    </div>
+  </div>
+
+</div>
+
+{# all modals here #}
+{% block modals %}{% endblock %}
+
 {% block main %}{% endblock %}  {# custom content #}
 
 {% block base_js %}
   <script src="{% static 'js/assets/jquery.min.js' %}"></script>
   <script src="{% static 'js/assets/popper.min.js' %}"></script>
   <script src="{% static 'js/assets/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/common/base.js' %}?v=1"></script>
-  <script src="{% static 'js/common/utils.js' %}"></script>
+  <script src="{% static 'js/pages/base.js' %}?v=1"></script>
+  <script src="{% static 'js/pages/utils.js' %}"></script>
   {% block app_js %}{% endblock %}
 {% endblock %}
 

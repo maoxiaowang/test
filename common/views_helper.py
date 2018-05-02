@@ -2,23 +2,28 @@
 from django.http import JsonResponse
 from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin, BaseDetailView)
+from django.utils.translation import ugettext_lazy as _
 
 
 def ret_format(result=True, messages=None, data=None):
     """
     格式化Json返回数据
     :param result: [bool] 一般为True
-    :param messages: [str|dict] 要在页面展示的消息，多条消息使用列表
+    :param messages: [str|list] 要在页面展示的消息，多条消息使用列表
     :param data: [dict] 返回给前端的数据
     :return: [dict]
     """
     assert isinstance(result, bool)
     if messages:
         assert isinstance(messages, (list, str))
+        # i18n here
+        if isinstance(messages, str):
+            messages = [messages]
+        messages = [_(m) for m in messages]
     if data:
         assert isinstance(data, dict)
 
-    return {'result':False, 'messages':messages or [], 'data':data or {}}
+    return {'result': result, 'messages': messages or [], 'data': data or {}}
 
 
 class JSONResponseMixin:

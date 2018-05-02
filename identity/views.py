@@ -4,17 +4,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls.base import reverse
 from django.contrib.auth import views as auth_views
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect, JsonResponse
-from django.views.decorators.http import require_http_methods, require_GET
-from identity.forms import *
-from identity.constants import *
+from django.views.decorators.http import require_GET, require_http_methods
+from .forms import *
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from .models import Group, Permission
+from .exceptions import *
+from common.views_helper import ret_format
 
-UserModel = get_user_model()
+User = get_user_model()
 logger = logging.getLogger('default')
 
 
@@ -36,7 +39,7 @@ def index(request):
 
 class Login(auth_views.LoginView):
 
-    template_name = LOGIN_TEMPLATE
+    template_name = 'identity/authentication/login.html'
     # redirect_field_name = 'next'  # default
     authentication_form = AuthenticationForm
     redirect_authenticated_user = True
@@ -54,13 +57,13 @@ class Login(auth_views.LoginView):
     def post(self, request, *args, **kwargs):
         context = {}
         form = self.authentication_form(data=request.POST, auto_id=True,
-                                        error_class=UlErrorList)
+                                        error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
 
             # do something here
             context['username'] = username
-            user = UserModel.objects.get(username=username)
+            user = User.objects.get(username=username)
 
             # log into
             login(request, user)
@@ -79,7 +82,7 @@ class Login(auth_views.LoginView):
 
 class Logout(auth_views.LogoutView):
 
-    template_name = LOGOUT_TEMPLATE
+    template_name = 'identity/authentication/logout.html'
 
     @method_decorator(login_required, name='dispatch')
     def post(self, request, *args, **kwargs):
@@ -89,12 +92,13 @@ class Logout(auth_views.LogoutView):
         # logout_then_login(request, login_url=None, extra_context=None)
 
 
-# @method_decorator(login_required, name='dispatch')
-class UserCreate(CreateView):
+@method_decorator(login_required, name='dispatch')
+class UserCreate(PermissionRequiredMixin, CreateView):
 
     form_class = UserCreationForm
-    model = UserModel
-    template_name = REGISTER_TEMPLATE
+    model = User
+    permission_required = 'identity.create_user'
+    template_name = 'identity/management/user_create.html'
 
     def get_context_data(self, **kwargs):
         return {'form': self.form_class()}
@@ -107,7 +111,7 @@ class UserCreate(CreateView):
     # @permission_required('auth.create')
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST, auto_id=True,
-                               error_class=UlErrorList)
+                               error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
             self.model().create_user(
@@ -125,19 +129,18 @@ class UserCreate(CreateView):
 
 class UserUpdate(UpdateView):
 
-    model = UserModel
+    model = User
     form_class = UserUpdateForm
     template_name = ''
 
-    # @permission_required('auth.update')
-    def post(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs)
+    def put(self, *args, **kwargs):
+        pass
 
 
 # @method_decorator(login_required, name='dispatch')
 class UserDelete(DeleteView):
 
-    model = UserModel
+    model = User
 
     # @permission_required('auth.delete')
     def delete(self, request, *args, **kwargs):
@@ -147,15 +150,15 @@ class UserDelete(DeleteView):
 # @method_decorator(login_required, name='dispatch')
 class UserDetail(DetailView):
 
-    model = UserModel
-    template_name = 'identity/user_detail.html'
+    model = User
+    template_name = 'identity/management/user_detail.html'
 
     extra_context = {}
 
     # @permission_required('auth.detail')
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
-        user_obj = UserModel.objects.filter(username=username)
+        user_obj = User.objects.filter(username=username)
         context = {
             'username': user_obj.get('username'),
             'email': user_obj.get('email'),
@@ -167,28 +170,88 @@ class UserDetail(DetailView):
 @method_decorator(login_required, name='dispatch')
 class UserList(ListView):
 
-    model = UserModel
+    model = User
+    template_name = 'identity/management/user_list.html'
 
-    # @permission_required('identity.user_list')
-    def get(self, request, *args, **kwargs):
-        super().get(request, *args, **kwargs)
+    def get_queryset(self):
+        return self.model.objects.all()
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     return {'users': self.model.objects.all()}
 
 
 class GroupList(ListView):
-    pass
+
+    model = Group
+    template_name = 'identity/management/group_list.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        # render group create modal
+        kwargs.update({'group_create_form': GroupCreateForm()})
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.all()
 
 
 class GroupDetail(DetailView):
-    pass
+
+    model = Group
+    template_name = 'identity/management/group_detail.html'
+    pk_url_kwarg = 'gid'    # used for rendering group detail modal
+
+    def get_context_data(self, **kwargs):
+        # rendering group permission modal
+        all_perms = Permission.objects.all()
+        cts = list()
+        res = list()
+        group_perms = self.object.permissions.all()
+        group_perms_id_list = [item.id for item in group_perms]
+
+        for ap in all_perms:
+            if ap.content_type_id not in cts:
+                cts.append(ap.content_type_id)
+                res.append(
+                    {'id': ap.content_type_id,
+                     'name': ap.content_type.name})
+            if ap.id in group_perms_id_list:
+                ap.assigned = True
+            else:
+                ap.assigned = False
+        # current group's permission
+
+        kwargs.update({'all_perms': all_perms,
+                       'perm_content_types': res})
+        return super().get_context_data(**kwargs)
 
 
-class GroupsUpdate(UpdateView):
+@method_decorator(require_http_methods('POST'), name='dispatch')
+class GroupCreate(CreateView):
 
-    form_class = UserGroupsUpdateForm
+    form_class = GroupCreateForm
+    model = Group
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST, auto_id=True,
+                               error_class=DivErrorList)
+        if form.is_valid():
+            self.model.objects.create(name=request.POST.get('name'))
+            return JsonResponse(ret_format(messages='Successfully created'))
+        else:
+            raise InvalidGroupFormat
+
+
+class GroupUpdate(UpdateView):
+
+    form_class = GroupUpdateForm
 
 
 class PermissionList(ListView):
-    pass
+    model = Permission
+    template_name = 'identity/management/permission_list.html'
+
+    def get_queryset(self):
+        return self.model.objects.all()
 
 
 # # @method_decorator(login_required, name='dispatch')
@@ -215,7 +278,7 @@ class PasswordChange(auth_views.PasswordChangeView):
     Change password by providing current password
     """
 
-    template_name = 'identity/password_change.html'
+    template_name = 'identity/authentication/password_change.html'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -223,7 +286,7 @@ class PasswordChangeDone(auth_views.PasswordChangeDoneView):
     """
     Change password done
     """
-    template_name = 'identity/password_change_done.html'
+    template_name = 'identity/authentication/password_change_done.html'
 
 
 @method_decorator(login_required, name='dispatch')

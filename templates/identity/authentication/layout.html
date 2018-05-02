@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block app_title %}{% block app_sub_title %}{% endblock %}{% endblock %}
+{% block app_css %}
+{#  <link href="{% static 'css/identity/base.css' %}" rel="stylesheet">#}
+  {% block app_sub_css %}{% endblock %}
+{% endblock %}
+
+{% block main %}
+  <div class="account-pages"></div>
+  <div class="clearfix"></div>
+  <div class="wrapper-page">
+    <div class="text-center">
+      <a href="{% url 'dashboard:index' %}" class="logo"><span>Admin<span>to</span></span></a>
+      <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
+    </div>
+    <div class="m-t-40 card-box">
+      <div class="text-center">
+        <h4 class="text-uppercase font-bold m-b-0">{% block content_title %}Sign In{% endblock %}</h4>
+      </div>
+      <div class="p-20">
+        {% block block_content %}{% endblock %}
+
+      </div>
+    </div>
+    <!-- end card-box-->
+
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <p class="text-muted">Don't have an account? <a href="page-register.html" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block app_js %}
+  {#  <script src="{% static 'js/common/utils.js' %}"></script>#}
+  {% block app_sub_js %}{% endblock %}
+{% endblock %}

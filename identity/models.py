@@ -2,8 +2,8 @@
 from uuid import uuid4
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractUser, Group, Permission)
+from django.contrib.auth.models import (AbstractUser, BaseUserManager,
+                                        Group, Permission)
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.db import models
 from django.utils import timezone
@@ -32,7 +32,8 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
-        # extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('id', uuid4())
+        extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
@@ -56,7 +57,6 @@ class User(AbstractUser, UserManager):
         _('id'),
         max_length=36,
         primary_key=True,
-        default=uuid4(),
         unique=True)
     groups = models.ManyToManyField(
         Group, related_name='groups_of_users')
@@ -90,6 +90,14 @@ class User(AbstractUser, UserManager):
         ordering = ['username']
         verbose_name = _('user')
         verbose_name_plural = _('users')
+        permissions = (
+            ('list_user', _('Can see user list')),
+            ('detail_user', _('Can see user detail')),
+            ('create_user', _('Can create user')),
+            ('change_user', _('Can change user')),
+            ('delete_user', _('Can change user')),
+        )
+        default_permissions = ()
 
     def __str__(self):
         return self.username
@@ -97,7 +105,5 @@ class User(AbstractUser, UserManager):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
-
-
 
 

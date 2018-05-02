@@ -1,0 +1,136 @@
+{% extends "base/dashboard.html" %}
+{% load i18n static %}
+
+{% block app_title %}{% trans 'Group - Detail' %}{% endblock %}
+{% block dashboard_css %}
+  <link href="{% static 'plugins/jstree/style.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block modals %}
+  <div class="modal fade" id="groupDetailUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      {% include 'identity/management/forms/group_update_form.html' with form=group_update_form%}
+    </div>
+  </div>
+  <div class="modal fade" id="groupPermsUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{% trans 'Update group permissions' %}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              {# render jstree #}
+              <div id="groupPermsTree">
+                <ul>
+                  {% for ct in perm_content_types %}
+                    {# group by content_types #}
+                    <li>{{ ct.name }}
+                      <ul>
+                        {% for perm_item in all_perms %}
+                          {% if perm_item.content_type_id == ct.id %}
+                            <li id="{{ perm_item.content_type_id }}.{{ perm_item.codename }}">{{ perm_item.codename }} ({{ perm_item.name }})</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                      </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>  <!-- groupPermUpdateModal -->
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box">
+        <div class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupDetailUpdateModal">{% trans 'Update group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+          </div>
+        </div>
+
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Group detail' %}</h4>
+
+        <p class="text-muted font-13 m-b-25">
+          {% blocktrans %}
+            Welcome to group detail, please click top-right icon to discover more.
+          {% endblocktrans %}
+        </p>
+
+        <p>{% trans 'Group name' %}: {{ group.name }}</p>
+        <p>{% trans 'Group' %} ID: {{ group.id }}</p>
+      </div>
+
+      <div class="card-box">
+        <div class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupPermsUpdateModal">{% trans 'Update permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+          </div>
+        </div>
+
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Group permissions' %}</h4>
+
+        <p class="text-muted font-13 m-b-25">
+          {% blocktrans %}
+            Welcome to group permission, please click top-right icon to discover more.
+          {% endblocktrans %}
+        </p>
+
+        <div class="table-responsive">
+        <table class="table m-0">
+          <thead>
+          <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Content type' %}</th>
+            <th>{% trans 'Code name' %}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for p in group.permissions.all %}
+          <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.content_type }}</td>
+            <td>{{ p.codename }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div><!-- end col -->
+
+  </div>
+{% endblock %}
+
+{% block dashboard_js %}
+  <script>
+      {# django value to js #}
+
+  </script>
+  <script src="{% static 'js/pages/group.js' %}"></script>
+  <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>
+{% endblock %}

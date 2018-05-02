@@ -25,7 +25,7 @@ SECRET_KEY = '(ht^gk^k!j!%m#p5jch$_$d=hs140a!3x6*6*^f&kvp^shm92('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,13 +43,13 @@ INSTALLED_APPS = [
     'dashboard',
     'identity',
     'meters',
-    'networks',
+    'network',
     'orders',
     'reports',
     'security',
     'storage',
-    'websocket',
-    'openstack'
+    'openstack',
+    'settings',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'common.middlewares.CommonMiddleware',
+    'common.middleware.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'ecloud.urls'
@@ -162,6 +162,7 @@ STATICFILES_DIRS = [
     ('css', os.path.join(STATIC_ROOT, 'css')),
     ('js', os.path.join(STATIC_ROOT, 'js')),
     ('images', os.path.join(STATIC_ROOT, 'images')),
+    ('plugins', os.path.join(STATIC_ROOT, 'plugins')),
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
@@ -174,8 +175,8 @@ MEDIA_URL = '/media/'
 # it redirects to the URLs
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/identity/users/login/'
+LOGOUT_REDIRECT_URL = '/identity/user/login/'
+LOGIN_URL = '/identity/user/login/'
 AUTH_USER_MODEL = 'identity.User'
 AUTHENTICATION_BACKENDS = ('common.backends.UserAuthBackend',)
 

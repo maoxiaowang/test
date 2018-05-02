@@ -5,9 +5,7 @@ from django.urls import path, re_path, register_converter
 from compute.views import *
 from django.urls.converters import UUIDConverter
 
-
 app_name = 'compute'
-
 register_converter(UUIDConverter, 'uuid')
 
 urlpatterns = [

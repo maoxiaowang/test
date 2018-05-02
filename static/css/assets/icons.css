@@ -27,7 +27,7 @@ File: Icons
 
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
-  font-size: 1.33333em;
+  font-size: 1.3333333333em;
   line-height: 0.75em;
   vertical-align: -15%; }
 
@@ -44,24 +44,24 @@ File: Icons
   font-size: 5em; }
 
 .fa-fw {
-  width: 1.28571em;
+  width: 1.2857142857em;
   text-align: center; }
 
 .fa-ul {
   padding-left: 0;
-  margin-left: 2.14286em;
+  margin-left: 2.1428571429em;
   list-style-type: none; }
-  .fa-ul > li {
-    position: relative; }
+.fa-ul > li {
+  position: relative; }
 
 .fa-li {
   position: absolute;
-  left: -2.14286em;
-  width: 2.14286em;
-  top: 0.14286em;
+  left: -2.1428571429em;
+  width: 2.1428571429em;
+  top: 0.1428571429em;
   text-align: center; }
-  .fa-li.fa-lg {
-    left: -1.85714em; }
+.fa-li.fa-lg {
+  left: -1.8571428571em; }
 
 .fa-border {
   padding: .2em .25em .15em;
@@ -143,11 +143,7 @@ File: Icons
   -ms-transform: scale(1, -1);
   transform: scale(1, -1); }
 
-:root .fa-rotate-90,
-:root .fa-rotate-180,
-:root .fa-rotate-270,
-:root .fa-flip-horizontal,
-:root .fa-flip-vertical {
+:root .fa-rotate-90, :root .fa-rotate-180, :root .fa-rotate-270, :root .fa-flip-horizontal, :root .fa-flip-vertical {
   filter: none; }
 
 .fa-stack {
@@ -214,9 +210,7 @@ File: Icons
 .fa-check:before {
   content: ""; }
 
-.fa-remove:before,
-.fa-close:before,
-.fa-times:before {
+.fa-remove:before, .fa-close:before, .fa-times:before {
   content: ""; }
 
 .fa-search-plus:before {
@@ -231,8 +225,7 @@ File: Icons
 .fa-signal:before {
   content: ""; }
 
-.fa-gear:before,
-.fa-cog:before {
+.fa-gear:before, .fa-cog:before {
   content: ""; }
 
 .fa-trash-o:before {
@@ -265,8 +258,7 @@ File: Icons
 .fa-play-circle-o:before {
   content: ""; }
 
-.fa-rotate-right:before,
-.fa-repeat:before {
+.fa-rotate-right:before, .fa-repeat:before {
   content: ""; }
 
 .fa-refresh:before {
@@ -347,8 +339,7 @@ File: Icons
 .fa-list:before {
   content: ""; }
 
-.fa-dedent:before,
-.fa-outdent:before {
+.fa-dedent:before, .fa-outdent:before {
   content: ""; }
 
 .fa-indent:before {
@@ -357,9 +348,7 @@ File: Icons
 .fa-video-camera:before {
   content: ""; }
 
-.fa-photo:before,
-.fa-image:before,
-.fa-picture-o:before {
+.fa-photo:before, .fa-image:before, .fa-picture-o:before {
   content: ""; }
 
 .fa-pencil:before {
@@ -374,8 +363,7 @@ File: Icons
 .fa-tint:before {
   content: ""; }
 
-.fa-edit:before,
-.fa-pencil-square-o:before {
+.fa-edit:before, .fa-pencil-square-o:before {
   content: ""; }
 
 .fa-share-square-o:before {
@@ -465,8 +453,7 @@ File: Icons
 .fa-arrow-down:before {
   content: ""; }
 
-.fa-mail-forward:before,
-.fa-share:before {
+.fa-mail-forward:before, .fa-share:before {
   content: ""; }
 
 .fa-expand:before {
@@ -502,8 +489,7 @@ File: Icons
 .fa-eye-slash:before {
   content: ""; }
 
-.fa-warning:before,
-.fa-exclamation-triangle:before {
+.fa-warning:before, .fa-exclamation-triangle:before {
   content: ""; }
 
 .fa-plane:before {
@@ -545,8 +531,7 @@ File: Icons
 .fa-arrows-h:before {
   content: ""; }
 
-.fa-bar-chart-o:before,
-.fa-bar-chart:before {
+.fa-bar-chart-o:before, .fa-bar-chart:before {
   content: ""; }
 
 .fa-twitter-square:before {
@@ -561,8 +546,7 @@ File: Icons
 .fa-key:before {
   content: ""; }
 
-.fa-gears:before,
-.fa-cogs:before {
+.fa-gears:before, .fa-cogs:before {
   content: ""; }
 
 .fa-comments:before {
@@ -622,8 +606,7 @@ File: Icons
 .fa-twitter:before {
   content: ""; }
 
-.fa-facebook-f:before,
-.fa-facebook:before {
+.fa-facebook-f:before, .fa-facebook:before {
   content: ""; }
 
 .fa-github:before {
@@ -635,8 +618,7 @@ File: Icons
 .fa-credit-card:before {
   content: ""; }
 
-.fa-feed:before,
-.fa-rss:before {
+.fa-feed:before, .fa-rss:before {
   content: ""; }
 
 .fa-hdd-o:before {
@@ -693,12 +675,10 @@ File: Icons
 .fa-arrows-alt:before {
   content: ""; }
 
-.fa-group:before,
-.fa-users:before {
+.fa-group:before, .fa-users:before {
   content: ""; }
 
-.fa-chain:before,
-.fa-link:before {
+.fa-chain:before, .fa-link:before {
   content: ""; }
 
 .fa-cloud:before {
@@ -707,27 +687,22 @@ File: Icons
 .fa-flask:before {
   content: ""; }
 
-.fa-cut:before,
-.fa-scissors:before {
+.fa-cut:before, .fa-scissors:before {
   content: ""; }
 
-.fa-copy:before,
-.fa-files-o:before {
+.fa-copy:before, .fa-files-o:before {
   content: ""; }
 
 .fa-paperclip:before {
   content: ""; }
 
-.fa-save:before,
-.fa-floppy-o:before {
+.fa-save:before, .fa-floppy-o:before {
   content: ""; }
 
 .fa-square:before {
   content: ""; }
 
-.fa-navicon:before,
-.fa-reorder:before,
-.fa-bars:before {
+.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
   content: ""; }
 
 .fa-list-ul:before {
@@ -781,16 +756,13 @@ File: Icons
 .fa-columns:before {
   content: ""; }
 
-.fa-unsorted:before,
-.fa-sort:before {
+.fa-unsorted:before, .fa-sort:before {
   content: ""; }
 
-.fa-sort-down:before,
-.fa-sort-desc:before {
+.fa-sort-down:before, .fa-sort-desc:before {
   content: ""; }
 
-.fa-sort-up:before,
-.fa-sort-asc:before {
+.fa-sort-up:before, .fa-sort-asc:before {
   content: ""; }
 
 .fa-envelope:before {
@@ -799,16 +771,13 @@ File: Icons
 .fa-linkedin:before {
   content: ""; }
 
-.fa-rotate-left:before,
-.fa-undo:before {
+.fa-rotate-left:before, .fa-undo:before {
   content: ""; }
 
-.fa-legal:before,
-.fa-gavel:before {
+.fa-legal:before, .fa-gavel:before {
   content: ""; }
 
-.fa-dashboard:before,
-.fa-tachometer:before {
+.fa-dashboard:before, .fa-tachometer:before {
   content: ""; }
 
 .fa-comment-o:before {
@@ -817,8 +786,7 @@ File: Icons
 .fa-comments-o:before {
   content: ""; }
 
-.fa-flash:before,
-.fa-bolt:before {
+.fa-flash:before, .fa-bolt:before {
   content: ""; }
 
 .fa-sitemap:before {
@@ -827,8 +795,7 @@ File: Icons
 .fa-umbrella:before {
   content: ""; }
 
-.fa-paste:before,
-.fa-clipboard:before {
+.fa-paste:before, .fa-clipboard:before {
   content: ""; }
 
 .fa-lightbulb-o:before {
@@ -921,8 +888,7 @@ File: Icons
 .fa-tablet:before {
   content: ""; }
 
-.fa-mobile-phone:before,
-.fa-mobile:before {
+.fa-mobile-phone:before, .fa-mobile:before {
   content: ""; }
 
 .fa-circle-o:before {
@@ -940,8 +906,7 @@ File: Icons
 .fa-circle:before {
   content: ""; }
 
-.fa-mail-reply:before,
-.fa-reply:before {
+.fa-mail-reply:before, .fa-reply:before {
   content: ""; }
 
 .fa-github-alt:before {
@@ -980,13 +945,10 @@ File: Icons
 .fa-code:before {
   content: ""; }
 
-.fa-mail-reply-all:before,
-.fa-reply-all:before {
+.fa-mail-reply-all:before, .fa-reply-all:before {
   content: ""; }
 
-.fa-star-half-empty:before,
-.fa-star-half-full:before,
-.fa-star-half-o:before {
+.fa-star-half-empty:before, .fa-star-half-full:before, .fa-star-half-o:before {
   content: ""; }
 
 .fa-location-arrow:before {
@@ -998,8 +960,7 @@ File: Icons
 .fa-code-fork:before {
   content: ""; }
 
-.fa-unlink:before,
-.fa-chain-broken:before {
+.fa-unlink:before, .fa-chain-broken:before {
   content: ""; }
 
 .fa-question:before {
@@ -1113,50 +1074,37 @@ File: Icons
 .fa-compass:before {
   content: ""; }
 
-.fa-toggle-down:before,
-.fa-caret-square-o-down:before {
+.fa-toggle-down:before, .fa-caret-square-o-down:before {
   content: ""; }
 
-.fa-toggle-up:before,
-.fa-caret-square-o-up:before {
+.fa-toggle-up:before, .fa-caret-square-o-up:before {
   content: ""; }
 
-.fa-toggle-right:before,
-.fa-caret-square-o-right:before {
+.fa-toggle-right:before, .fa-caret-square-o-right:before {
   content: ""; }
 
-.fa-euro:before,
-.fa-eur:before {
+.fa-euro:before, .fa-eur:before {
   content: ""; }
 
 .fa-gbp:before {
   content: ""; }
 
-.fa-dollar:before,
-.fa-usd:before {
+.fa-dollar:before, .fa-usd:before {
   content: ""; }
 
-.fa-rupee:before,
-.fa-inr:before {
+.fa-rupee:before, .fa-inr:before {
   content: ""; }
 
-.fa-cny:before,
-.fa-rmb:before,
-.fa-yen:before,
-.fa-jpy:before {
+.fa-cny:before, .fa-rmb:before, .fa-yen:before, .fa-jpy:before {
   content: ""; }
 
-.fa-ruble:before,
-.fa-rouble:before,
-.fa-rub:before {
+.fa-ruble:before, .fa-rouble:before, .fa-rub:before {
   content: ""; }
 
-.fa-won:before,
-.fa-krw:before {
+.fa-won:before, .fa-krw:before {
   content: ""; }
 
-.fa-bitcoin:before,
-.fa-btc:before {
+.fa-bitcoin:before, .fa-btc:before {
   content: ""; }
 
 .fa-file:before {
@@ -1273,8 +1221,7 @@ File: Icons
 .fa-male:before {
   content: ""; }
 
-.fa-gittip:before,
-.fa-gratipay:before {
+.fa-gittip:before, .fa-gratipay:before {
   content: ""; }
 
 .fa-sun-o:before {
@@ -1310,8 +1257,7 @@ File: Icons
 .fa-arrow-circle-o-left:before {
   content: ""; }
 
-.fa-toggle-left:before,
-.fa-caret-square-o-left:before {
+.fa-toggle-left:before, .fa-caret-square-o-left:before {
   content: ""; }
 
 .fa-dot-circle-o:before {
@@ -1323,8 +1269,7 @@ File: Icons
 .fa-vimeo-square:before {
   content: ""; }
 
-.fa-turkish-lira:before,
-.fa-try:before {
+.fa-turkish-lira:before, .fa-try:before {
   content: ""; }
 
 .fa-plus-square-o:before {
@@ -1345,13 +1290,10 @@ File: Icons
 .fa-openid:before {
   content: ""; }
 
-.fa-institution:before,
-.fa-bank:before,
-.fa-university:before {
+.fa-institution:before, .fa-bank:before, .fa-university:before {
   content: ""; }
 
-.fa-mortar-board:before,
-.fa-graduation-cap:before {
+.fa-mortar-board:before, .fa-graduation-cap:before {
   content: ""; }
 
 .fa-yahoo:before {
@@ -1429,12 +1371,10 @@ File: Icons
 .fa-recycle:before {
   content: ""; }
 
-.fa-automobile:before,
-.fa-car:before {
+.fa-automobile:before, .fa-car:before {
   content: ""; }
 
-.fa-cab:before,
-.fa-taxi:before {
+.fa-cab:before, .fa-taxi:before {
   content: ""; }
 
 .fa-tree:before {
@@ -1464,21 +1404,16 @@ File: Icons
 .fa-file-powerpoint-o:before {
   content: ""; }
 
-.fa-file-photo-o:before,
-.fa-file-picture-o:before,
-.fa-file-image-o:before {
+.fa-file-photo-o:before, .fa-file-picture-o:before, .fa-file-image-o:before {
   content: ""; }
 
-.fa-file-zip-o:before,
-.fa-file-archive-o:before {
+.fa-file-zip-o:before, .fa-file-archive-o:before {
   content: ""; }
 
-.fa-file-sound-o:before,
-.fa-file-audio-o:before {
+.fa-file-sound-o:before, .fa-file-audio-o:before {
   content: ""; }
 
-.fa-file-movie-o:before,
-.fa-file-video-o:before {
+.fa-file-movie-o:before, .fa-file-video-o:before {
   content: ""; }
 
 .fa-file-code-o:before {
@@ -1493,23 +1428,16 @@ File: Icons
 .fa-jsfiddle:before {
   content: ""; }
 
-.fa-life-bouy:before,
-.fa-life-buoy:before,
-.fa-life-saver:before,
-.fa-support:before,
-.fa-life-ring:before {
+.fa-life-bouy:before, .fa-life-buoy:before, .fa-life-saver:before, .fa-support:before, .fa-life-ring:before {
   content: ""; }
 
 .fa-circle-o-notch:before {
   content: ""; }
 
-.fa-ra:before,
-.fa-resistance:before,
-.fa-rebel:before {
+.fa-ra:before, .fa-resistance:before, .fa-rebel:before {
   content: ""; }
 
-.fa-ge:before,
-.fa-empire:before {
+.fa-ge:before, .fa-empire:before {
   content: ""; }
 
 .fa-git-square:before {
@@ -1518,9 +1446,7 @@ File: Icons
 .fa-git:before {
   content: ""; }
 
-.fa-y-combinator-square:before,
-.fa-yc-square:before,
-.fa-hacker-news:before {
+.fa-y-combinator-square:before, .fa-yc-square:before, .fa-hacker-news:before {
   content: ""; }
 
 .fa-tencent-weibo:before {
@@ -1529,16 +1455,13 @@ File: Icons
 .fa-qq:before {
   content: ""; }
 
-.fa-wechat:before,
-.fa-weixin:before {
+.fa-wechat:before, .fa-weixin:before {
   content: ""; }
 
-.fa-send:before,
-.fa-paper-plane:before {
+.fa-send:before, .fa-paper-plane:before {
   content: ""; }
 
-.fa-send-o:before,
-.fa-paper-plane-o:before {
+.fa-send-o:before, .fa-paper-plane-o:before {
   content: ""; }
 
 .fa-history:before {
@@ -1565,8 +1488,7 @@ File: Icons
 .fa-bomb:before {
   content: ""; }
 
-.fa-soccer-ball-o:before,
-.fa-futbol-o:before {
+.fa-soccer-ball-o:before, .fa-futbol-o:before {
   content: ""; }
 
 .fa-tty:before {
@@ -1680,9 +1602,7 @@ File: Icons
 .fa-cc:before {
   content: ""; }
 
-.fa-shekel:before,
-.fa-sheqel:before,
-.fa-ils:before {
+.fa-shekel:before, .fa-sheqel:before, .fa-ils:before {
   content: ""; }
 
 .fa-meanpath:before {
@@ -1748,8 +1668,7 @@ File: Icons
 .fa-mercury:before {
   content: ""; }
 
-.fa-intersex:before,
-.fa-transgender:before {
+.fa-intersex:before, .fa-transgender:before {
   content: ""; }
 
 .fa-transgender-alt:before {
@@ -1797,8 +1716,7 @@ File: Icons
 .fa-user-times:before {
   content: ""; }
 
-.fa-hotel:before,
-.fa-bed:before {
+.fa-hotel:before, .fa-bed:before {
   content: ""; }
 
 .fa-viacoin:before {
@@ -1813,8 +1731,7 @@ File: Icons
 .fa-medium:before {
   content: ""; }
 
-.fa-yc:before,
-.fa-y-combinator:before {
+.fa-yc:before, .fa-y-combinator:before {
   content: ""; }
 
 .fa-optin-monster:before {
@@ -1826,25 +1743,19 @@ File: Icons
 .fa-expeditedssl:before {
   content: ""; }
 
-.fa-battery-4:before,
-.fa-battery:before,
-.fa-battery-full:before {
+.fa-battery-4:before, .fa-battery:before, .fa-battery-full:before {
   content: ""; }
 
-.fa-battery-3:before,
-.fa-battery-three-quarters:before {
+.fa-battery-3:before, .fa-battery-three-quarters:before {
   content: ""; }
 
-.fa-battery-2:before,
-.fa-battery-half:before {
+.fa-battery-2:before, .fa-battery-half:before {
   content: ""; }
 
-.fa-battery-1:before,
-.fa-battery-quarter:before {
+.fa-battery-1:before, .fa-battery-quarter:before {
   content: ""; }
 
-.fa-battery-0:before,
-.fa-battery-empty:before {
+.fa-battery-0:before, .fa-battery-empty:before {
   content: ""; }
 
 .fa-mouse-pointer:before {
@@ -1880,27 +1791,22 @@ File: Icons
 .fa-hourglass-o:before {
   content: ""; }
 
-.fa-hourglass-1:before,
-.fa-hourglass-start:before {
+.fa-hourglass-1:before, .fa-hourglass-start:before {
   content: ""; }
 
-.fa-hourglass-2:before,
-.fa-hourglass-half:before {
+.fa-hourglass-2:before, .fa-hourglass-half:before {
   content: ""; }
 
-.fa-hourglass-3:before,
-.fa-hourglass-end:before {
+.fa-hourglass-3:before, .fa-hourglass-end:before {
   content: ""; }
 
 .fa-hourglass:before {
   content: ""; }
 
-.fa-hand-grab-o:before,
-.fa-hand-rock-o:before {
+.fa-hand-grab-o:before, .fa-hand-rock-o:before {
   content: ""; }
 
-.fa-hand-stop-o:before,
-.fa-hand-paper-o:before {
+.fa-hand-stop-o:before, .fa-hand-paper-o:before {
   content: ""; }
 
 .fa-hand-scissors-o:before {
@@ -1963,8 +1869,7 @@ File: Icons
 .fa-internet-explorer:before {
   content: ""; }
 
-.fa-tv:before,
-.fa-television:before {
+.fa-tv:before, .fa-television:before {
   content: ""; }
 
 .fa-contao:before {
@@ -2117,13 +2022,10 @@ File: Icons
 .fa-assistive-listening-systems:before {
   content: ""; }
 
-.fa-asl-interpreting:before,
-.fa-american-sign-language-interpreting:before {
+.fa-asl-interpreting:before, .fa-american-sign-language-interpreting:before {
   content: ""; }
 
-.fa-deafness:before,
-.fa-hard-of-hearing:before,
-.fa-deaf:before {
+.fa-deafness:before, .fa-hard-of-hearing:before, .fa-deaf:before {
   content: ""; }
 
 .fa-glide:before {
@@ -2132,8 +2034,7 @@ File: Icons
 .fa-glide-g:before {
   content: ""; }
 
-.fa-signing:before,
-.fa-sign-language:before {
+.fa-signing:before, .fa-sign-language:before {
   content: ""; }
 
 .fa-low-vision:before {
@@ -2166,12 +2067,10 @@ File: Icons
 .fa-themeisle:before {
   content: ""; }
 
-.fa-google-plus-circle:before,
-.fa-google-plus-official:before {
+.fa-google-plus-circle:before, .fa-google-plus-official:before {
   content: ""; }
 
-.fa-fa:before,
-.fa-font-awesome:before {
+.fa-fa:before, .fa-font-awesome:before {
   content: ""; }
 
 .fa-handshake-o:before {
@@ -2192,12 +2091,10 @@ File: Icons
 .fa-address-book-o:before {
   content: ""; }
 
-.fa-vcard:before,
-.fa-address-card:before {
+.fa-vcard:before, .fa-address-card:before {
   content: ""; }
 
-.fa-vcard-o:before,
-.fa-address-card-o:before {
+.fa-vcard-o:before, .fa-address-card-o:before {
   content: ""; }
 
 .fa-user-circle:before {
@@ -2212,12 +2109,10 @@ File: Icons
 .fa-id-badge:before {
   content: ""; }
 
-.fa-drivers-license:before,
-.fa-id-card:before {
+.fa-drivers-license:before, .fa-id-card:before {
   content: ""; }
 
-.fa-drivers-license-o:before,
-.fa-id-card-o:before {
+.fa-drivers-license-o:before, .fa-id-card-o:before {
   content: ""; }
 
 .fa-quora:before {
@@ -2229,33 +2124,25 @@ File: Icons
 .fa-telegram:before {
   content: ""; }
 
-.fa-thermometer-4:before,
-.fa-thermometer:before,
-.fa-thermometer-full:before {
+.fa-thermometer-4:before, .fa-thermometer:before, .fa-thermometer-full:before {
   content: ""; }
 
-.fa-thermometer-3:before,
-.fa-thermometer-three-quarters:before {
+.fa-thermometer-3:before, .fa-thermometer-three-quarters:before {
   content: ""; }
 
-.fa-thermometer-2:before,
-.fa-thermometer-half:before {
+.fa-thermometer-2:before, .fa-thermometer-half:before {
   content: ""; }
 
-.fa-thermometer-1:before,
-.fa-thermometer-quarter:before {
+.fa-thermometer-1:before, .fa-thermometer-quarter:before {
   content: ""; }
 
-.fa-thermometer-0:before,
-.fa-thermometer-empty:before {
+.fa-thermometer-0:before, .fa-thermometer-empty:before {
   content: ""; }
 
 .fa-shower:before {
   content: ""; }
 
-.fa-bathtub:before,
-.fa-s15:before,
-.fa-bath:before {
+.fa-bathtub:before, .fa-s15:before, .fa-bath:before {
   content: ""; }
 
 .fa-podcast:before {
@@ -2270,12 +2157,10 @@ File: Icons
 .fa-window-restore:before {
   content: ""; }
 
-.fa-times-rectangle:before,
-.fa-window-close:before {
+.fa-times-rectangle:before, .fa-window-close:before {
   content: ""; }
 
-.fa-times-rectangle-o:before,
-.fa-window-close-o:before {
+.fa-times-rectangle-o:before, .fa-window-close-o:before {
   content: ""; }
 
 .fa-bandcamp:before {
@@ -3406,12 +3291,11 @@ File: Icons
 /* MaterialDesignIcons.com */
 @font-face {
   font-family: "Material Design Icons";
-  src: url("../fonts/materialdesignicons-webfont.eot?v=2.0.46");
-  src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=2.0.46") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=2.0.46") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=2.0.46") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=2.0.46") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=2.0.46#materialdesigniconsregular") format("svg");
+  src: url("../fonts/materialdesignicons-webfont.eot?v=2.3.54");
+  src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=2.3.54") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=2.3.54") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=2.3.54") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=2.3.54") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=2.3.54#materialdesigniconsregular") format("svg");
   font-weight: normal;
   font-style: normal; }
-.mdi:before,
-.mdi-set {
+.mdi:before, .mdi-set {
   display: inline-block;
   font: normal normal normal 24px/1 "Material Design Icons";
   font-size: inherit;
@@ -3453,6 +3337,12 @@ File: Icons
 .mdi-account-edit:before {
   content: "\F6BB"; }
 
+.mdi-account-group:before {
+  content: "\F848"; }
+
+.mdi-account-heart:before {
+  content: "\F898"; }
+
 .mdi-account-key:before {
   content: "\F00B"; }
 
@@ -3465,6 +3355,9 @@ File: Icons
 .mdi-account-multiple:before {
   content: "\F00E"; }
 
+.mdi-account-multiple-check:before {
+  content: "\F8C4"; }
+
 .mdi-account-multiple-minus:before {
   content: "\F5D3"; }
 
@@ -3473,6 +3366,9 @@ File: Icons
 
 .mdi-account-multiple-plus:before {
   content: "\F010"; }
+
+.mdi-account-multiple-plus-outline:before {
+  content: "\F7FF"; }
 
 .mdi-account-network:before {
   content: "\F011"; }
@@ -3485,6 +3381,9 @@ File: Icons
 
 .mdi-account-plus:before {
   content: "\F014"; }
+
+.mdi-account-plus-outline:before {
+  content: "\F800"; }
 
 .mdi-account-remove:before {
   content: "\F015"; }
@@ -3503,6 +3402,9 @@ File: Icons
 
 .mdi-account-switch:before {
   content: "\F019"; }
+
+.mdi-accusoft:before {
+  content: "\F849"; }
 
 .mdi-adjust:before {
   content: "\F01A"; }
@@ -3527,6 +3429,9 @@ File: Icons
 
 .mdi-airplay:before {
   content: "\F01F"; }
+
+.mdi-airport:before {
+  content: "\F84A"; }
 
 .mdi-alarm:before {
   content: "\F020"; }
@@ -3579,6 +3484,9 @@ File: Icons
 .mdi-alert-outline:before {
   content: "\F02A"; }
 
+.mdi-alien:before {
+  content: "\F899"; }
+
 .mdi-all-inclusive:before {
   content: "\F6BD"; }
 
@@ -3594,7 +3502,10 @@ File: Icons
 .mdi-amazon:before {
   content: "\F02D"; }
 
-.mdi-amazon-clouddrive:before {
+.mdi-amazon-alexa:before {
+  content: "\F8C5"; }
+
+.mdi-amazon-drive:before {
   content: "\F02E"; }
 
 .mdi-ambulance:before {
@@ -3627,11 +3538,17 @@ File: Icons
 .mdi-animation:before {
   content: "\F5D8"; }
 
+.mdi-anvil:before {
+  content: "\F89A"; }
+
 .mdi-apple:before {
   content: "\F035"; }
 
 .mdi-apple-finder:before {
   content: "\F036"; }
+
+.mdi-apple-icloud:before {
+  content: "\F038"; }
 
 .mdi-apple-ios:before {
   content: "\F037"; }
@@ -3651,9 +3568,6 @@ File: Icons
 .mdi-apple-keyboard-shift:before {
   content: "\F636"; }
 
-.mdi-apple-mobileme:before {
-  content: "\F038"; }
-
 .mdi-apple-safari:before {
   content: "\F039"; }
 
@@ -3665,6 +3579,9 @@ File: Icons
 
 .mdi-apps:before {
   content: "\F03B"; }
+
+.mdi-arch:before {
+  content: "\F8C6"; }
 
 .mdi-archive:before {
   content: "\F03C"; }
@@ -3699,6 +3616,9 @@ File: Icons
 .mdi-arrow-collapse-down:before {
   content: "\F791"; }
 
+.mdi-arrow-collapse-horizontal:before {
+  content: "\F84B"; }
+
 .mdi-arrow-collapse-left:before {
   content: "\F792"; }
 
@@ -3707,6 +3627,9 @@ File: Icons
 
 .mdi-arrow-collapse-up:before {
   content: "\F794"; }
+
+.mdi-arrow-collapse-vertical:before {
+  content: "\F84C"; }
 
 .mdi-arrow-down:before {
   content: "\F045"; }
@@ -3750,6 +3673,9 @@ File: Icons
 .mdi-arrow-expand-down:before {
   content: "\F795"; }
 
+.mdi-arrow-expand-horizontal:before {
+  content: "\F84D"; }
+
 .mdi-arrow-expand-left:before {
   content: "\F796"; }
 
@@ -3758,6 +3684,9 @@ File: Icons
 
 .mdi-arrow-expand-up:before {
   content: "\F798"; }
+
+.mdi-arrow-expand-vertical:before {
+  content: "\F84E"; }
 
 .mdi-arrow-left:before {
   content: "\F04D"; }
@@ -3864,6 +3793,9 @@ File: Icons
 .mdi-arrow-up-thick:before {
   content: "\F05E"; }
 
+.mdi-artist:before {
+  content: "\F802"; }
+
 .mdi-assistant:before {
   content: "\F064"; }
 
@@ -3873,6 +3805,9 @@ File: Icons
 .mdi-at:before {
   content: "\F065"; }
 
+.mdi-atlassian:before {
+  content: "\F803"; }
+
 .mdi-atom:before {
   content: "\F767"; }
 
@@ -3881,6 +3816,9 @@ File: Icons
 
 .mdi-audiobook:before {
   content: "\F067"; }
+
+.mdi-augmented-reality:before {
+  content: "\F84F"; }
 
 .mdi-auto-fix:before {
   content: "\F068"; }
@@ -3893,6 +3831,12 @@ File: Icons
 
 .mdi-av-timer:before {
   content: "\F06B"; }
+
+.mdi-axe:before {
+  content: "\F8C7"; }
+
+.mdi-azure:before {
+  content: "\F804"; }
 
 .mdi-baby:before {
   content: "\F06C"; }
@@ -3908,6 +3852,9 @@ File: Icons
 
 .mdi-backup-restore:before {
   content: "\F06F"; }
+
+.mdi-badminton:before {
+  content: "\F850"; }
 
 .mdi-bandcamp:before {
   content: "\F674"; }
@@ -3927,6 +3874,12 @@ File: Icons
 .mdi-barrel:before {
   content: "\F074"; }
 
+.mdi-baseball:before {
+  content: "\F851"; }
+
+.mdi-baseball-bat:before {
+  content: "\F852"; }
+
 .mdi-basecamp:before {
   content: "\F075"; }
 
@@ -3938,6 +3891,9 @@ File: Icons
 
 .mdi-basket-unfill:before {
   content: "\F078"; }
+
+.mdi-basketball:before {
+  content: "\F805"; }
 
 .mdi-battery:before {
   content: "\F079"; }
@@ -3975,6 +3931,9 @@ File: Icons
 .mdi-battery-charging:before {
   content: "\F084"; }
 
+.mdi-battery-charging-10:before {
+  content: "\F89B"; }
+
 .mdi-battery-charging-100:before {
   content: "\F085"; }
 
@@ -3987,14 +3946,59 @@ File: Icons
 .mdi-battery-charging-40:before {
   content: "\F088"; }
 
+.mdi-battery-charging-50:before {
+  content: "\F89C"; }
+
 .mdi-battery-charging-60:before {
   content: "\F089"; }
+
+.mdi-battery-charging-70:before {
+  content: "\F89D"; }
 
 .mdi-battery-charging-80:before {
   content: "\F08A"; }
 
 .mdi-battery-charging-90:before {
   content: "\F08B"; }
+
+.mdi-battery-charging-outline:before {
+  content: "\F89E"; }
+
+.mdi-battery-charging-wireless:before {
+  content: "\F806"; }
+
+.mdi-battery-charging-wireless-10:before {
+  content: "\F807"; }
+
+.mdi-battery-charging-wireless-20:before {
+  content: "\F808"; }
+
+.mdi-battery-charging-wireless-30:before {
+  content: "\F809"; }
+
+.mdi-battery-charging-wireless-40:before {
+  content: "\F80A"; }
+
+.mdi-battery-charging-wireless-50:before {
+  content: "\F80B"; }
+
+.mdi-battery-charging-wireless-60:before {
+  content: "\F80C"; }
+
+.mdi-battery-charging-wireless-70:before {
+  content: "\F80D"; }
+
+.mdi-battery-charging-wireless-80:before {
+  content: "\F80E"; }
+
+.mdi-battery-charging-wireless-90:before {
+  content: "\F80F"; }
+
+.mdi-battery-charging-wireless-alert:before {
+  content: "\F810"; }
+
+.mdi-battery-charging-wireless-outline:before {
+  content: "\F811"; }
 
 .mdi-battery-minus:before {
   content: "\F08C"; }
@@ -4022,6 +4026,9 @@ File: Icons
 
 .mdi-beats:before {
   content: "\F097"; }
+
+.mdi-bed-empty:before {
+  content: "\F89F"; }
 
 .mdi-beer:before {
   content: "\F098"; }
@@ -4073,6 +4080,9 @@ File: Icons
 
 .mdi-bitbucket:before {
   content: "\F0A8"; }
+
+.mdi-bitcoin:before {
+  content: "\F812"; }
 
 .mdi-black-mesa:before {
   content: "\F0A9"; }
@@ -4194,8 +4204,14 @@ File: Icons
 .mdi-border-all:before {
   content: "\F0C7"; }
 
+.mdi-border-all-variant:before {
+  content: "\F8A0"; }
+
 .mdi-border-bottom:before {
   content: "\F0C8"; }
+
+.mdi-border-bottom-variant:before {
+  content: "\F8A1"; }
 
 .mdi-border-color:before {
   content: "\F0C9"; }
@@ -4209,8 +4225,14 @@ File: Icons
 .mdi-border-left:before {
   content: "\F0CC"; }
 
+.mdi-border-left-variant:before {
+  content: "\F8A2"; }
+
 .mdi-border-none:before {
   content: "\F0CD"; }
+
+.mdi-border-none-variant:before {
+  content: "\F8A3"; }
 
 .mdi-border-outside:before {
   content: "\F0CE"; }
@@ -4218,14 +4240,23 @@ File: Icons
 .mdi-border-right:before {
   content: "\F0CF"; }
 
+.mdi-border-right-variant:before {
+  content: "\F8A4"; }
+
 .mdi-border-style:before {
   content: "\F0D0"; }
 
 .mdi-border-top:before {
   content: "\F0D1"; }
 
+.mdi-border-top-variant:before {
+  content: "\F8A5"; }
+
 .mdi-border-vertical:before {
   content: "\F0D2"; }
+
+.mdi-bottle-wine:before {
+  content: "\F853"; }
 
 .mdi-bow-tie:before {
   content: "\F677"; }
@@ -4256,6 +4287,9 @@ File: Icons
 
 .mdi-briefcase-download:before {
   content: "\F0D8"; }
+
+.mdi-briefcase-outline:before {
+  content: "\F813"; }
 
 .mdi-briefcase-upload:before {
   content: "\F0D9"; }
@@ -4305,8 +4339,8 @@ File: Icons
 .mdi-bullseye:before {
   content: "\F5DD"; }
 
-.mdi-burst-mode:before {
-  content: "\F5DE"; }
+.mdi-bullseye-arrow:before {
+  content: "\F8C8"; }
 
 .mdi-bus:before {
   content: "\F0E7"; }
@@ -4316,6 +4350,9 @@ File: Icons
 
 .mdi-bus-articulated-front:before {
   content: "\F79C"; }
+
+.mdi-bus-clock:before {
+  content: "\F8C9"; }
 
 .mdi-bus-double-decker:before {
   content: "\F79D"; }
@@ -4352,6 +4389,9 @@ File: Icons
 
 .mdi-calendar-clock:before {
   content: "\F0F0"; }
+
+.mdi-calendar-edit:before {
+  content: "\F8A6"; }
 
 .mdi-calendar-multiple:before {
   content: "\F0F1"; }
@@ -4407,6 +4447,9 @@ File: Icons
 .mdi-camera:before {
   content: "\F100"; }
 
+.mdi-camera-account:before {
+  content: "\F8CA"; }
+
 .mdi-camera-burst:before {
   content: "\F692"; }
 
@@ -4421,6 +4464,9 @@ File: Icons
 
 .mdi-camera-gopro:before {
   content: "\F7A0"; }
+
+.mdi-camera-image:before {
+  content: "\F8CB"; }
 
 .mdi-camera-iris:before {
   content: "\F104"; }
@@ -4476,7 +4522,7 @@ File: Icons
 .mdi-car-connected:before {
   content: "\F10D"; }
 
-.mdi-car-convertable:before {
+.mdi-car-convertible:before {
   content: "\F7A6"; }
 
 .mdi-car-estate:before {
@@ -4484,6 +4530,9 @@ File: Icons
 
 .mdi-car-hatchback:before {
   content: "\F7A8"; }
+
+.mdi-car-limousine:before {
+  content: "\F8CC"; }
 
 .mdi-car-pickup:before {
   content: "\F7A9"; }
@@ -4503,11 +4552,23 @@ File: Icons
 .mdi-cards:before {
   content: "\F638"; }
 
+.mdi-cards-club:before {
+  content: "\F8CD"; }
+
+.mdi-cards-diamond:before {
+  content: "\F8CE"; }
+
+.mdi-cards-heart:before {
+  content: "\F8CF"; }
+
 .mdi-cards-outline:before {
   content: "\F639"; }
 
 .mdi-cards-playing-outline:before {
   content: "\F63A"; }
+
+.mdi-cards-spade:before {
+  content: "\F8D0"; }
 
 .mdi-cards-variant:before {
   content: "\F6C6"; }
@@ -4584,8 +4645,17 @@ File: Icons
 .mdi-cellphone-link-off:before {
   content: "\F122"; }
 
+.mdi-cellphone-message:before {
+  content: "\F8D2"; }
+
 .mdi-cellphone-settings:before {
   content: "\F123"; }
+
+.mdi-cellphone-text:before {
+  content: "\F8D1"; }
+
+.mdi-cellphone-wireless:before {
+  content: "\F814"; }
 
 .mdi-certificate:before {
   content: "\F124"; }
@@ -4629,6 +4699,9 @@ File: Icons
 .mdi-chart-line-variant:before {
   content: "\F7B0"; }
 
+.mdi-chart-multiline:before {
+  content: "\F8D3"; }
+
 .mdi-chart-pie:before {
   content: "\F12B"; }
 
@@ -4650,6 +4723,9 @@ File: Icons
 .mdi-check-circle-outline:before {
   content: "\F5E1"; }
 
+.mdi-check-outline:before {
+  content: "\F854"; }
+
 .mdi-checkbox-blank:before {
   content: "\F12E"; }
 
@@ -4661,6 +4737,9 @@ File: Icons
 
 .mdi-checkbox-blank-outline:before {
   content: "\F131"; }
+
+.mdi-checkbox-intermediate:before {
+  content: "\F855"; }
 
 .mdi-checkbox-marked:before {
   content: "\F132"; }
@@ -4704,6 +4783,24 @@ File: Icons
 .mdi-chemical-weapon:before {
   content: "\F13B"; }
 
+.mdi-chess-bishop:before {
+  content: "\F85B"; }
+
+.mdi-chess-king:before {
+  content: "\F856"; }
+
+.mdi-chess-knight:before {
+  content: "\F857"; }
+
+.mdi-chess-pawn:before {
+  content: "\F858"; }
+
+.mdi-chess-queen:before {
+  content: "\F859"; }
+
+.mdi-chess-rook:before {
+  content: "\F85A"; }
+
 .mdi-chevron-double-down:before {
   content: "\F13C"; }
 
@@ -4746,6 +4843,9 @@ File: Icons
 .mdi-circle:before {
   content: "\F764"; }
 
+.mdi-circle-edit-outline:before {
+  content: "\F8D4"; }
+
 .mdi-circle-outline:before {
   content: "\F765"; }
 
@@ -4773,6 +4873,9 @@ File: Icons
 .mdi-clipboard-check:before {
   content: "\F14C"; }
 
+.mdi-clipboard-check-outline:before {
+  content: "\F8A7"; }
+
 .mdi-clipboard-flow:before {
   content: "\F6C7"; }
 
@@ -4781,6 +4884,12 @@ File: Icons
 
 .mdi-clipboard-plus:before {
   content: "\F750"; }
+
+.mdi-clipboard-pulse:before {
+  content: "\F85C"; }
+
+.mdi-clipboard-pulse-outline:before {
+  content: "\F85D"; }
 
 .mdi-clipboard-text:before {
   content: "\F14E"; }
@@ -4875,6 +4984,9 @@ File: Icons
 .mdi-cloud-upload:before {
   content: "\F167"; }
 
+.mdi-clover:before {
+  content: "\F815"; }
+
 .mdi-code-array:before {
   content: "\F168"; }
 
@@ -4929,6 +5041,9 @@ File: Icons
 .mdi-coffee-to-go:before {
   content: "\F177"; }
 
+.mdi-cogs:before {
+  content: "\F8D5"; }
+
 .mdi-coin:before {
   content: "\F178"; }
 
@@ -4962,6 +5077,9 @@ File: Icons
 .mdi-comment-check-outline:before {
   content: "\F180"; }
 
+.mdi-comment-multiple:before {
+  content: "\F85E"; }
+
 .mdi-comment-multiple-outline:before {
   content: "\F181"; }
 
@@ -4977,14 +5095,26 @@ File: Icons
 .mdi-comment-processing-outline:before {
   content: "\F185"; }
 
+.mdi-comment-question:before {
+  content: "\F816"; }
+
 .mdi-comment-question-outline:before {
   content: "\F186"; }
+
+.mdi-comment-remove:before {
+  content: "\F5DE"; }
 
 .mdi-comment-remove-outline:before {
   content: "\F187"; }
 
 .mdi-comment-text:before {
   content: "\F188"; }
+
+.mdi-comment-text-multiple:before {
+  content: "\F85F"; }
+
+.mdi-comment-text-multiple-outline:before {
+  content: "\F860"; }
 
 .mdi-comment-text-outline:before {
   content: "\F189"; }
@@ -5003,6 +5133,9 @@ File: Icons
 
 .mdi-console-line:before {
   content: "\F7B6"; }
+
+.mdi-console-network:before {
+  content: "\F8A8"; }
 
 .mdi-contact-mail:before {
   content: "\F18E"; }
@@ -5027,6 +5160,9 @@ File: Icons
 
 .mdi-content-save-all:before {
   content: "\F194"; }
+
+.mdi-content-save-outline:before {
+  content: "\F817"; }
 
 .mdi-content-save-settings:before {
   content: "\F61B"; }
@@ -5055,6 +5191,9 @@ File: Icons
 .mdi-cow:before {
   content: "\F19A"; }
 
+.mdi-crane:before {
+  content: "\F861"; }
+
 .mdi-creation:before {
   content: "\F1C9"; }
 
@@ -5072,6 +5211,9 @@ File: Icons
 
 .mdi-credit-card-scan:before {
   content: "\F19D"; }
+
+.mdi-credit-card-settings:before {
+  content: "\F8D6"; }
 
 .mdi-crop:before {
   content: "\F19E"; }
@@ -5121,6 +5263,12 @@ File: Icons
 .mdi-cup-water:before {
   content: "\F1AB"; }
 
+.mdi-curling:before {
+  content: "\F862"; }
+
+.mdi-currency-bdt:before {
+  content: "\F863"; }
+
 .mdi-currency-btc:before {
   content: "\F1AC"; }
 
@@ -5147,6 +5295,9 @@ File: Icons
 
 .mdi-currency-krw:before {
   content: "\F7BC"; }
+
+.mdi-currency-kzt:before {
+  content: "\F864"; }
 
 .mdi-currency-ngn:before {
   content: "\F1B0"; }
@@ -5193,6 +5344,18 @@ File: Icons
 .mdi-database-plus:before {
   content: "\F1BA"; }
 
+.mdi-database-search:before {
+  content: "\F865"; }
+
+.mdi-death-star:before {
+  content: "\F8D7"; }
+
+.mdi-death-star-variant:before {
+  content: "\F8D8"; }
+
+.mdi-debian:before {
+  content: "\F8D9"; }
+
 .mdi-debug-step-into:before {
   content: "\F1BB"; }
 
@@ -5225,6 +5388,9 @@ File: Icons
 
 .mdi-delete-forever:before {
   content: "\F5E8"; }
+
+.mdi-delete-restore:before {
+  content: "\F818"; }
 
 .mdi-delete-sweep:before {
   content: "\F5E9"; }
@@ -5282,6 +5448,9 @@ File: Icons
 
 .mdi-dice-d10:before {
   content: "\F76E"; }
+
+.mdi-dice-d12:before {
+  content: "\F866"; }
 
 .mdi-dice-d20:before {
   content: "\F5EA"; }
@@ -5343,6 +5512,9 @@ File: Icons
 .mdi-do-not-disturb-off:before {
   content: "\F698"; }
 
+.mdi-docker:before {
+  content: "\F867"; }
+
 .mdi-dolby:before {
   content: "\F6B2"; }
 
@@ -5351,6 +5523,18 @@ File: Icons
 
 .mdi-donkey:before {
   content: "\F7C1"; }
+
+.mdi-door:before {
+  content: "\F819"; }
+
+.mdi-door-closed:before {
+  content: "\F81A"; }
+
+.mdi-door-open:before {
+  content: "\F81B"; }
+
+.mdi-doorbell-video:before {
+  content: "\F868"; }
 
 .mdi-dots-horizontal:before {
   content: "\F1D8"; }
@@ -5517,6 +5701,9 @@ File: Icons
 .mdi-escalator:before {
   content: "\F1FF"; }
 
+.mdi-ethereum:before {
+  content: "\F869"; }
+
 .mdi-ethernet:before {
   content: "\F200"; }
 
@@ -5559,6 +5746,18 @@ File: Icons
 .mdi-eye-outline:before {
   content: "\F6CF"; }
 
+.mdi-eye-plus:before {
+  content: "\F86A"; }
+
+.mdi-eye-plus-outline:before {
+  content: "\F86B"; }
+
+.mdi-eye-settings:before {
+  content: "\F86C"; }
+
+.mdi-eye-settings-outline:before {
+  content: "\F86D"; }
+
 .mdi-eyedropper:before {
   content: "\F20A"; }
 
@@ -5586,6 +5785,9 @@ File: Icons
 .mdi-fan:before {
   content: "\F210"; }
 
+.mdi-fan-off:before {
+  content: "\F81C"; }
+
 .mdi-fast-forward:before {
   content: "\F211"; }
 
@@ -5597,6 +5799,9 @@ File: Icons
 
 .mdi-feather:before {
   content: "\F6D2"; }
+
+.mdi-fedora:before {
+  content: "\F8DA"; }
 
 .mdi-ferry:before {
   content: "\F213"; }
@@ -5615,6 +5820,9 @@ File: Icons
 
 .mdi-file-cloud:before {
   content: "\F217"; }
+
+.mdi-file-compare:before {
+  content: "\F8A9"; }
 
 .mdi-file-delimited:before {
   content: "\F218"; }
@@ -5664,6 +5872,9 @@ File: Icons
 .mdi-file-pdf-box:before {
   content: "\F226"; }
 
+.mdi-file-percent:before {
+  content: "\F81D"; }
+
 .mdi-file-plus:before {
   content: "\F751"; }
 
@@ -5676,6 +5887,9 @@ File: Icons
 .mdi-file-presentation-box:before {
   content: "\F229"; }
 
+.mdi-file-question:before {
+  content: "\F86E"; }
+
 .mdi-file-restore:before {
   content: "\F670"; }
 
@@ -5684,6 +5898,9 @@ File: Icons
 
 .mdi-file-tree:before {
   content: "\F645"; }
+
+.mdi-file-undo:before {
+  content: "\F8DB"; }
 
 .mdi-file-video:before {
   content: "\F22B"; }
@@ -5721,6 +5938,9 @@ File: Icons
 .mdi-filter-variant:before {
   content: "\F236"; }
 
+.mdi-finance:before {
+  content: "\F81E"; }
+
 .mdi-find-replace:before {
   content: "\F6D3"; }
 
@@ -5729,6 +5949,9 @@ File: Icons
 
 .mdi-fire:before {
   content: "\F238"; }
+
+.mdi-fire-truck:before {
+  content: "\F8AA"; }
 
 .mdi-firefox:before {
   content: "\F239"; }
@@ -5745,20 +5968,23 @@ File: Icons
 .mdi-flag-outline:before {
   content: "\F23D"; }
 
-.mdi-flag-outline-variant:before {
-  content: "\F23E"; }
-
 .mdi-flag-triangle:before {
   content: "\F23F"; }
 
 .mdi-flag-variant:before {
   content: "\F240"; }
 
+.mdi-flag-variant-outline:before {
+  content: "\F23E"; }
+
 .mdi-flash:before {
   content: "\F241"; }
 
 .mdi-flash-auto:before {
   content: "\F242"; }
+
+.mdi-flash-circle:before {
+  content: "\F81F"; }
 
 .mdi-flash-off:before {
   content: "\F243"; }
@@ -5796,6 +6022,12 @@ File: Icons
 .mdi-flip-to-front:before {
   content: "\F248"; }
 
+.mdi-floor-lamp:before {
+  content: "\F8DC"; }
+
+.mdi-floor-plan:before {
+  content: "\F820"; }
+
 .mdi-floppy:before {
   content: "\F249"; }
 
@@ -5811,11 +6043,20 @@ File: Icons
 .mdi-folder-download:before {
   content: "\F24D"; }
 
+.mdi-folder-edit:before {
+  content: "\F8DD"; }
+
 .mdi-folder-google-drive:before {
   content: "\F24E"; }
 
 .mdi-folder-image:before {
   content: "\F24F"; }
+
+.mdi-folder-key:before {
+  content: "\F8AB"; }
+
+.mdi-folder-key-network:before {
+  content: "\F8AC"; }
 
 .mdi-folder-lock:before {
   content: "\F250"; }
@@ -5834,6 +6075,9 @@ File: Icons
 
 .mdi-folder-multiple-outline:before {
   content: "\F255"; }
+
+.mdi-folder-network:before {
+  content: "\F86F"; }
 
 .mdi-folder-open:before {
   content: "\F76F"; }
@@ -5921,6 +6165,9 @@ File: Icons
 
 .mdi-format-color-text:before {
   content: "\F69D"; }
+
+.mdi-format-columns:before {
+  content: "\F8DE"; }
 
 .mdi-format-float-center:before {
   content: "\F267"; }
@@ -6084,11 +6331,17 @@ File: Icons
 .mdi-forum:before {
   content: "\F28C"; }
 
+.mdi-forum-outline:before {
+  content: "\F821"; }
+
 .mdi-forward:before {
   content: "\F28D"; }
 
 .mdi-foursquare:before {
   content: "\F28E"; }
+
+.mdi-freebsd:before {
+  content: "\F8DF"; }
 
 .mdi-fridge:before {
   content: "\F28F"; }
@@ -6114,6 +6367,9 @@ File: Icons
 .mdi-function:before {
   content: "\F295"; }
 
+.mdi-function-variant:before {
+  content: "\F870"; }
+
 .mdi-gamepad:before {
   content: "\F296"; }
 
@@ -6122,6 +6378,9 @@ File: Icons
 
 .mdi-garage:before {
   content: "\F6D8"; }
+
+.mdi-garage-alert:before {
+  content: "\F871"; }
 
 .mdi-garage-open:before {
   content: "\F6D9"; }
@@ -6135,8 +6394,38 @@ File: Icons
 .mdi-gate:before {
   content: "\F299"; }
 
+.mdi-gate-and:before {
+  content: "\F8E0"; }
+
+.mdi-gate-nand:before {
+  content: "\F8E1"; }
+
+.mdi-gate-nor:before {
+  content: "\F8E2"; }
+
+.mdi-gate-not:before {
+  content: "\F8E3"; }
+
+.mdi-gate-or:before {
+  content: "\F8E4"; }
+
+.mdi-gate-xnor:before {
+  content: "\F8E5"; }
+
+.mdi-gate-xor:before {
+  content: "\F8E6"; }
+
 .mdi-gauge:before {
   content: "\F29A"; }
+
+.mdi-gauge-empty:before {
+  content: "\F872"; }
+
+.mdi-gauge-full:before {
+  content: "\F873"; }
+
+.mdi-gauge-low:before {
+  content: "\F874"; }
 
 .mdi-gavel:before {
   content: "\F29B"; }
@@ -6152,6 +6441,9 @@ File: Icons
 
 .mdi-gender-transgender:before {
   content: "\F29F"; }
+
+.mdi-gentoo:before {
+  content: "\F8E7"; }
 
 .mdi-gesture:before {
   content: "\F7CA"; }
@@ -6198,6 +6490,9 @@ File: Icons
 .mdi-github-face:before {
   content: "\F6DA"; }
 
+.mdi-glass-cocktail:before {
+  content: "\F356"; }
+
 .mdi-glass-flute:before {
   content: "\F2A5"; }
 
@@ -6210,11 +6505,17 @@ File: Icons
 .mdi-glass-tulip:before {
   content: "\F2A8"; }
 
+.mdi-glass-wine:before {
+  content: "\F875"; }
+
 .mdi-glassdoor:before {
   content: "\F2A9"; }
 
 .mdi-glasses:before {
   content: "\F2AA"; }
+
+.mdi-globe-model:before {
+  content: "\F8E8"; }
 
 .mdi-gmail:before {
   content: "\F2AB"; }
@@ -6222,11 +6523,17 @@ File: Icons
 .mdi-gnome:before {
   content: "\F2AC"; }
 
+.mdi-golf:before {
+  content: "\F822"; }
+
 .mdi-gondola:before {
   content: "\F685"; }
 
 .mdi-google:before {
   content: "\F2AD"; }
+
+.mdi-google-allo:before {
+  content: "\F801"; }
 
 .mdi-google-analytics:before {
   content: "\F7CB"; }
@@ -6267,6 +6574,12 @@ File: Icons
 .mdi-google-glass:before {
   content: "\F2B8"; }
 
+.mdi-google-hangouts:before {
+  content: "\F2C9"; }
+
+.mdi-google-home:before {
+  content: "\F823"; }
+
 .mdi-google-keep:before {
   content: "\F6DB"; }
 
@@ -6300,8 +6613,14 @@ File: Icons
 .mdi-google-wallet:before {
   content: "\F2C0"; }
 
+.mdi-gpu:before {
+  content: "\F8AD"; }
+
 .mdi-gradient:before {
   content: "\F69F"; }
+
+.mdi-graphql:before {
+  content: "\F876"; }
 
 .mdi-grease-pencil:before {
   content: "\F648"; }
@@ -6330,20 +6649,23 @@ File: Icons
 .mdi-guitar-pick-outline:before {
   content: "\F2C6"; }
 
+.mdi-guy-fawkes-mask:before {
+  content: "\F824"; }
+
 .mdi-hackernews:before {
   content: "\F624"; }
 
 .mdi-hamburger:before {
   content: "\F684"; }
 
+.mdi-hammer:before {
+  content: "\F8E9"; }
+
 .mdi-hand-pointing-right:before {
   content: "\F2C7"; }
 
 .mdi-hanger:before {
   content: "\F2C8"; }
-
-.mdi-hangouts:before {
-  content: "\F2C9"; }
 
 .mdi-harddisk:before {
   content: "\F2CA"; }
@@ -6426,17 +6748,32 @@ File: Icons
 .mdi-high-definition:before {
   content: "\F7CE"; }
 
+.mdi-high-definition-box:before {
+  content: "\F877"; }
+
 .mdi-highway:before {
   content: "\F5F7"; }
 
 .mdi-history:before {
   content: "\F2DA"; }
 
+.mdi-hockey-puck:before {
+  content: "\F878"; }
+
+.mdi-hockey-sticks:before {
+  content: "\F879"; }
+
 .mdi-hololens:before {
   content: "\F2DB"; }
 
 .mdi-home:before {
   content: "\F2DC"; }
+
+.mdi-home-account:before {
+  content: "\F825"; }
+
+.mdi-home-alert:before {
+  content: "\F87A"; }
 
 .mdi-home-assistant:before {
   content: "\F7CF"; }
@@ -6446,6 +6783,18 @@ File: Icons
 
 .mdi-home-circle:before {
   content: "\F7D1"; }
+
+.mdi-home-currency-usd:before {
+  content: "\F8AE"; }
+
+.mdi-home-heart:before {
+  content: "\F826"; }
+
+.mdi-home-lock:before {
+  content: "\F8EA"; }
+
+.mdi-home-lock-open:before {
+  content: "\F8EB"; }
 
 .mdi-home-map-marker:before {
   content: "\F5F8"; }
@@ -6477,6 +6826,9 @@ File: Icons
 .mdi-hospital-marker:before {
   content: "\F2E2"; }
 
+.mdi-hot-tub:before {
+  content: "\F827"; }
+
 .mdi-hotel:before {
   content: "\F2E3"; }
 
@@ -6485,6 +6837,9 @@ File: Icons
 
 .mdi-houzz-box:before {
   content: "\F2E5"; }
+
+.mdi-hulu:before {
+  content: "\F828"; }
 
 .mdi-human:before {
   content: "\F2E6"; }
@@ -6515,6 +6870,9 @@ File: Icons
 
 .mdi-humble-bundle:before {
   content: "\F743"; }
+
+.mdi-ice-cream:before {
+  content: "\F829"; }
 
 .mdi-image:before {
   content: "\F2E9"; }
@@ -6567,6 +6925,12 @@ File: Icons
 .mdi-image-multiple:before {
   content: "\F2F9"; }
 
+.mdi-image-off:before {
+  content: "\F82A"; }
+
+.mdi-image-plus:before {
+  content: "\F87B"; }
+
 .mdi-import:before {
   content: "\F2FA"; }
 
@@ -6578,6 +6942,9 @@ File: Icons
 
 .mdi-inbox-arrow-up:before {
   content: "\F3D1"; }
+
+.mdi-inbox-multiple:before {
+  content: "\F8AF"; }
 
 .mdi-incognito:before {
   content: "\F5F9"; }
@@ -6615,11 +6982,17 @@ File: Icons
 .mdi-jira:before {
   content: "\F303"; }
 
+.mdi-jquery:before {
+  content: "\F87C"; }
+
 .mdi-jsfiddle:before {
   content: "\F304"; }
 
 .mdi-json:before {
   content: "\F626"; }
+
+.mdi-karate:before {
+  content: "\F82B"; }
 
 .mdi-keg:before {
   content: "\F305"; }
@@ -6681,6 +7054,9 @@ File: Icons
 .mdi-label-outline:before {
   content: "\F316"; }
 
+.mdi-ladybug:before {
+  content: "\F82C"; }
+
 .mdi-lambda:before {
   content: "\F627"; }
 
@@ -6720,6 +7096,9 @@ File: Icons
 .mdi-language-javascript:before {
   content: "\F31E"; }
 
+.mdi-language-lua:before {
+  content: "\F8B0"; }
+
 .mdi-language-php:before {
   content: "\F31F"; }
 
@@ -6755,6 +7134,9 @@ File: Icons
 
 .mdi-lastfm:before {
   content: "\F326"; }
+
+.mdi-lastpass:before {
+  content: "\F446"; }
 
 .mdi-launch:before {
   content: "\F327"; }
@@ -6807,6 +7189,9 @@ File: Icons
 .mdi-library-plus:before {
   content: "\F334"; }
 
+.mdi-lifebuoy:before {
+  content: "\F87D"; }
+
 .mdi-lightbulb:before {
   content: "\F335"; }
 
@@ -6840,11 +7225,17 @@ File: Icons
 .mdi-linux:before {
   content: "\F33D"; }
 
+.mdi-linux-mint:before {
+  content: "\F8EC"; }
+
 .mdi-loading:before {
   content: "\F771"; }
 
 .mdi-lock:before {
   content: "\F33E"; }
+
+.mdi-lock-alert:before {
+  content: "\F8ED"; }
 
 .mdi-lock-open:before {
   content: "\F33F"; }
@@ -6861,8 +7252,14 @@ File: Icons
 .mdi-lock-plus:before {
   content: "\F5FB"; }
 
+.mdi-lock-question:before {
+  content: "\F8EE"; }
+
 .mdi-lock-reset:before {
   content: "\F772"; }
+
+.mdi-lock-smart:before {
+  content: "\F8B1"; }
 
 .mdi-locker:before {
   content: "\F7D6"; }
@@ -6930,6 +7327,9 @@ File: Icons
 .mdi-map-marker-circle:before {
   content: "\F34F"; }
 
+.mdi-map-marker-distance:before {
+  content: "\F8EF"; }
+
 .mdi-map-marker-minus:before {
   content: "\F650"; }
 
@@ -6959,9 +7359,6 @@ File: Icons
 
 .mdi-marker-check:before {
   content: "\F355"; }
-
-.mdi-martini:before {
-  content: "\F356"; }
 
 .mdi-material-ui:before {
   content: "\F357"; }
@@ -7068,11 +7465,17 @@ File: Icons
 .mdi-microphone:before {
   content: "\F36C"; }
 
+.mdi-microphone-minus:before {
+  content: "\F8B2"; }
+
 .mdi-microphone-off:before {
   content: "\F36D"; }
 
 .mdi-microphone-outline:before {
   content: "\F36E"; }
+
+.mdi-microphone-plus:before {
+  content: "\F8B3"; }
 
 .mdi-microphone-settings:before {
   content: "\F36F"; }
@@ -7088,6 +7491,12 @@ File: Icons
 
 .mdi-microsoft:before {
   content: "\F372"; }
+
+.mdi-midi:before {
+  content: "\F8F0"; }
+
+.mdi-midi-port:before {
+  content: "\F8F1"; }
 
 .mdi-minecraft:before {
   content: "\F373"; }
@@ -7112,6 +7521,9 @@ File: Icons
 
 .mdi-mixcloud:before {
   content: "\F62A"; }
+
+.mdi-mixed-reality:before {
+  content: "\F87E"; }
 
 .mdi-mixer:before {
   content: "\F7DC"; }
@@ -7206,6 +7618,12 @@ File: Icons
 .mdi-music-off:before {
   content: "\F75A"; }
 
+.mdi-nas:before {
+  content: "\F8F2"; }
+
+.mdi-nativescript:before {
+  content: "\F87F"; }
+
 .mdi-nature:before {
   content: "\F38E"; }
 
@@ -7221,17 +7639,44 @@ File: Icons
 .mdi-needle:before {
   content: "\F391"; }
 
-.mdi-nest-protect:before {
-  content: "\F392"; }
-
-.mdi-nest-thermostat:before {
-  content: "\F393"; }
-
 .mdi-netflix:before {
   content: "\F745"; }
 
 .mdi-network:before {
   content: "\F6F2"; }
+
+.mdi-network-strength-1:before {
+  content: "\F8F3"; }
+
+.mdi-network-strength-1-alert:before {
+  content: "\F8F4"; }
+
+.mdi-network-strength-2:before {
+  content: "\F8F5"; }
+
+.mdi-network-strength-2-alert:before {
+  content: "\F8F6"; }
+
+.mdi-network-strength-3:before {
+  content: "\F8F7"; }
+
+.mdi-network-strength-3-alert:before {
+  content: "\F8F8"; }
+
+.mdi-network-strength-4:before {
+  content: "\F8F9"; }
+
+.mdi-network-strength-4-alert:before {
+  content: "\F8FA"; }
+
+.mdi-network-strength-off:before {
+  content: "\F8FB"; }
+
+.mdi-network-strength-off-outline:before {
+  content: "\F8FC"; }
+
+.mdi-network-strength-outline:before {
+  content: "\F8FD"; }
 
 .mdi-new-box:before {
   content: "\F394"; }
@@ -7277,6 +7722,9 @@ File: Icons
 
 .mdi-note-text:before {
   content: "\F39E"; }
+
+.mdi-notebook:before {
+  content: "\F82D"; }
 
 .mdi-notification-clear-all:before {
   content: "\F39F"; }
@@ -7434,6 +7882,9 @@ File: Icons
 .mdi-onenote:before {
   content: "\F746"; }
 
+.mdi-onepassword:before {
+  content: "\F880"; }
+
 .mdi-opacity:before {
   content: "\F5CC"; }
 
@@ -7503,6 +7954,9 @@ File: Icons
 .mdi-palette-advanced:before {
   content: "\F3D9"; }
 
+.mdi-palette-swatch:before {
+  content: "\F8B4"; }
+
 .mdi-panda:before {
   content: "\F3DA"; }
 
@@ -7536,6 +7990,9 @@ File: Icons
 .mdi-passport:before {
   content: "\F7E2"; }
 
+.mdi-patreon:before {
+  content: "\F881"; }
+
 .mdi-pause:before {
   content: "\F3E4"; }
 
@@ -7556,6 +8013,12 @@ File: Icons
 
 .mdi-paw-off:before {
   content: "\F657"; }
+
+.mdi-paypal:before {
+  content: "\F882"; }
+
+.mdi-peace:before {
+  content: "\F883"; }
 
 .mdi-pen:before {
   content: "\F3EA"; }
@@ -7589,6 +8052,9 @@ File: Icons
 
 .mdi-percent:before {
   content: "\F3F0"; }
+
+.mdi-periodic-table:before {
+  content: "\F8B5"; }
 
 .mdi-periodic-table-co2:before {
   content: "\F7E3"; }
@@ -7641,6 +8107,15 @@ File: Icons
 .mdi-phone-plus:before {
   content: "\F659"; }
 
+.mdi-phone-return:before {
+  content: "\F82E"; }
+
+.mdi-phone-rotate-landscape:before {
+  content: "\F884"; }
+
+.mdi-phone-rotate-portrait:before {
+  content: "\F885"; }
+
 .mdi-phone-settings:before {
   content: "\F3FD"; }
 
@@ -7656,6 +8131,15 @@ File: Icons
 .mdi-piano:before {
   content: "\F67C"; }
 
+.mdi-pickaxe:before {
+  content: "\F8B6"; }
+
+.mdi-pier:before {
+  content: "\F886"; }
+
+.mdi-pier-crane:before {
+  content: "\F887"; }
+
 .mdi-pig:before {
   content: "\F401"; }
 
@@ -7670,6 +8154,12 @@ File: Icons
 
 .mdi-pin-off:before {
   content: "\F404"; }
+
+.mdi-pin-off-outline:before {
+  content: "\F92F"; }
+
+.mdi-pin-outline:before {
+  content: "\F930"; }
 
 .mdi-pine-tree:before {
   content: "\F405"; }
@@ -7689,8 +8179,14 @@ File: Icons
 .mdi-pipe-disconnected:before {
   content: "\F7E5"; }
 
+.mdi-pipe-leak:before {
+  content: "\F888"; }
+
 .mdi-pistol:before {
   content: "\F702"; }
+
+.mdi-piston:before {
+  content: "\F889"; }
 
 .mdi-pizza:before {
   content: "\F409"; }
@@ -7710,14 +8206,23 @@ File: Icons
 .mdi-play-circle-outline:before {
   content: "\F40D"; }
 
+.mdi-play-network:before {
+  content: "\F88A"; }
+
 .mdi-play-pause:before {
   content: "\F40E"; }
 
 .mdi-play-protected-content:before {
   content: "\F40F"; }
 
+.mdi-play-speed:before {
+  content: "\F8FE"; }
+
 .mdi-playlist-check:before {
   content: "\F5C7"; }
+
+.mdi-playlist-edit:before {
+  content: "\F8FF"; }
 
 .mdi-playlist-minus:before {
   content: "\F410"; }
@@ -7770,6 +8275,9 @@ File: Icons
 .mdi-pokeball:before {
   content: "\F41D"; }
 
+.mdi-poker-chip:before {
+  content: "\F82F"; }
+
 .mdi-polaroid:before {
   content: "\F41E"; }
 
@@ -7803,6 +8311,15 @@ File: Icons
 .mdi-power:before {
   content: "\F425"; }
 
+.mdi-power-cycle:before {
+  content: "\F900"; }
+
+.mdi-power-off:before {
+  content: "\F901"; }
+
+.mdi-power-on:before {
+  content: "\F902"; }
+
 .mdi-power-plug:before {
   content: "\F6A4"; }
 
@@ -7812,8 +8329,14 @@ File: Icons
 .mdi-power-settings:before {
   content: "\F426"; }
 
+.mdi-power-sleep:before {
+  content: "\F903"; }
+
 .mdi-power-socket:before {
   content: "\F427"; }
+
+.mdi-power-socket-au:before {
+  content: "\F904"; }
 
 .mdi-power-socket-eu:before {
   content: "\F7E6"; }
@@ -7823,6 +8346,9 @@ File: Icons
 
 .mdi-power-socket-us:before {
   content: "\F7E8"; }
+
+.mdi-power-standby:before {
+  content: "\F905"; }
 
 .mdi-prescription:before {
   content: "\F705"; }
@@ -7875,6 +8401,9 @@ File: Icons
 .mdi-qrcode:before {
   content: "\F432"; }
 
+.mdi-qrcode-edit:before {
+  content: "\F8B7"; }
+
 .mdi-qrcode-scan:before {
   content: "\F433"; }
 
@@ -7886,6 +8415,9 @@ File: Icons
 
 .mdi-quicktime:before {
   content: "\F436"; }
+
+.mdi-rabbit:before {
+  content: "\F906"; }
 
 .mdi-radar:before {
   content: "\F437"; }
@@ -7932,17 +8464,11 @@ File: Icons
 .mdi-ray-vertex:before {
   content: "\F445"; }
 
-.mdi-rdio:before {
-  content: "\F446"; }
-
 .mdi-react:before {
   content: "\F707"; }
 
 .mdi-read:before {
   content: "\F447"; }
-
-.mdi-readability:before {
-  content: "\F448"; }
 
 .mdi-receipt:before {
   content: "\F449"; }
@@ -7977,8 +8503,14 @@ File: Icons
 .mdi-reload:before {
   content: "\F453"; }
 
+.mdi-reminder:before {
+  content: "\F88B"; }
+
 .mdi-remote:before {
   content: "\F454"; }
+
+.mdi-remote-desktop:before {
+  content: "\F8B8"; }
 
 .mdi-rename-box:before {
   content: "\F455"; }
@@ -8052,11 +8584,17 @@ File: Icons
 .mdi-robot:before {
   content: "\F6A8"; }
 
+.mdi-robot-vacuum:before {
+  content: "\F70C"; }
+
+.mdi-robot-vacuum-variant:before {
+  content: "\F907"; }
+
 .mdi-rocket:before {
   content: "\F463"; }
 
-.mdi-roomba:before {
-  content: "\F70C"; }
+.mdi-room-service:before {
+  content: "\F88C"; }
 
 .mdi-rotate-3d:before {
   content: "\F464"; }
@@ -8103,14 +8641,23 @@ File: Icons
 .mdi-sale:before {
   content: "\F46F"; }
 
+.mdi-salesforce:before {
+  content: "\F88D"; }
+
 .mdi-sass:before {
   content: "\F7EB"; }
 
 .mdi-satellite:before {
   content: "\F470"; }
 
+.mdi-satellite-uplink:before {
+  content: "\F908"; }
+
 .mdi-satellite-variant:before {
   content: "\F471"; }
+
+.mdi-sausage:before {
+  content: "\F8B9"; }
 
 .mdi-saxophone:before {
   content: "\F609"; }
@@ -8126,6 +8673,9 @@ File: Icons
 
 .mdi-scanner:before {
   content: "\F6AA"; }
+
+.mdi-scanner-off:before {
+  content: "\F909"; }
 
 .mdi-school:before {
   content: "\F474"; }
@@ -8177,6 +8727,9 @@ File: Icons
 
 .mdi-security:before {
   content: "\F483"; }
+
+.mdi-security-account:before {
+  content: "\F88E"; }
 
 .mdi-security-home:before {
   content: "\F689"; }
@@ -8265,8 +8818,17 @@ File: Icons
 .mdi-settings-box:before {
   content: "\F494"; }
 
+.mdi-settings-outline:before {
+  content: "\F8BA"; }
+
+.mdi-shape:before {
+  content: "\F830"; }
+
 .mdi-shape-circle-plus:before {
   content: "\F65D"; }
+
+.mdi-shape-outline:before {
+  content: "\F831"; }
 
 .mdi-shape-plus:before {
   content: "\F495"; }
@@ -8283,6 +8845,9 @@ File: Icons
 .mdi-share:before {
   content: "\F496"; }
 
+.mdi-share-outline:before {
+  content: "\F931"; }
+
 .mdi-share-variant:before {
   content: "\F497"; }
 
@@ -8294,6 +8859,9 @@ File: Icons
 
 .mdi-shield-outline:before {
   content: "\F499"; }
+
+.mdi-ship-wheel:before {
+  content: "\F832"; }
 
 .mdi-shopping:before {
   content: "\F49A"; }
@@ -8345,6 +8913,18 @@ File: Icons
 
 .mdi-signal-4g:before {
   content: "\F713"; }
+
+.mdi-signal-cellular-1:before {
+  content: "\F8BB"; }
+
+.mdi-signal-cellular-2:before {
+  content: "\F8BC"; }
+
+.mdi-signal-cellular-3:before {
+  content: "\F8BD"; }
+
+.mdi-signal-cellular-outline:before {
+  content: "\F8BE"; }
 
 .mdi-signal-hspa:before {
   content: "\F714"; }
@@ -8418,11 +8998,17 @@ File: Icons
 .mdi-slack:before {
   content: "\F4B1"; }
 
+.mdi-slackware:before {
+  content: "\F90A"; }
+
 .mdi-sleep:before {
   content: "\F4B2"; }
 
 .mdi-sleep-off:before {
   content: "\F4B3"; }
+
+.mdi-smoke-detector:before {
+  content: "\F392"; }
 
 .mdi-smoking:before {
   content: "\F4B4"; }
@@ -8441,6 +9027,9 @@ File: Icons
 
 .mdi-soccer:before {
   content: "\F4B8"; }
+
+.mdi-soccer-field:before {
+  content: "\F833"; }
 
 .mdi-sofa:before {
   content: "\F4B9"; }
@@ -8535,6 +9124,9 @@ File: Icons
 .mdi-square:before {
   content: "\F763"; }
 
+.mdi-square-edit-outline:before {
+  content: "\F90B"; }
+
 .mdi-square-inc:before {
   content: "\F4CA"; }
 
@@ -8547,10 +9139,13 @@ File: Icons
 .mdi-square-root:before {
   content: "\F783"; }
 
-.mdi-stackexchange:before {
+.mdi-ssh:before {
+  content: "\F8BF"; }
+
+.mdi-stack-exchange:before {
   content: "\F60B"; }
 
-.mdi-stackoverflow:before {
+.mdi-stack-overflow:before {
   content: "\F4CC"; }
 
 .mdi-stadium:before {
@@ -8580,8 +9175,14 @@ File: Icons
 .mdi-steam:before {
   content: "\F4D3"; }
 
+.mdi-steam-box:before {
+  content: "\F90C"; }
+
 .mdi-steering:before {
   content: "\F4D4"; }
+
+.mdi-steering-off:before {
+  content: "\F90D"; }
 
 .mdi-step-backward:before {
   content: "\F4D5"; }
@@ -8664,8 +9265,14 @@ File: Icons
 .mdi-swap-horizontal:before {
   content: "\F4E1"; }
 
+.mdi-swap-horizontal-variant:before {
+  content: "\F8C0"; }
+
 .mdi-swap-vertical:before {
   content: "\F4E2"; }
+
+.mdi-swap-vertical-variant:before {
+  content: "\F8C1"; }
 
 .mdi-swim:before {
   content: "\F4E3"; }
@@ -8700,6 +9307,9 @@ File: Icons
 .mdi-table:before {
   content: "\F4EB"; }
 
+.mdi-table-column:before {
+  content: "\F834"; }
+
 .mdi-table-column-plus-after:before {
   content: "\F4EC"; }
 
@@ -8718,6 +9328,12 @@ File: Icons
 .mdi-table-large:before {
   content: "\F4F1"; }
 
+.mdi-table-of-contents:before {
+  content: "\F835"; }
+
+.mdi-table-row:before {
+  content: "\F836"; }
+
 .mdi-table-row-height:before {
   content: "\F4F2"; }
 
@@ -8729,6 +9345,12 @@ File: Icons
 
 .mdi-table-row-remove:before {
   content: "\F4F5"; }
+
+.mdi-table-search:before {
+  content: "\F90E"; }
+
+.mdi-table-settings:before {
+  content: "\F837"; }
 
 .mdi-tablet:before {
   content: "\F4F6"; }
@@ -8751,6 +9373,9 @@ File: Icons
 .mdi-tag-heart:before {
   content: "\F68A"; }
 
+.mdi-tag-minus:before {
+  content: "\F90F"; }
+
 .mdi-tag-multiple:before {
   content: "\F4FB"; }
 
@@ -8772,6 +9397,9 @@ File: Icons
 .mdi-taxi:before {
   content: "\F4FF"; }
 
+.mdi-teach:before {
+  content: "\F88F"; }
+
 .mdi-teamviewer:before {
   content: "\F500"; }
 
@@ -8781,11 +9409,20 @@ File: Icons
 .mdi-television:before {
   content: "\F502"; }
 
+.mdi-television-box:before {
+  content: "\F838"; }
+
 .mdi-television-classic:before {
   content: "\F7F3"; }
 
+.mdi-television-classic-off:before {
+  content: "\F839"; }
+
 .mdi-television-guide:before {
   content: "\F503"; }
+
+.mdi-television-off:before {
+  content: "\F83A"; }
 
 .mdi-temperature-celsius:before {
   content: "\F504"; }
@@ -8807,6 +9444,12 @@ File: Icons
 
 .mdi-test-tube:before {
   content: "\F668"; }
+
+.mdi-test-tube-empty:before {
+  content: "\F910"; }
+
+.mdi-test-tube-off:before {
+  content: "\F911"; }
 
 .mdi-text-shadow:before {
   content: "\F669"; }
@@ -8838,6 +9481,12 @@ File: Icons
 .mdi-thermometer-lines:before {
   content: "\F510"; }
 
+.mdi-thermostat:before {
+  content: "\F393"; }
+
+.mdi-thermostat-box:before {
+  content: "\F890"; }
+
 .mdi-thought-bubble:before {
   content: "\F7F5"; }
 
@@ -8867,6 +9516,9 @@ File: Icons
 
 .mdi-ticket-confirmation:before {
   content: "\F518"; }
+
+.mdi-ticket-outline:before {
+  content: "\F912"; }
 
 .mdi-ticket-percent:before {
   content: "\F723"; }
@@ -8929,6 +9581,9 @@ File: Icons
   content: "\F528"; }
 
 .mdi-tooth:before {
+  content: "\F8C2"; }
+
+.mdi-tooth-outline:before {
   content: "\F529"; }
 
 .mdi-tor:before {
@@ -8940,14 +9595,29 @@ File: Icons
 .mdi-tower-fire:before {
   content: "\F681"; }
 
+.mdi-towing:before {
+  content: "\F83B"; }
+
+.mdi-track-light:before {
+  content: "\F913"; }
+
 .mdi-trackpad:before {
   content: "\F7F7"; }
+
+.mdi-trackpad-lock:before {
+  content: "\F932"; }
+
+.mdi-tractor:before {
+  content: "\F891"; }
 
 .mdi-traffic-light:before {
   content: "\F52B"; }
 
 .mdi-train:before {
   content: "\F52C"; }
+
+.mdi-train-variant:before {
+  content: "\F8C3"; }
 
 .mdi-tram:before {
   content: "\F52D"; }
@@ -8963,6 +9633,12 @@ File: Icons
 
 .mdi-transit-transfer:before {
   content: "\F6AD"; }
+
+.mdi-transition:before {
+  content: "\F914"; }
+
+.mdi-transition-masked:before {
+  content: "\F915"; }
 
 .mdi-translate:before {
   content: "\F5CA"; }
@@ -9024,8 +9700,14 @@ File: Icons
 .mdi-tshirt-v:before {
   content: "\F540"; }
 
+.mdi-tumble-dryer:before {
+  content: "\F916"; }
+
 .mdi-tumblr:before {
   content: "\F541"; }
+
+.mdi-tumblr-box:before {
+  content: "\F917"; }
 
 .mdi-tumblr-reblog:before {
   content: "\F542"; }
@@ -9102,6 +9784,9 @@ File: Icons
 .mdi-upload:before {
   content: "\F552"; }
 
+.mdi-upload-multiple:before {
+  content: "\F83C"; }
+
 .mdi-upload-network:before {
   content: "\F6F5"; }
 
@@ -9144,6 +9829,9 @@ File: Icons
 .mdi-vector-difference-ba:before {
   content: "\F55C"; }
 
+.mdi-vector-ellipse:before {
+  content: "\F892"; }
+
 .mdi-vector-intersection:before {
   content: "\F55D"; }
 
@@ -9177,6 +9865,9 @@ File: Icons
 .mdi-vector-union:before {
   content: "\F564"; }
 
+.mdi-venmo:before {
+  content: "\F578"; }
+
 .mdi-verified:before {
   content: "\F565"; }
 
@@ -9189,8 +9880,32 @@ File: Icons
 .mdi-video-3d:before {
   content: "\F7FC"; }
 
+.mdi-video-4k-box:before {
+  content: "\F83D"; }
+
+.mdi-video-account:before {
+  content: "\F918"; }
+
+.mdi-video-image:before {
+  content: "\F919"; }
+
+.mdi-video-input-antenna:before {
+  content: "\F83E"; }
+
+.mdi-video-input-component:before {
+  content: "\F83F"; }
+
+.mdi-video-input-hdmi:before {
+  content: "\F840"; }
+
+.mdi-video-input-svideo:before {
+  content: "\F841"; }
+
 .mdi-video-off:before {
   content: "\F568"; }
+
+.mdi-video-stabilization:before {
+  content: "\F91A"; }
 
 .mdi-video-switch:before {
   content: "\F569"; }
@@ -9209,6 +9924,9 @@ File: Icons
 
 .mdi-view-dashboard:before {
   content: "\F56E"; }
+
+.mdi-view-dashboard-variant:before {
+  content: "\F842"; }
 
 .mdi-view-day:before {
   content: "\F56F"; }
@@ -9243,11 +9961,11 @@ File: Icons
 .mdi-vimeo:before {
   content: "\F577"; }
 
-.mdi-vine:before {
-  content: "\F578"; }
-
 .mdi-violin:before {
   content: "\F60F"; }
+
+.mdi-virtual-reality:before {
+  content: "\F893"; }
 
 .mdi-visualstudio:before {
   content: "\F610"; }
@@ -9294,11 +10012,23 @@ File: Icons
 .mdi-vpn:before {
   content: "\F582"; }
 
+.mdi-vuejs:before {
+  content: "\F843"; }
+
 .mdi-walk:before {
   content: "\F583"; }
 
 .mdi-wall:before {
   content: "\F7FD"; }
+
+.mdi-wall-sconce:before {
+  content: "\F91B"; }
+
+.mdi-wall-sconce-flat:before {
+  content: "\F91C"; }
+
+.mdi-wall-sconce-variant:before {
+  content: "\F91D"; }
 
 .mdi-wallet:before {
   content: "\F584"; }
@@ -9324,8 +10054,17 @@ File: Icons
 .mdi-watch-export:before {
   content: "\F58A"; }
 
+.mdi-watch-export-variant:before {
+  content: "\F894"; }
+
 .mdi-watch-import:before {
   content: "\F58B"; }
+
+.mdi-watch-import-variant:before {
+  content: "\F895"; }
+
+.mdi-watch-variant:before {
+  content: "\F896"; }
 
 .mdi-watch-vibrate:before {
   content: "\F6B0"; }
@@ -9356,6 +10095,9 @@ File: Icons
 
 .mdi-weather-hail:before {
   content: "\F592"; }
+
+.mdi-weather-hurricane:before {
+  content: "\F897"; }
 
 .mdi-weather-lightning:before {
   content: "\F593"; }
@@ -9447,6 +10189,57 @@ File: Icons
 .mdi-wifi-off:before {
   content: "\F5AA"; }
 
+.mdi-wifi-strength-1:before {
+  content: "\F91E"; }
+
+.mdi-wifi-strength-1-alert:before {
+  content: "\F91F"; }
+
+.mdi-wifi-strength-1-lock:before {
+  content: "\F920"; }
+
+.mdi-wifi-strength-2:before {
+  content: "\F921"; }
+
+.mdi-wifi-strength-2-alert:before {
+  content: "\F922"; }
+
+.mdi-wifi-strength-2-lock:before {
+  content: "\F923"; }
+
+.mdi-wifi-strength-3:before {
+  content: "\F924"; }
+
+.mdi-wifi-strength-3-alert:before {
+  content: "\F925"; }
+
+.mdi-wifi-strength-3-lock:before {
+  content: "\F926"; }
+
+.mdi-wifi-strength-4:before {
+  content: "\F927"; }
+
+.mdi-wifi-strength-4-alert:before {
+  content: "\F928"; }
+
+.mdi-wifi-strength-4-lock:before {
+  content: "\F929"; }
+
+.mdi-wifi-strength-alert-outline:before {
+  content: "\F92A"; }
+
+.mdi-wifi-strength-lock-outline:before {
+  content: "\F92B"; }
+
+.mdi-wifi-strength-off:before {
+  content: "\F92C"; }
+
+.mdi-wifi-strength-off-outline:before {
+  content: "\F92D"; }
+
+.mdi-wifi-strength-outline:before {
+  content: "\F92E"; }
+
 .mdi-wii:before {
   content: "\F5AB"; }
 
@@ -9491,6 +10284,12 @@ File: Icons
 
 .mdi-wunderlist:before {
   content: "\F5B8"; }
+
+.mdi-xamarin:before {
+  content: "\F844"; }
+
+.mdi-xamarin-outline:before {
+  content: "\F845"; }
 
 .mdi-xaml:before {
   content: "\F673"; }
@@ -9552,8 +10351,17 @@ File: Icons
 .mdi-yin-yang:before {
   content: "\F67F"; }
 
-.mdi-youtube-play:before {
+.mdi-youtube:before {
   content: "\F5C3"; }
+
+.mdi-youtube-creator-studio:before {
+  content: "\F846"; }
+
+.mdi-youtube-gaming:before {
+  content: "\F847"; }
+
+.mdi-youtube-tv:before {
+  content: "\F448"; }
 
 .mdi-zip-box:before {
   content: "\F5C4"; }
@@ -9601,10 +10409,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-45:before {
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg); }
+.mdi-rotate-45:before {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg); }
 
 .mdi-rotate-90 {
   /*
@@ -9623,10 +10431,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-90:before {
-    -webkit-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg); }
+.mdi-rotate-90:before {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg); }
 
 .mdi-rotate-135 {
   /*
@@ -9645,10 +10453,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-135:before {
-    -webkit-transform: rotate(135deg);
-    -ms-transform: rotate(135deg);
-    transform: rotate(135deg); }
+.mdi-rotate-135:before {
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg); }
 
 .mdi-rotate-180 {
   /*
@@ -9667,10 +10475,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-180:before {
-    -webkit-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    transform: rotate(180deg); }
+.mdi-rotate-180:before {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg); }
 
 .mdi-rotate-225 {
   /*
@@ -9689,10 +10497,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-225:before {
-    -webkit-transform: rotate(225deg);
-    -ms-transform: rotate(225deg);
-    transform: rotate(225deg); }
+.mdi-rotate-225:before {
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg); }
 
 .mdi-rotate-270 {
   /*
@@ -9711,10 +10519,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-270:before {
-    -webkit-transform: rotate(270deg);
-    -ms-transform: rotate(270deg);
-    transform: rotate(270deg); }
+.mdi-rotate-270:before {
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg); }
 
 .mdi-rotate-315 {
   /*
@@ -9733,10 +10541,10 @@ File: Icons
       -ms-filter: "FlipV";
   }
   */ }
-  .mdi-rotate-315:before {
-    -webkit-transform: rotate(315deg);
-    -ms-transform: rotate(315deg);
-    transform: rotate(315deg); }
+.mdi-rotate-315:before {
+  -webkit-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  transform: rotate(315deg); }
 
 .mdi-flip-h:before {
   -webkit-transform: scaleX(-1);
@@ -9785,8 +10593,7 @@ File: Icons
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-[class^="dripicons-"]:before,
-[class*=" dripicons-"]:before {
+[class^="dripicons-"]:before, [class*=" dripicons-"]:before {
   font-family: "dripicons-v2" !important;
   font-style: normal !important;
   font-weight: normal !important;
