@@ -1,48 +1,95 @@
 {% load i18n %}
-<form class="col s12 m8 l6 offset-m2 offset-l3" method="post" action="{% url 'identity:user_create' %}">
-  {% csrf_token %}
 
-  <div class="card-panel">
+
+<form class="modal-content" method="post" action="{% url 'identity:user_create' %}" role="form">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h5 class="modal-title">{% trans 'Create User' %}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
     <div class="row">
-      <h4 class="center">{% trans 'Please register' %}</h4>
-    </div>
-    {{ form.non_field_errors|safe }}
-    {{ form.username.errors|safe }}
-    {{ form.password1.errors|safe }}
-    {{ form.password2.errors|safe }}
-    {{ form.email.errors|safe }}
-    <div class="row">
-      <div class="input-field col s12">
-        <i class="material-icons prefix">account_circle</i>
-        {{ form.username }}
-        {{ form.username.label_tag }}
+      <div class="col-12">
+        <div class="p-20">
+          <div class="form-group ">
+            <div class="col-xs-12">
+              {{ form.username }}
+            </div>
+          </div>
+
+          <div class="form-group ">
+            <div class="col-xs-12">
+              {{ form.password1 }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-12">
+              {{ form.password2 }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-12">
+              {{ form.email }}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <i class="material-icons prefix">lock</i>
-        {{ form.password1 }}
-        {{ form.password1.label_tag }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <i class="material-icons prefix">lock</i>
-        {{ form.password2 }}
-        {{ form.password2.label_tag }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <i class="material-icons prefix">email</i>
-          {{ form.email }}
-          {{ form.email.label_tag }}
-      </div>
-    </div>
-    <div class="row">
-      <button  class="waves-effect waves-light btn col l8 m10 s12 offset-l2 offset-m1"
-               type="submit" name="action">{% trans 'Register' %}</button >
     </div>
   </div>
-
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">{% trans 'Save changes' %}</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+  </div>
 </form>
+
+{#<form class="col s12 m8 l6 offset-m2 offset-l3" method="post" action="{% url 'identity:user_create' %}">#}
+{#  {% csrf_token %}#}
+{##}
+{#  <div class="card-panel">#}
+{#    <div class="row">#}
+{#      <h4 class="center">{% trans 'Please register' %}</h4>#}
+{#    </div>#}
+{#    {{ form.non_field_errors|safe }}#}
+{#    {{ form.username.errors|safe }}#}
+{#    {{ form.password1.errors|safe }}#}
+{#    {{ form.password2.errors|safe }}#}
+{#    {{ form.email.errors|safe }}#}
+{#    <div class="row">#}
+{#      <div class="input-field col s12">#}
+{#        <i class="material-icons prefix">account_circle</i>#}
+{#        {{ form.username }}#}
+{#        {{ form.username.label_tag }}#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#      <div class="input-field col s12">#}
+{#        <i class="material-icons prefix">lock</i>#}
+{#        {{ form.password1 }}#}
+{#        {{ form.password1.label_tag }}#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#      <div class="input-field col s12">#}
+{#        <i class="material-icons prefix">lock</i>#}
+{#        {{ form.password2 }}#}
+{#        {{ form.password2.label_tag }}#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#      <div class="input-field col s12">#}
+{#        <i class="material-icons prefix">email</i>#}
+{#          {{ form.email }}#}
+{#          {{ form.email.label_tag }}#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#      <button  class="waves-effect waves-light btn col l8 m10 s12 offset-l2 offset-m1"#}
+{#               type="submit" name="action">{% trans 'Register' %}</button >#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#</form>#}

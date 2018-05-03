@@ -14,6 +14,7 @@ from django.http.response import JsonResponse, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext_lazy as _
+from common.utils.string_ import UUID
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -37,8 +38,8 @@ class CommonMiddleware(MiddlewareMixin):
         user_model = get_user_model()
         if not user_model.objects.filter(username='admin'):
             user_model().create_superuser('admin',
-                                          email='admin@example.com',
-                                          password='password')
+                                          'admin@example.com',
+                                          'password', id=UUID.uuid4)
 
         # add extra permissions
         from django.contrib.auth.models import Permission
@@ -82,11 +83,10 @@ class CommonMiddleware(MiddlewareMixin):
         """
         if isinstance(exception, ECloudException):
             if request.method in ('POST', 'PUT', 'DELETE'):
-                data = {'code': exception.code,
-                        'desc': exception.desc,
-                        'level': exception.level
-                }
-                return JsonResponse(ret_format(result=False, data=data))
+
+                return JsonResponse(
+                    ret_format(result=False, messages=exception.desc,
+                               level=exception.level, code=exception.code))
             elif request.method == 'GET':
                 pass
             else:
@@ -94,14 +94,24 @@ class CommonMiddleware(MiddlewareMixin):
                 pass
         else:
             # django or openstack exceptions
-            if isinstance(exception, PermissionDenied):
-                if request.method in ('POST', 'PUT', 'DELETE'):
-                    data = {
-                        'code': 403,
-                        'desc': _("You don't have permission to do this"),
-                        'level': 'error'
-                    }
-                    return JsonResponse(ret_format(result=False, data=data))
+
+            if request.method in ('POST', 'PUT', 'DELETE'):
+                result = False
+                messages = None
+                code = 0
+                level = None
+                data = None
+                if isinstance(exception, PermissionDenied):
+                        messages = "You don't have permission to do this"
+                        level = 'warning'
+                        code = 403
+                else:
+                    messages = str(exception)
+
+                return JsonResponse(
+                    ret_format(result=False, messages=messages,
+                               code=code, level=level, data=data)
+                )
     # def process_request(self, request):
     #     return request
 

@@ -5,41 +5,60 @@ from django.views.generic.detail import (
 from django.utils.translation import ugettext_lazy as _
 
 
-def ret_format(result=True, messages=None, data=None):
+def ret_format(result=True, messages=None, level=None, code=0, data=None, default_msg=True):
     """
     格式化Json返回数据
-    :param result: [bool] 一般为True
-    :param messages: [str|list] 要在页面展示的消息，多条消息使用列表
-    :param data: [dict] 返回给前端的数据
-    :return: [dict]
+    :param result: bool, 一般为True
+    :param messages: str|list, 要在页面展示的消息，多条消息使用列表
+    :param level: str(success, info, warning, error)，消息级别，
+    默认result为True时为success，False时为error
+    :param code: 消息代码
+    :param data: dict, 返回给前端的数据
+    :param default_msg: messages为None时，若default_messages开启，返回一条默认消息
+    :return: dict
     """
     assert isinstance(result, bool)
     if messages:
-        assert isinstance(messages, (list, str))
+        assert isinstance(messages, (list, tuple, str))
         # i18n here
         if isinstance(messages, str):
             messages = [messages]
-        messages = [_(m) for m in messages]
+            messages = [_(m) for m in messages]
+    else:
+        if default_msg:
+            messages = [_('Operation succeeded')] if result else [_('Operation failed')]
+    if not level:
+        level = 'success' if result else 'error'
+    assert level in ('success', 'info', 'warning', 'error')
+    assert isinstance(code, int)
     if data:
         assert isinstance(data, dict)
 
-    return {'result': result, 'messages': messages or [], 'data': data or {}}
+    return {'result': result,
+            'messages': messages or [],
+            'level': level,
+            'code': code,
+            'data': data or {}}
 
 
 class JSONResponseMixin:
     """
     A mixin that can be used to render a JSON response.
     """
-    def render_to_json_response(self, context, **response_kwargs):
+    def render_to_json_response(self, result=True, messages=None, level=None,
+                                code=0, data=None, default_msg=True,
+                                **response_kwargs):
         """
         Returns a JSON response, transforming 'context' to make the payload.
         """
+
         return JsonResponse(
-            self.get_data(context),
+            self._get_ret_form_data(result=result, messages=messages, level=level,
+                                    code=code, data=data, default_msg=default_msg),
             **response_kwargs
         )
 
-    def get_data(self, context):
+    def _get_ret_form_data(self, **kwargs):
         """
         Returns an object that will be serialized as JSON by json.dumps().
         """
@@ -47,7 +66,13 @@ class JSONResponseMixin:
         # to do much more complex handling to ensure that arbitrary
         # objects -- such as Django model instances or querysets
         # -- can be serialized as JSON.
-        return context
+
+        return ret_format(result=kwargs['result'],
+                          messages=kwargs['messages'],
+                          level=kwargs['level'],
+                          code=kwargs['code'],
+                          data=kwargs['data'],
+                          default_msg=kwargs['default_msg'])
 
 
 class AjaxableResponseMixin:

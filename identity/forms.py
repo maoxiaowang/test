@@ -15,14 +15,10 @@ __all__ = [
     'PasswordChangeForm',
     'GroupCreateForm',
     'GroupUpdateForm',
-    'UserPermissionUpdateForm',
-    'GroupPermissionUpdateForm'
 ]
 
 
 class DivErrorList(ErrorList):
-
-    error_class = 'form-error-list'
 
     def __str__(self):
         return self.as_divs()
@@ -35,6 +31,12 @@ class DivErrorList(ErrorList):
                 (self.error_class,
                  ''.join(['<div class="alert alert-danger">%s</div>'
                           % e for e in self])))
+
+    def as_list(self):
+        output = []
+        for field, errors in self.items():
+            output.append('%s' % e for e in errors)
+        return output
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
@@ -120,8 +122,10 @@ class UserCreationForm(auth_forms.UserCreationForm):
         widget=forms.TextInput(
             attrs={
                 'id': 'inputUsername',
+                'class': 'form-control',
                 'autofocus': True,
-                'required': True
+                'required': True,
+                'placeholder': _('Username')
             }
         ),
         help_text=_('Enter your username.')
@@ -132,9 +136,11 @@ class UserCreationForm(auth_forms.UserCreationForm):
         widget=forms.PasswordInput(
             attrs={
                 'id': 'inputPassword1',
+                'class': 'form-control',
                 'maxlength': 32,
                 'minlength': 8,
-                'required': True
+                'required': True,
+                'placeholder': _('Password')
             }
         ),
         help_text=_('Enter your password.')
@@ -145,9 +151,11 @@ class UserCreationForm(auth_forms.UserCreationForm):
         widget=forms.PasswordInput(
             attrs={
                 'id': 'inputPassword2',
+                'class': 'form-control',
                 'maxlength': 32,
                 'minlength': 8,
-                'required': True
+                'required': True,
+                'placeholder': _('Password confirm')
             }
         ),
         help_text=_('Enter the same password as before, for verification.')
@@ -157,9 +165,11 @@ class UserCreationForm(auth_forms.UserCreationForm):
         widget=forms.EmailInput(
             attrs={
                 'id': 'inputEmail',
+                'class': 'form-control',
                 'max_length': 64,
                 'min_length': 8,
-                'required': True
+                'required': True,
+                'placeholder': _('Email')
             }
         )
     )
@@ -219,13 +229,3 @@ class GroupUpdateForm(forms.Form):
     把用户加入到(移除出)组
     """
     groups = forms.ChoiceField()
-
-
-class UserPermissionUpdateForm(forms.Form):
-    username = forms.ChoiceField()
-    permissions = forms.MultipleChoiceField()
-
-
-class GroupPermissionUpdateForm(forms.Form):
-    groupname = forms.ChoiceField()
-    permissions = forms.MultipleChoiceField()

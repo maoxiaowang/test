@@ -1,7 +1,15 @@
 {% extends "base/dashboard.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block app_title %}{% trans 'User' %}{% endblock %}
+
+{% block modals %}
+  <div class="modal fade" id="userCreateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      {% include 'identity/management/forms/user_create_form.html' with form=user_create_form %}
+    </div>
+  </div>
+{% endblock %}
 
 {% block container %}
 <div class="row">
@@ -12,8 +20,7 @@
           <i class="mdi mdi-dots-vertical"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a href="javascript:void(0);" class="dropdown-item">{% trans 'New user' %}</a>
-          <a href="javascript:void(0);" class="dropdown-item">{% trans 'Edit user' %}</a>
+          <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userCreateModal">{% trans 'Create user' %}</a>
           <a href="javascript:void(0);" class="dropdown-item">Something else</a>
           <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
         </div>
@@ -31,7 +38,6 @@
         <table class="table m-0">
           <thead>
           <tr>
-
             <th>{% trans 'Username' %}</th>
             <th>{% trans 'Email' %}</th>
             <th>{% trans 'Joined Date' %}</th>
@@ -41,7 +47,7 @@
           <tbody>
           {% for user in user_list %}
           <tr>
-            <td scope="row">{{ user.username }}</td>
+            <td scope="row"><a href="{% url 'identity:user_detail' user.id %}">{{ user.username }}</a></td>
             <td>{{ user.email }}</td>
             <td>{{ user.date_joined }}</td>
             <td>{% if user.last_login %}{{ user.last_login }}{% else %} - {% endif %}</td>
@@ -54,4 +60,8 @@
   </div><!-- end col -->
 
 </div>
+{% endblock %}
+
+{% block dashboard_js %}
+  <script src="{% static 'js/pages/identity/user.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,5 @@
 # coding=utf-8
-from uuid import uuid4
+from common.utils.string_ import UUID
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import (AbstractUser, BaseUserManager,
@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('id', uuid4())
+        extra_fields.setdefault('id', UUID.uuid4)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
@@ -59,9 +59,9 @@ class User(AbstractUser, UserManager):
         primary_key=True,
         unique=True)
     groups = models.ManyToManyField(
-        Group, related_name='groups_of_users')
+        Group)
     user_permissions = models.ManyToManyField(
-        Permission, related_name='permissions_of_users')
+        Permission)
 
     username = models.CharField(
         _('username'),

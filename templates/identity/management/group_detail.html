@@ -12,6 +12,7 @@
       {% include 'identity/management/forms/group_update_form.html' with form=group_update_form%}
     </div>
   </div>
+
   <div class="modal fade" id="groupPermsUpdateModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -33,7 +34,7 @@
                       <ul>
                         {% for perm_item in all_perms %}
                           {% if perm_item.content_type_id == ct.id %}
-                            <li id="{{ perm_item.content_type_id }}.{{ perm_item.codename }}">{{ perm_item.codename }} ({{ perm_item.name }})</li>
+                            <li id="{{ perm_item.id }}" {% if perm_item.assigned %}data-jstree='{ "selected" : true, "opened" : true }'{% endif %}>{{ perm_item.codename }} ({{ perm_item.name }})</li>
                           {% endif %}
                         {% endfor %}
                       </ul>
@@ -45,7 +46,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="groupPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
@@ -129,8 +130,8 @@
 {% block dashboard_js %}
   <script>
       {# django value to js #}
-
+      var group_perms_update_url = "{% url 'identity:group_permission_update' group_id %}";
   </script>
-  <script src="{% static 'js/pages/group.js' %}"></script>
+  <script src="{% static 'js/pages/identity/group.js' %}"></script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>
 {% endblock %}

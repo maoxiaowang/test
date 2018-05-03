@@ -5,7 +5,7 @@ codes: 12000 - 12999
 """
 # coding=utf-8
 
-from common.exceptions.base import ECloudException
+from common.exceptions import ECloudException
 
 
 class Example(ECloudException):
