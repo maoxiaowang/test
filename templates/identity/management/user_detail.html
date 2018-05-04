@@ -38,7 +38,7 @@
                           {% endif %}
                         {% endfor %}
                       </ul>
-                      </li>
+                    </li>
                   {% endfor %}
                 </ul>
               </div>
@@ -79,8 +79,8 @@
 
         <p>{% trans 'username' %} {{ user.username }}</p>
         <p>{% trans 'user' %} ID {{ user.id }}</p>
-        <p>{% trans 'active' %} {% if user.is_active %}{% trans 'Actived' %}{% else %}{% trans 'Inactived' %}{% endif %}</p>
-        <p>{% trans 'Email' %} {{ user.email }}</p>
+        <p>{% trans 'active' %} {% if user.is_active %}{% trans 'yes' %}{% else %}{% trans 'no' %}{% endif %}</p>
+        <p>{% trans 'email' %} {{ user.email }}</p>
       </div>
 
       <div class="card-box">
@@ -104,25 +104,25 @@
         </p>
 
         <div class="table-responsive">
-        <table class="table m-0">
-          <thead>
-          <tr>
-            <th>{% trans 'Name' %}</th>
-            <th>{% trans 'Content type' %}</th>
-            <th>{% trans 'Code name' %}</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for p in user.permissions.all %}
-          <tr>
-            <td>{{ p.name }}</td>
-            <td>{{ p.content_type }}</td>
-            <td>{{ p.codename }}</td>
-          </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div>
+          <table class="table m-0">
+            <thead>
+            <tr>
+              <th>{% trans 'Name' %}</th>
+              <th>{% trans 'Content type' %}</th>
+              <th>{% trans 'Code name' %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in user.user_permissions.all %}
+              <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.content_type }}</td>
+                <td>{{ p.codename }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div><!-- end col -->
 

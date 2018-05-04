@@ -28,3 +28,15 @@ function getRelativeUrl(url, params) {
     }
     return resUrl;
 }
+
+// string format
+String.prototype.format = function () {
+    var values = arguments;
+    return this.replace(/{(\d+)}/g, function (match, index) {
+        if (values.length > index) {
+            return values[index];
+        } else {
+            return "";
+        }
+    });
+};

@@ -69,6 +69,9 @@ class UUID(object):
         return str(uuid.uuid4()).replace('-', '')
 
 
+UUID = UUID()
+
+
 def md5_encode(string):
     """
     Hash a string with MD5

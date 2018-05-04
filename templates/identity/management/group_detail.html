@@ -4,6 +4,7 @@
 {% block app_title %}{% trans 'Group - Detail' %}{% endblock %}
 {% block dashboard_css %}
   <link href="{% static 'plugins/jstree/style.min.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/multiselect/multi-select.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block modals %}
@@ -38,7 +39,7 @@
                           {% endif %}
                         {% endfor %}
                       </ul>
-                      </li>
+                    </li>
                   {% endfor %}
                 </ul>
               </div>
@@ -52,11 +53,47 @@
       </div>
     </div>
   </div>  <!-- groupPermUpdateModal -->
+
+  <div class="modal fade" id="groupUserUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{% trans 'Update group users' %}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+
+              <form type="POST" action="">
+                <select name="country" id="group_user_multi_select">
+                  {% for u in not_group_users %}
+                    <option value="u.id">{{ u.username }}</option>
+                  {% endfor %}
+                  {% for u in group_users %}
+                    <option value="u.id" selected>{{ u.username }}</option>
+                  {% endfor %}
+                </select>
+
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>  <!-- groupUserUpdateModal -->
 {% endblock %}
 
 {% block container %}
   <div class="row">
     <div class="col-lg-12">
+
       <div class="card-box">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
@@ -68,17 +105,54 @@
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
         </div>
-
         <h4 class="header-title m-t-0 m-b-30">{% trans 'Group detail' %}</h4>
-
         <p class="text-muted font-13 m-b-25">
           {% blocktrans %}
             Welcome to group detail, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
-
         <p>{% trans 'Group name' %}: {{ group.name }}</p>
         <p>{% trans 'Group' %} ID: {{ group.id }}</p>
+      </div>
+
+      <div class="card-box">
+        <div class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupUserUpdateModal">{% trans 'Update group users' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+          </div>
+        </div>
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Group users' %}</h4>
+        <p class="text-muted font-13 m-b-25">
+          {% blocktrans %}
+            Welcome to group users, please click top-right icon to discover more.
+          {% endblocktrans %}
+        </p>
+
+        <div class="table-responsive">
+          <table class="table m-0">
+            <thead>
+            <tr>
+              <th>{% trans 'username' %}</th>
+              <th>{% trans 'Email' %}</th>
+              <th>{% trans 'active' %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for u in group_users %}
+              <tr>
+                <td>{{ u.username }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.is_active }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="card-box">
@@ -102,26 +176,27 @@
         </p>
 
         <div class="table-responsive">
-        <table class="table m-0">
-          <thead>
-          <tr>
-            <th>{% trans 'Name' %}</th>
-            <th>{% trans 'Content type' %}</th>
-            <th>{% trans 'Code name' %}</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for p in group.permissions.all %}
-          <tr>
-            <td>{{ p.name }}</td>
-            <td>{{ p.content_type }}</td>
-            <td>{{ p.codename }}</td>
-          </tr>
-          {% endfor %}
-          </tbody>
-        </table>
+          <table class="table m-0">
+            <thead>
+            <tr>
+              <th>{% trans 'Name' %}</th>
+              <th>{% trans 'Content type' %}</th>
+              <th>{% trans 'Code name' %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in group.permissions.all %}
+              <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.content_type }}</td>
+                <td>{{ p.codename }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
+
     </div><!-- end col -->
 
   </div>
@@ -131,7 +206,14 @@
   <script>
       {# django value to js #}
       var group_perms_update_url = "{% url 'identity:group_permission_update' group_id %}";
+      var group_name = '{{ group.name }}'
   </script>
-  <script src="{% static 'js/pages/identity/group.js' %}"></script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>
+  <script src="{% static 'plugins/multiselect/jquery.multi-select.js' %}"></script>
+  <script src="{% static 'plugins/quicksearch/jquery.quicksearch.js' %}"></script>
+
+  <script src="{% static 'js/pages/identity/group.js' %}"></script>
+  <script>
+
+  </script>
 {% endblock %}

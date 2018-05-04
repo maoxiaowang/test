@@ -189,16 +189,15 @@ class UserList(ListView):
         return super().get_context_data(**kwargs)
 
 
-class PermissionUpdateBase(JSONResponseMixin, UpdateView):
-    # update permissions base class, for user, group
-
-    ajax_arg = 'checked_perms'
+class UserPermissionUpdate(JSONResponseMixin, UpdateView):
+    model = User
+    pk_url_kwarg = 'user_id'
 
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(self.model, id=kwargs.get(self.pk_url_kwarg))
 
         # permission id list
-        new_perms = request.POST.get(self.ajax_arg)
+        new_perms = request.POST.get('checked_perms')
         if not new_perms:
             raise InvalidParameters
         try:
@@ -207,24 +206,19 @@ class PermissionUpdateBase(JSONResponseMixin, UpdateView):
             raise InvalidParameters
 
         checked_perms = [item for item in checked_perms if item.isdigit()]
-        old_perms_id_list = [str(i.id) for i in obj.permissions.all()]
+        old_perms_id_list = [str(i.id) for i in obj.user_permissions.all()]
 
         for oid in old_perms_id_list:
             if oid not in checked_perms:
                 # delete
-                obj.permissions.remove(oid)
+                obj.user_permissions.remove(oid)
 
         for nid in checked_perms:
             if nid not in old_perms_id_list:
                 # add
-                obj.permissions.add(nid)
+                obj.user_permissions.add(nid)
 
         return self.render_to_json_response()
-
-
-class UserPermissionUpdate(PermissionUpdateBase):
-    model = User
-    pk_url_kwarg = 'user_id'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -266,11 +260,24 @@ class GroupDetail(DetailView):
                 ap.assigned = True
             else:
                 ap.assigned = False
-        # current group's permission
+
+        # users in or not in group
+        # all_user_id_list = [u['id'] for u in User.objects.all().values('id')]
+        # group_user_id_list = [u['id'] for u in self.object.user_set.all().values('id')]
+        # diff_user_id_list = list(set(all_user_id_list)^set(group_user_id_list))
+        all_users = User.objects.all()
+        group_users = self.object.user_set.all()
+        group_user_id_list = [u['id'] for u in group_users.values('id')]
+        not_group_users = all_users
+        for item in all_users:
+            if item.id in group_user_id_list:
+                not_group_users.remove(item)
 
         kwargs.update({'all_perms': all_perms,
                        'perm_content_types': res,
-                       'group_id': self.kwargs[self.pk_url_kwarg]})
+                       'group_id': self.kwargs[self.pk_url_kwarg],
+                       'group_users': group_users,
+                       'not_group_users': not_group_users})
         return super().get_context_data(**kwargs)
 
 
@@ -309,10 +316,37 @@ class PermissionList(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class GroupPermissionUpdate(PermissionUpdateBase):
+class GroupPermissionUpdate(JSONResponseMixin, UpdateView):
 
     model = Group
     pk_url_kwarg = 'group_id'
+
+    def post(self, request, *args, **kwargs):
+        obj = get_object_or_404(self.model, id=kwargs.get(self.pk_url_kwarg))
+
+        # permission id list
+        new_perms = request.POST.get('checked_perms')
+        if not new_perms:
+            raise InvalidParameters
+        try:
+            checked_perms = json.loads(new_perms)
+        except json.JSONDecodeError:
+            raise InvalidParameters
+
+        checked_perms = [item for item in checked_perms if item.isdigit()]
+        old_perms_id_list = [str(i.id) for i in obj.permissions.all()]
+
+        for oid in old_perms_id_list:
+            if oid not in checked_perms:
+                # delete
+                obj.permissions.remove(oid)
+
+        for nid in checked_perms:
+            if nid not in old_perms_id_list:
+                # add
+                obj.permissions.add(nid)
+
+        return self.render_to_json_response()
 
 
 # # @method_decorator(login_required, name='dispatch')
