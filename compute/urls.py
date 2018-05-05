@@ -11,8 +11,8 @@ register_converter(UUIDConverter, 'uuid')
 urlpatterns = [
     # path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),
     # path('vote/', permission_required('polls.can_vote')(views.Login.as_view())),
-    path('server/', server_list, name='server_list'),
-    path('server/<uuid:uuid>/', server_detail, name='server_detail'),
+    path('server/', ServerList.as_view(), name='server_list'),
+    path('server/<uuid:uuid>/', ServerDetail.as_view(), name='server_detail'),
     path('host/', host_list, name='host_list'),
     path('host/<uuid:uuid>/', host_detail, name='host_detail'),
     path('snapshot/', snap_list, name='snap_list'),

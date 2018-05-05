@@ -29,11 +29,8 @@ class CommonMiddleware(MiddlewareMixin):
         # self.menus_obj = menus
         # self.menus_list = [item.name for item in menus]
 
-        # Initialize admin user if it does not been created,
-        # And give all permissions to admin.
-        # TODO:
-
-        # create initial users
+        #
+        # TODO: reate initial users, write custom migrations later
         from django.contrib.auth import get_user_model
         user_model = get_user_model()
         if not user_model.objects.filter(username='admin'):
@@ -44,15 +41,17 @@ class CommonMiddleware(MiddlewareMixin):
         # add extra permissions
         from django.contrib.auth.models import Permission
         perms = [
-            ('permission', 'list_permission', 'Can list permission'),
-            ('permission', 'detail_permission', 'Can detail permission'),
-            ('group', 'list_group', 'Can list group'),
-            ('group', 'detail_group', 'Can detail group')]
+            (2, 'permission', 'list_permission', 'Can list permission'),
+            (2, 'permission', 'detail_permission', 'Can detail permission'),
+            (3, 'group', 'list_group', 'Can list group'),
+            (3, 'group', 'detail_group', 'Can detail group'),
+            (3, 'group', 'update_group_permission', 'Can change group permission')
+        ]
         for item in perms:
-            model_name, code_name, name = item[0], item[1], item[2]
+            model_name, code_name, name = item[1], item[2], item[3]
             Permission.objects.get_or_create(name=name,
                                              codename=code_name,
-                                             content_type_id=2)
+                                             content_type_id=item[0])
 
 
     # def __call__(self, request):

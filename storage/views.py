@@ -7,8 +7,7 @@ from django.views.generic import (
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.utils.decorators import method_decorator
-from .models import Volume
-from openstack.models import cinder
+from cinder.models import Volumes
 # Create your views here.
 
 
@@ -17,20 +16,20 @@ class VolumeList(PermissionRequiredMixin, ListView):
 
     permission_required = 'storage.list_volume'
     raise_exception = True
-    model = Volume
+    model = Volumes
     template_name = 'storage/volume_list.html'
     # context_object_name = ''  # default will be volume_list
     # ordering = ''
 
     def get_queryset(self):
-        volumes = cinder.Volumes.objects.all()
+        volumes = self.model.objects.all()
         return volumes
 
 
 class VolumeDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'storage.detail_volume'
-    model = Volume
+    model = Volumes
     template_name = 'storage/volume_detail.html'
 
     def get(self, request, *args, **kwargs):
@@ -41,7 +40,7 @@ class VolumeCreate(PermissionRequiredMixin, CreateView):
 
     permission_required = 'storage.create_volume'
     template_name = 'storage/volume_create.html'
-    model = Volume
+    model = Volumes
 
     def get_context_data(self, **kwargs):
         pass
@@ -53,7 +52,7 @@ class VolumeCreate(PermissionRequiredMixin, CreateView):
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'storage.update_volume'
-    model = Volume
+    model = Volumes
 
     def put(self, *args, **kwargs):
         pass
@@ -62,7 +61,7 @@ class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 class VolumeDelete(DeleteView, PermissionRequiredMixin):
 
     permission_required = 'storage.delete_volume'
-    model = Volume
+    model = Volumes
 
     def delete(self, request, *args, **kwargs):
         pass

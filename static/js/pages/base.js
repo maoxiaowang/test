@@ -203,10 +203,16 @@ function getDomObject(obj){
     };
 
     $.handleResponse = function (res) {
-        if (!(res instanceof Object)) {
-            res = $.parseJSON(res);
-        }
         console.log(res);
+        if (!(res instanceof Object)) {
+            try {
+                res = $.parseJSON(res);
+            } catch (e) {
+                return res;
+            }
+
+        }
+
         $.each(res.messages, function (i, item) {
             switch (res.level) {
                 case 'success':
@@ -250,8 +256,29 @@ function getDomObject(obj){
 })(jQuery);
 
 $(function () {
-    setTimeout(function () {
-        $('body > .messages').fadeOut();
-    }, 3000)
-});
+        // handle django messages
+        var $messages = $('ul.messages');
+        if ($messages.length > 0) {
+            $.each($messages.find('li'), function (i, item) {
+                var level = $(item).attr('data-messages-level');
+                var msg = $(item).text();
+                switch (level) {
+                    case 'success':
+                        toastr.success(item);
+                        break;
+                    case 'info':case 'debug':
+                    toastr.info(item);
+                    break;
+                    case 'warning':
+                        toastr.warning(item);
+                        break;
+                    case 'error':
+                        toastr.error(item);
+                        break;
+                }
+            });
+            $messages.remove();
+        }
+    }
+);
 

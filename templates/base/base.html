@@ -28,9 +28,9 @@
 {# global messages here #}
 {% block messages %}
   {% if messages %}
-    <ul class="messages">
+    <ul class="messages" style="display: none!important;">
       {% for message in messages %}
-        <li class="message alert {% if message.tags %}alert-{{ message.tags }}{% endif %} center-align">{{ message }}</li>
+        <li class="message" data-message-level="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -42,7 +42,6 @@
       <img src="{% static 'images/spinners/rotate-palette-loader.svg' %}">
     </div>
   </div>
-
 </div>
 
 {# all modals here #}
@@ -54,7 +53,7 @@
   <script src="{% static 'js/assets/jquery.min.js' %}"></script>
   <script src="{% static 'js/assets/popper.min.js' %}"></script>
   <script src="{% static 'js/assets/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/pages/base.js' %}?v=1"></script>
+  <script src="{% static 'js/pages/base.js' %}"></script>
   <script src="{% static 'js/pages/utils.js' %}"></script>
   {% block app_js %}{% endblock %}
 {% endblock %}

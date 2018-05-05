@@ -1,17 +1,16 @@
 {% extends "identity/authentication/layout.html" %}
 {% load i18n %}
 
-{% block app_sub_title %}{% trans 'Logged out' %}{% endblock %}
+{% block app_sub_title %}{{ title }}{% endblock %}
 
-{% block content_title %}{% trans 'Logged out' %}{% endblock %}
+{% block content_title %}{{ title }}{% endblock %}
 {% block block_content %}
   <p>
-    {% trans 'Hello' %}, {{ username }}
     {% trans 'Thanks for spending some quality time with the Web site today.' %}
   </p>
   <p>
-    <a class="btn btn-primary" href="{% url 'identity:user_login' %}" role="button" aria-pressed="true">
-      {% trans 'Log in again' %}
+    <a class="btn btn-info waves-effect waves-light" href="{% url 'identity:user_login' %}" role="button" aria-pressed="true">
+      {% trans 'Login again' %}
     </a>
   </p>
 {% endblock %}

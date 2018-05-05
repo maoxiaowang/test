@@ -37,19 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'alarm',
-    'billing',
+    'cinder',
+    'nova',
+    'neutron',
     'compute',
     'dashboard',
     'identity',
     'meters',
     'network',
-    'orders',
-    'reports',
-    'security',
     'storage',
-    'openstack',
     'settings',
+
 ]
 
 MIDDLEWARE = [
@@ -68,8 +66,7 @@ ROOT_URLCONF = 'ecloud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,6 +110,14 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'kevin123',
     },
+    'neutron': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'NAME': 'keystone',
+        'USER': 'root',
+        'PASSWORD': 'kevin123',
+    }
 }
 
 DATABASE_ROUTERS = ['common.routers.DefaultDatabaseRouter']
@@ -165,23 +170,28 @@ STATICFILES_DIRS = [
     ('plugins', os.path.join(STATIC_ROOT, 'plugins')),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    #.replace('\\', '/')
 
 MEDIA_URL = '/media/'
 
 # Self-defined authentication
 
-# if login/logout successful but URL "next" is not provided,
-# it redirects to the URLs
 LOGIN_REDIRECT_URL = '/dashboard/'
 
 LOGOUT_REDIRECT_URL = '/identity/user/login/'
+
 LOGIN_URL = '/identity/user/login/'
+
 AUTH_USER_MODEL = 'identity.User'
-AUTHENTICATION_BACKENDS = ('common.backends.UserAuthBackend',)
+
+AUTHENTICATION_BACKENDS = (
+    'common.backends.UserAuthBackend',
+)
+ANONYMOUS_USER_ID = -1  # disable anonymous user
 
 
-# Logging
+# Logging configurations
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,

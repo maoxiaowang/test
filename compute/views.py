@@ -9,7 +9,6 @@ from django.views.generic import (CreateView, UpdateView, DeleteView,
                                   DetailView, ListView)
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.utils.decorators import method_decorator
-from compute.models import Server
 from django.template.response import TemplateResponse
 from django.http.response import JsonResponse
 from common.utils.string_ import str2digit
@@ -19,42 +18,46 @@ from django.views.decorators.http import (
 from .tasks import create_server_task
 
 
-@require_GET
-@login_required
-@permission_required('compute.list_server', raise_exception=True)
-def server_list(request):
-    context = {}
-    page = request.GET.get('page')
-    items_per_page = str2digit(request.GET.get('items', 5), 20)
-    server_objects = Server.objects.filter()
-
-    # Pagination
-    paginator = Paginator(server_objects, items_per_page)
-    try:
-        servers = paginator.page(page)
-    except PageNotAnInteger:
-        servers = paginator.page(1)
-    except EmptyPage:
-        servers = paginator.page(paginator.num_pages)
-
-    context['servers'] = servers
-    return TemplateResponse(request, 'compute/server_list.html', context=context)
-
-
-@method_decorator(login_required, name='dispatch')
-class ServerList(ListView, PermissionRequiredMixin):
-
-    permission_required = 'compute.list_server'
+# @require_GET
+# @login_required
+# @permission_required('compute.list_server', raise_exception=True)
+# def server_list(request):
+#     context = {}
+#     page = request.GET.get('page')
+#     items_per_page = str2digit(request.GET.get('items', 5), 20)
+#     server_objects = Server.objects.filter()
+#
+#     # Pagination
+#     paginator = Paginator(server_objects, items_per_page)
+#     try:
+#         servers = paginator.page(page)
+#     except PageNotAnInteger:
+#         servers = paginator.page(1)
+#     except EmptyPage:
+#         servers = paginator.page(paginator.num_pages)
+#
+#     context['servers'] = servers
+#     return TemplateResponse(request, 'compute/server_list.html', context=context)
+#
 
 
-@require_GET
-@login_required
-@permission_required('compute.detail_server')
-def server_detail(request, **kwargs):
-    # get from OpenStack later
-    uuid = kwargs.get('id')
-    compute_obj = get_object_or_404(Server, uuid)
-    return TemplateResponse(request, 'compute/server_detail.html', compute_obj)
+class ServerList(ListView):
+    pass
+
+
+class ServerDetail(DetailView):
+
+    pass
+
+
+# @require_GET
+# @login_required
+# @permission_required('compute.detail_server')
+# def server_detail(request, **kwargs):
+#     # get from OpenStack later
+#     uuid = kwargs.get('id')
+#     compute_obj = get_object_or_404(Server, uuid)
+#     return TemplateResponse(request, 'compute/server_detail.html', compute_obj)
 
 
 @require_POST

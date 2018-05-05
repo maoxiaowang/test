@@ -12,8 +12,10 @@
 {% endblock %}
 
 {% block body_tags %}class="fixed-left"{% endblock %}
+
 {% block main %}
 
+  {# base modals here #}
   <div id="wrapper">
     <!-- start wrapper -->
 
@@ -37,21 +39,21 @@
                 </button>
               </li>
               <li class="list-inline-item">
-{#                <h4 class="page-title">{% block page_title %}{% trans 'Dashboard' %}{% endblock %}</h4>#}
+                {#                <h4 class="page-title">{% block page_title %}{% trans 'Dashboard' %}{% endblock %}</h4>#}
                 <ol class="breadcrumb m-b-20">
-{#                  <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">{% trans 'Dashboard' %}</a></li>#}
+                  {#                  <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">{% trans 'Dashboard' %}</a></li>#}
 
                   {% for item in breadcrumb_paths %}
                     <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
-                    {% if breadcrumb_paths|length > 1 %}
-                      {% if forloop.counter == 1 %}
-                        <a href="">{{ item.name }}</a>
+                      {% if breadcrumb_paths|length > 1 %}
+                        {% if forloop.counter == 1 %}
+                          <a href="">{{ item.name }}</a>
+                        {% else %}
+                          {{ item.name }}
+                        {% endif %}
                       {% else %}
                         {{ item.name }}
                       {% endif %}
-                    {% else %}
-                      {{ item.name }}
-                    {% endif %}
                     </li>
                   {% endfor %}
                 </ol>
@@ -97,39 +99,42 @@
       <!-- ========== Left Sidebar Start ========== -->
       <div class="left side-menu">
 
-          <div class="sidebar-inner slimscrollleft">
+        <div class="sidebar-inner slimscrollleft">
 
-            <!-- User -->
-            <div class="user-box">
-              <div class="user-img">
-                <img src="{% static 'images/users/avatar-1.jpg' %}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
-                <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
-              </div>
-              <h5><a href="#">Mat Helme</a> </h5>
-              <ul class="list-inline">
-                <li class="list-inline-item">
-                  <a href="#">
-                    <i class="mdi mdi-settings"></i>
-                  </a>
-                </li>
-
-                <li class="list-inline-item">
-                  <a href="#" class="text-custom">
-                    <i class="mdi mdi-power"></i>
-                  </a>
-                </li>
-              </ul>
+          <!-- User -->
+          <div class="user-box">
+            <div class="user-img">
+              <img src="{% static 'images/users/avatar-1.jpg' %}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+              <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
             </div>
-            <!-- End User -->
+            <h5><a href="#">Mat Helme</a> </h5>
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Settings' %}">
+                  <i class="mdi mdi-settings"></i>
+                </a>
+              </li>
 
-            <!--- Sidebar menu -->
-            <div id="sidebar-menu">
-              <ul>
-                <li class="text-muted menu-title">Navigation</li>
-                <li>
-                  <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
-                </li>
-                {% if perms.compute %}
+              <li class="list-inline-item">
+                <form type="post" action="">
+                  <a id="userLogout" href="javascript:void(0);" class="text-custom" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Logout' %}">
+                    <i class="mdi mdi-logout"></i>
+                  </a>
+                </form>
+
+              </li>
+            </ul>
+          </div>
+          <!-- End User -->
+
+          <!--- Sidebar menu -->
+          <div id="sidebar-menu">
+            <ul>
+              <li class="text-muted menu-title">Navigation</li>
+              <li>
+                <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
+              </li>
+              {% if perms.compute %}
                 <li class="has_sub">
                   <a href="javascript:void(0);" class="waves-effect">
                     <i class="mdi mdi-memory"></i> <span> Compute </span> <span class="menu-arrow"></span></a>
@@ -141,44 +146,44 @@
                     {% if perms.compute.backup_list %}<li><a href="{% url 'compute:backup_list' %}">Backup</a></li>{% endif %}
                   </ul>
                 </li>
-                {% endif %}
+              {% endif %}
 
-                <li class="has_sub">
-                  <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled">
-                    <li><a href="{% url 'storage:storage_list' %}">Storage</a></li>
-                    <li><a href="{% url 'storage:volume_list' %}">Volume</a></li>
-                  </ul>
-                </li>
+              <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect">
+                  <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                  <li><a href="{% url 'storage:storage_list' %}">Storage</a></li>
+                  <li><a href="{% url 'storage:volume_list' %}">Volume</a></li>
+                </ul>
+              </li>
 
-                <li class="has_sub">
-                  <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled">
-                    <li><a href="{% url 'network:network_list' %}">Network</a></li>
-                  </ul>
-                </li>
+              <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect">
+                  <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                  <li><a href="{% url 'network:network_list' %}">Network</a></li>
+                </ul>
+              </li>
 
-                <li class="has_sub">
-                  <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-security"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled">
-                    <li><a href="{% url 'identity:user_list' %}">User</a></li>
-                    <li><a href="{% url 'identity:group_list' %}">Group</a></li>
-                    <li><a href="{% url 'identity:permission_list' %}">Permission</a></li>
-                  </ul>
-                </li>
+              <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect">
+                  <i class="mdi mdi-security"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                  <li><a href="{% url 'identity:user_list' %}">User</a></li>
+                  <li><a href="{% url 'identity:group_list' %}">Group</a></li>
+                  <li><a href="{% url 'identity:permission_list' %}">Permission</a></li>
+                </ul>
+              </li>
 
-                <li>
-                  <a href="{% url 'settings:settings_list' %}" class="waves-effect"><i class="mdi mdi-settings"></i> <span> {% trans 'Settings' %} </span> </a>
-                </li>
-              </ul>
-              <div class="clearfix"></div>
-            </div>
-            <!-- End sidebar menu-->
+              <li>
+                <a href="{% url 'settings:settings_list' %}" class="waves-effect"><i class="mdi mdi-settings"></i> <span> {% trans 'Settings' %} </span> </a>
+              </li>
+            </ul>
             <div class="clearfix"></div>
           </div>
+          <!-- End sidebar menu-->
+          <div class="clearfix"></div>
+        </div>
 
       </div>
       <!-- Left Sidebar End -->
@@ -290,7 +295,7 @@
 
 
 {% block app_js %}
-{#  <script src="{% static 'js/dashboard/base.js' %}?v=3"></script>#}
+  {#  <script src="{% static 'js/dashboard/base.js' %}?v=3"></script>#}
 
   <script src="{% static 'js/assets/detect.js' %}"></script>
   <script src="{% static 'js/assets/fastclick.js' %}"></script>
@@ -305,5 +310,10 @@
 
   <!-- plugins -->
   <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+  <script>
+    var global_user_id = '{{ user.id }}';
+    var logout_url = '{% url 'identity:user_logout' %}';
+  </script>
+  <script src="{% static 'js/pages/dashboard.js' %}"></script>
   {% block dashboard_js %}{% endblock %}
 {% endblock %}

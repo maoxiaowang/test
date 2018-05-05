@@ -3,22 +3,20 @@ import json
 import logging
 
 from django.contrib import messages
-from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import Group, Permission
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls.base import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from django.views.decorators.http import require_GET, require_http_methods
+from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 
 from common.exceptions import InvalidParameters
 from common.forms_helper import form_errors_to_list
 from common.views_helper import JSONResponseMixin
+from .models import Group, Permission
 from .exceptions import *
 from .forms import *
 
@@ -27,19 +25,6 @@ logger = logging.getLogger('default')
 
 
 # Create your views here.
-
-
-@require_GET
-def index(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('dashboard:index'))
-    else:
-        _next = request.GET.get('next')
-        login_url = reverse('identity:user_login')
-
-        if _next:
-            login_url = '%s?next=%s' % (login_url, _next)
-        return HttpResponseRedirect(login_url)
 
 
 class Login(auth_views.LoginView):
@@ -57,7 +42,11 @@ class Login(auth_views.LoginView):
     def get(self, request, *args, **kwargs):
         logger.debug('login page')
         form = self.authentication_form(initial=self.initial, auto_id=True)
-        return render(request, self.template_name, {'form': form})
+        self.extra_context.update(
+            {'form': form,
+             'next': self.request.GET.get('next', '')}
+        )
+        return render(request, self.template_name, self.extra_context)
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -71,7 +60,7 @@ class Login(auth_views.LoginView):
             user = User.objects.get(username=username)
 
             # log into
-            login(request, user)
+            login(request, user, backend='common.backends.UserAuthBackend')
 
             remember_me = form.cleaned_data['remember_me']
             if not remember_me:
@@ -86,22 +75,14 @@ class Login(auth_views.LoginView):
 
 
 class Logout(auth_views.LogoutView):
-
-    template_name = 'identity/authentication/logged_out.html'
-
-    def post(self, request, *args, **kwargs):
-
-        # username = request.user.get('username')
-        logout(request)
-        # logout_then_login(request, login_url=None, extra_context=None)
+    pass
 
 
-@method_decorator(login_required, name='dispatch')
 class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
+    permission_required = 'identity.create_user'
     form_class = UserCreationForm
     model = User
-    permission_required = 'identity.create_user'
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST, auto_id=True,
@@ -120,29 +101,28 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                 result=False, messages=form_errors_to_list(form.errors))
 
 
-class UserUpdate(UpdateView):
+class UserUpdate(PermissionRequiredMixin, UpdateView):
 
+    permission_required = 'identity.update_user'
     model = User
     form_class = UserUpdateForm
     template_name = ''
 
-    def put(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pass
 
 
-# @method_decorator(login_required, name='dispatch')
-class UserDelete(DeleteView):
+class UserDelete(PermissionRequiredMixin, DeleteView):
 
+    permission_required = 'identity.delete_user'
     model = User
-
-    # @permission_required('auth.delete')
-    def delete(self, request, *args, **kwargs):
-        super().delete(request, *args, **kwargs)
+    pk_url_kwarg = 'user_id'
+    success_url = '/identity/user/'
 
 
-@method_decorator(login_required, name='dispatch')
-class UserDetail(DetailView):
+class UserDetail(PermissionRequiredMixin, DetailView):
 
+    permission_required = 'identity.detail_user'
     model = User
     template_name = 'identity/management/user_detail.html'
     pk_url_kwarg = 'user_id'
@@ -175,9 +155,9 @@ class UserDetail(DetailView):
         return super().get_context_data(**kwargs)
 
 
-@method_decorator(login_required, name='dispatch')
-class UserList(ListView):
+class UserList(PermissionRequiredMixin, ListView):
 
+    permission_required = 'identity.list_user'
     model = User
     template_name = 'identity/management/user_list.html'
 
@@ -189,12 +169,15 @@ class UserList(ListView):
         return super().get_context_data(**kwargs)
 
 
-class UserPermissionUpdate(JSONResponseMixin, UpdateView):
+class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
+
+    permission_required = 'identitiy.'
+
     model = User
     pk_url_kwarg = 'user_id'
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(self.model, id=kwargs.get(self.pk_url_kwarg))
+        obj = get_object_or_404(self.model, pk=kwargs.get(self.pk_url_kwarg))
 
         # permission id list
         new_perms = request.POST.get('checked_perms')
@@ -221,9 +204,9 @@ class UserPermissionUpdate(JSONResponseMixin, UpdateView):
         return self.render_to_json_response()
 
 
-@method_decorator(login_required, name='dispatch')
-class GroupList(ListView):
+class GroupList(PermissionRequiredMixin, ListView):
 
+    permission_required = 'identity.list_group'
     model = Group
     template_name = 'identity/management/group_list.html'
 
@@ -232,11 +215,10 @@ class GroupList(ListView):
         kwargs.update({'group_create_form': GroupCreateForm()})
         return super().get_context_data(**kwargs)
 
-    def get_queryset(self):
-        return self.model.objects.all()
 
+class GroupDetail(PermissionRequiredMixin, DetailView):
 
-class GroupDetail(DetailView):
+    permission_required = 'identity.detail_group'
 
     model = Group
     template_name = 'identity/management/group_detail.html'
@@ -261,29 +243,22 @@ class GroupDetail(DetailView):
             else:
                 ap.assigned = False
 
-        # users in or not in group
-        # all_user_id_list = [u['id'] for u in User.objects.all().values('id')]
-        # group_user_id_list = [u['id'] for u in self.object.user_set.all().values('id')]
-        # diff_user_id_list = list(set(all_user_id_list)^set(group_user_id_list))
-        all_users = User.objects.all()
+        # users in group
         group_users = self.object.user_set.all()
-        group_user_id_list = [u['id'] for u in group_users.values('id')]
-        not_group_users = all_users
-        for item in all_users:
-            if item.id in group_user_id_list:
-                not_group_users.remove(item)
+        group_user_ids = [u['id'] for u in group_users.values('id')]
+        # users not in group
+        not_group_users = User.objects.exclude(id__in=group_user_ids)
 
         kwargs.update({'all_perms': all_perms,
                        'perm_content_types': res,
-                       'group_id': self.kwargs[self.pk_url_kwarg],
                        'group_users': group_users,
                        'not_group_users': not_group_users})
         return super().get_context_data(**kwargs)
 
 
-@method_decorator(require_http_methods(['POST']), name='dispatch')
-class GroupCreate(JSONResponseMixin, CreateView):
+class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
+    permission_required = 'identity.create_group'
     form_class = GroupCreateForm
     model = Group
 
@@ -292,37 +267,78 @@ class GroupCreate(JSONResponseMixin, CreateView):
                                error_class=DivErrorList)
         if form.is_valid():
             self.model.objects.create(name=request.POST.get('name'))
-            self.render_to_json_response()
+            return self.render_to_json_response()
         else:
             raise InvalidGroupFormat
 
 
-@method_decorator(login_required, name='dispatch')
-@method_decorator(require_http_methods(['PUT']), name='dispatch')
-class GroupUpdate(UpdateView):
+class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
+    permission_required = 'identity.update_group'
     form_class = Group
 
-    def put(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pass
 
 
-class PermissionList(ListView):
-    model = Permission
-    template_name = 'identity/management/permission_list.html'
+class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
-    def get_queryset(self):
-        return self.model.objects.all()
-
-
-@method_decorator(login_required, name='dispatch')
-class GroupPermissionUpdate(JSONResponseMixin, UpdateView):
-
+    permission_required = 'identity.update_group_user'
     model = Group
     pk_url_kwarg = 'group_id'
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(self.model, id=kwargs.get(self.pk_url_kwarg))
+        user_ids = request.POST.get('user_ids')
+        try:
+            user_ids = json.loads(user_ids)
+        except json.JSONDecodeError:
+            raise InvalidParameters
+
+        obj = get_object_or_404(self.model, pk=kwargs.get(self.pk_url_kwarg))
+
+        old_user_ids = [str(i.id) for i in obj.user_set.all()]
+
+        for oid in old_user_ids:
+            if oid not in user_ids:
+                # delete
+                obj.user_set.remove(oid)
+
+        for nid in user_ids:
+            if nid not in old_user_ids:
+                # add
+                obj.user_set.add(nid)
+
+        return self.render_to_json_response()
+
+
+class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
+
+    permission_required = 'identity.delete_group'
+    model = Group
+    pk_url_kwarg = 'group_id'
+    success_url = '/identity/group/'
+
+    def post(self, request, *args, **kwargs):
+        # add messages
+        messages.add_message(request, messages.SUCCESS, _('Delete group succeeded'))
+        return self.delete(request, *args, **kwargs)
+
+
+class PermissionList(PermissionRequiredMixin, ListView):
+
+    permission_required = 'identity.list_permission'
+    model = Permission
+    template_name = 'identity/management/permission_list.html'
+
+
+class GroupPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
+
+    permission_required = 'identity.update_group_permission'
+    model = Group
+    pk_url_kwarg = 'group_id'
+
+    def post(self, request, *args, **kwargs):
+        obj = get_object_or_404(self.model, pk=kwargs.get(self.pk_url_kwarg))
 
         # permission id list
         new_perms = request.POST.get('checked_perms')
@@ -334,32 +350,21 @@ class GroupPermissionUpdate(JSONResponseMixin, UpdateView):
             raise InvalidParameters
 
         checked_perms = [item for item in checked_perms if item.isdigit()]
-        old_perms_id_list = [str(i.id) for i in obj.permissions.all()]
+        old_perms_ids = [str(i.id) for i in obj.permissions.all()]
 
-        for oid in old_perms_id_list:
+        for oid in old_perms_ids:
             if oid not in checked_perms:
                 # delete
                 obj.permissions.remove(oid)
 
         for nid in checked_perms:
-            if nid not in old_perms_id_list:
+            if nid not in old_perms_ids:
                 # add
                 obj.permissions.add(nid)
 
         return self.render_to_json_response()
 
 
-# # @method_decorator(login_required, name='dispatch')
-# class UserPermissionUpdate(UpdateView):
-#
-#     form = UserPermissionUpdateForm
-#     model =
-#     template_name = ''
-#     template_name_field = ['permissions']
-#
-#
-
-@method_decorator(login_required, name='dispatch')
 class PasswordChange(auth_views.PasswordChangeView):
     """
     Change password by providing current password
@@ -368,7 +373,6 @@ class PasswordChange(auth_views.PasswordChangeView):
     template_name = 'identity/authentication/password_change.html'
 
 
-@method_decorator(login_required, name='dispatch')
 class PasswordChangeDone(auth_views.PasswordChangeDoneView):
     """
     Change password done
@@ -376,7 +380,6 @@ class PasswordChangeDone(auth_views.PasswordChangeDoneView):
     template_name = 'identity/authentication/password_change_done.html'
 
 
-@method_decorator(login_required, name='dispatch')
 class PasswordReset(auth_views.PasswordResetView):
     """
     Validate and send a password reset email
@@ -384,7 +387,6 @@ class PasswordReset(auth_views.PasswordResetView):
     pass
 
 
-@method_decorator(login_required, name='dispatch')
 class PasswordResetDone(auth_views.PasswordResetDoneView):
     """
     Email has been sent
@@ -392,7 +394,6 @@ class PasswordResetDone(auth_views.PasswordResetDoneView):
     pass
 
 
-@method_decorator(login_required, name='dispatch')
 class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
     """
     Authorized to set a new password
@@ -400,7 +401,6 @@ class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
     pass
 
 
-@method_decorator(login_required, name='dispatch')
 class PasswordResetComplete(auth_views.PasswordResetCompleteView):
     """
     Password reset all done

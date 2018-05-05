@@ -32,6 +32,7 @@ class OpenStackRequest(object):
 
     @property
     def get_token(self):
+        # get token from django request
         token = self.request.user.get('token')
         if token:
             created_at = token.get('created_at')

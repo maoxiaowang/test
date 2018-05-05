@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.conf.urls import include
-from identity.views import index
 from django.conf.urls.static import static
 from django.conf import settings
+from dashboard.views import index
 
 
 urlpatterns = [

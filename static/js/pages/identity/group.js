@@ -1,30 +1,10 @@
 
-$('#groupCreateModal form').submit(function (event) {
-    var $this = $(this);
-    event.preventDefault();
-    $.addLoadingCover();
-    $.ajax({
-        url: $this.attr('action'),
-        data: $this.serialize(),
-        type: $this.attr('method'),
-        success: function (res) {
-            $.handleResponse(res);
-            $('#groupCreateModal').modal('hide');
-        },
-        complete: function () {
-            $.cleanFormInput($this);
-            $.removeLoadingCover();
-        },
-        error: function () {
-        }
-    });
-});
-
-
 $(function () {
+
     var $gTree = $('#groupPermsTree');
-    // detail page
     if ($gTree.length > 0) {
+        /* detail page */
+
         // init jstree
         $gTree.jstree({
             'core' : {
@@ -43,32 +23,10 @@ $(function () {
             'plugins' : ['types', 'checkbox']
         });
 
-        // change group permissions
-        $('#groupPermsBtn').click(function () {
-            var data = $gTree.jstree().get_checked();
-            var jsonData = JSON.stringify(data);
-            $.addLoadingCover();
-            $.ajax({
-                url: group_perms_update_url,
-                data: {'checked_perms': jsonData},
-                type: 'POST',
-                success: function (res) {
-                   $.handleResponse(res);
-                   $('#groupPermsUpdateModal').modal('hide');
-                },
-                complete: function () {
-                    $.removeLoadingCover();
-                }
-            })
-
-        });
-
-
-        // group users
+        // group users select
         $('#group_user_multi_select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-            selectableFooter: "<div class='text-muted font-13 m-t-10 text-center'>可选用户</div>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已加入{0}组的用户</div>".format(group_name),
             afterInit: function (ms) {
                 var that = this,
@@ -102,6 +60,107 @@ $(function () {
                 this.qs2.cache();
             }
         });
+
+        // change group permissions
+        $('#groupPermsBtn').click(function () {
+            var data = $gTree.jstree().get_checked();
+            var jsonData = JSON.stringify(data);
+            $.addLoadingCover();
+            $.ajax({
+                url: group_perms_update_url,
+                data: {'checked_perms': jsonData},
+                type: 'POST',
+                success: function (res) {
+                    $.handleResponse(res);
+                    $('#groupPermsUpdateModal').modal('hide');
+                },
+                complete: function () {
+                    $.removeLoadingCover();
+                }
+            })
+
+        });
+
+        // group user update
+        $('#groupUserUpdateModal form').submit(function (event) {
+            var $this = $(this);
+            event.preventDefault();
+            var selected_names = $this.find('.ms-selection li.ms-selected > span').map(
+                function(){return $(this).text();}).get().join(' ');
+            var data = [];
+            $.each($('#group_user_multi_select option'), function (i, item) {
+                if (selected_names.indexOf($(item).text()) >= 0) {
+                    data.push($(item).val());
+                }
+            });
+            $.addLoadingCover();
+            $.ajax({
+                url: $this.attr('action'),
+                type: $this.attr('method'),
+                data: {'user_ids': JSON.stringify(data)},
+                success: function (res) {
+                    $.handleResponse(res);
+                    $('#groupUserUpdateModal').modal('hide');
+                },
+                complete: function () {
+                    $.removeLoadingCover();
+                },
+                error: function () {
+                }
+            });
+        });
+        //
+        // // delete group
+        // $('#groupDeleteModal form').submit(function (event) {
+        //     var $this = $(this);
+        //     event.preventDefault();
+        //     $.addLoadingCover();
+        //     $.ajax({
+        //         url: $this.attr('action'),
+        //         type: $this.attr('method'),
+        //         success: function (res) {
+        //             $.handleResponse(res);
+        //             $('#groupDeleteModal').modal('hide');
+        //         },
+        //         complete: function () {
+        //             $.removeLoadingCover();
+        //         },
+        //         error: function () {
+        //         }
+        //     });
+        // });
+
     }
+
+
+});
+
+$(function () {
+
+
+
+    // create group
+    $('#groupCreateModal form').submit(function (event) {
+        var $this = $(this);
+        event.preventDefault();
+        $.addLoadingCover();
+        $.ajax({
+            url: $this.attr('action'),
+            data: $this.serialize(),
+            type: $this.attr('method'),
+            success: function (res) {
+                $.handleResponse(res);
+                $('#groupCreateModal').modal('hide');
+            },
+            complete: function () {
+                $.cleanFormInput($this);
+                $.removeLoadingCover();
+            },
+            error: function () {
+            }
+        });
+    });
+
+
 
 });
