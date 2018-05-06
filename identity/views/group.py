@@ -24,6 +24,7 @@ logger = logging.getLogger('default')
 class GroupList(PermissionRequiredMixin, ListView):
 
     permission_required = 'identity.list_group'
+    raise_exception = True
     model = Group
     template_name = 'identity/management/group_list.html'
 
@@ -36,7 +37,7 @@ class GroupList(PermissionRequiredMixin, ListView):
 class GroupDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'identity.detail_group'
-
+    raise_exception = True
     model = Group
     template_name = 'identity/management/group_detail.html'
     pk_url_kwarg = 'group_id'    # used for rendering group detail modal
@@ -75,23 +76,26 @@ class GroupDetail(PermissionRequiredMixin, DetailView):
 
 class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
-    permission_required = 'identity.create_group'
+    permission_required = 'identity.add_group'
+    raise_exception = True
     form_class = GroupCreateForm
     model = Group
 
     def post(self, request, *args, **kwargs):
+        print('POST')
         form = self.form_class(data=request.POST, auto_id=True,
                                error_class=DivErrorList)
         if form.is_valid():
             self.model.objects.create(name=request.POST.get('name'))
             return self.render_to_json_response()
         else:
-            raise InvalidGroupFormat
+            raise self.render_to_json_response(result=False)
 
 
 class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
-    permission_required = 'identity.update_group'
+    permission_required = 'identity.change_group'
+    raise_exception = True
     form_class = Group
 
     def post(self, request, *args, **kwargs):
@@ -101,6 +105,7 @@ class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'identity.update_group_user'
+    raise_exception = True
     model = Group
     pk_url_kwarg = 'group_id'
 
@@ -132,6 +137,7 @@ class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
     permission_required = 'identity.delete_group'
+    raise_exception = True
     model = Group
     pk_url_kwarg = 'group_id'
     success_url = '/identity/group/'
@@ -145,6 +151,7 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 class GroupPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
     permission_required = 'identity.update_group_permission'
+    raise_exception = True
     model = Group
     pk_url_kwarg = 'group_id'
 

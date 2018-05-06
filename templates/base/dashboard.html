@@ -41,25 +41,29 @@
                 </button>
               </li>
               <li class="list-inline-item">
-                {#                <h4 class="page-title">{% block page_title %}{% trans 'Dashboard' %}{% endblock %}</h4>#}
-                <ol class="breadcrumb m-b-20">
-                  {#                  <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">{% trans 'Dashboard' %}</a></li>#}
+                {% if breadcrumb_paths|length == 1 %}
+                  <h4 class="page-title">{% trans breadcrumb_paths.0.name %}</h4>
+                {% else %}
+                  <ol class="breadcrumb m-b-20">
 
-                  {% for item in breadcrumb_paths %}
-                    <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
-{#                      {% if breadcrumb_paths|length > 1 %}#}
-{#                        {% if forloop.counter == 1 %}#}
-{#                          <a href="">{{ item.name }}</a>#}
-{#                        {% else %}#}
-{#                          {{ item.name }}#}
-{#                        {% endif %}#}
-{#                      {% else %}#}
-{#                        {{ item.name }}#}
-{#                      {% endif %}#}
-                      <a href="{{ item.path }}">{{ item.name }}</a>
-                    </li>
-                  {% endfor %}
-                </ol>
+                    {% for item in breadcrumb_paths %}
+                      <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
+                        {% if breadcrumb_paths|length > 2 %}
+                          {% if forloop.counter == 3 %}
+                            <a>{{ item.name }}</a>
+                          {% else %}
+                            <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
+                          {% endif %}
+                        {% else %}
+                          <a href="{{ item.path }}">{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
+
+                        {% endif %}
+
+                      </li>
+                    {% endfor %}
+                  </ol>
+                {% endif %}
+
               </li>
             </ul>
 

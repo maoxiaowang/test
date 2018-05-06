@@ -77,6 +77,7 @@ class Logout(auth_views.LogoutView):
 class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
     permission_required = 'identity.create_user'
+    raise_exception = True
     form_class = UserCreationForm
     model = User
 
@@ -100,6 +101,7 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 class UserUpdate(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'identity.update_user'
+    raise_exception = True
     model = User
     form_class = UserUpdateForm
     template_name = ''
@@ -111,6 +113,7 @@ class UserUpdate(PermissionRequiredMixin, UpdateView):
 class UserDelete(PermissionRequiredMixin, DeleteView):
 
     permission_required = 'identity.delete_user'
+    raise_exception = True
     model = User
     pk_url_kwarg = 'user_id'
     success_url = '/identity/user/'
@@ -119,6 +122,7 @@ class UserDelete(PermissionRequiredMixin, DeleteView):
 class UserDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'identity.detail_user'
+    raise_exception = True
     model = User
     template_name = 'identity/management/user_detail.html'
     pk_url_kwarg = 'user_id'
@@ -168,8 +172,8 @@ class UserList(PermissionRequiredMixin, ListView):
 
 class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
-    permission_required = 'identitiy.'
-
+    permission_required = 'identitiy.update_user_permission'
+    raise_exception = True
     model = User
     pk_url_kwarg = 'user_id'
 
@@ -199,6 +203,7 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
                 obj.user_permissions.add(nid)
 
         return self.render_to_json_response()
+
 
 class PasswordChange(auth_views.PasswordChangeView):
     """

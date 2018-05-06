@@ -18,27 +18,25 @@ class VolumeList(PermissionRequiredMixin, ListView):
     raise_exception = True
     model = Volumes
     template_name = 'storage/volume_list.html'
-    # context_object_name = ''  # default will be volume_list
-    # ordering = ''
 
     def get_queryset(self):
-        volumes = self.model.objects.all()
+        volumes = self.model.objects.filter(deleted=0)
         return volumes
 
 
 class VolumeDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'storage.detail_volume'
+    raise_exception = True
     model = Volumes
+    pk_url_kwarg = 'volume_id'
     template_name = 'storage/volume_detail.html'
-
-    def get(self, request, *args, **kwargs):
-        pass
 
 
 class VolumeCreate(PermissionRequiredMixin, CreateView):
 
     permission_required = 'storage.create_volume'
+    raise_exception = True
     template_name = 'storage/volume_create.html'
     model = Volumes
 
@@ -52,6 +50,7 @@ class VolumeCreate(PermissionRequiredMixin, CreateView):
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'storage.update_volume'
+    raise_exception = True
     model = Volumes
 
     def put(self, *args, **kwargs):
@@ -61,6 +60,7 @@ class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 class VolumeDelete(DeleteView, PermissionRequiredMixin):
 
     permission_required = 'storage.delete_volume'
+    raise_exception = True
     model = Volumes
 
     def delete(self, request, *args, **kwargs):

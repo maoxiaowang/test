@@ -15,5 +15,6 @@ logger = logging.getLogger('default')
 class PermissionList(PermissionRequiredMixin, ListView):
 
     permission_required = 'identity.list_permission'
+    raise_exception = True
     model = Permission
     template_name = 'identity/management/permission_list.html'

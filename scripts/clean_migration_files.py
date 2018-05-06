@@ -18,4 +18,10 @@ def clean_migrations():
 
 
 if __name__ == '__main__':
-    clean_migrations()
+    print('Migration files will be permanently deleted!')
+    user_input = input('Are you sure? (y/n): ')
+    if user_input in ('y', 'yes'):
+        clean_migrations()
+    else:
+        print('Canceled')
+

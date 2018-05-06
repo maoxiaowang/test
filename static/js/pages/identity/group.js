@@ -150,8 +150,6 @@ $(function () {
 
 $(function () {
 
-
-
     // create group
     $('#groupCreateModal form').submit(function (event) {
         var $this = $(this);
@@ -173,7 +171,5 @@ $(function () {
             }
         });
     });
-
-
 
 });

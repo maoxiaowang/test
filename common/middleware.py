@@ -8,12 +8,17 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 """
 # coding=utf-8
 
-from common.exceptions import ECloudException
-from common.views.mixin import ret_format
+import sys
+
+from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.http.response import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
-from django.core.exceptions import PermissionDenied
+from django.views.debug import technical_500_response
+
+from common.exceptions import ECloudException
 from common.utils.string_ import UUID
+from common.views.mixin import ret_format
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -37,6 +42,11 @@ class CommonMiddleware(MiddlewareMixin):
                                           'admin@example.com',
                                           'password', id=UUID.uuid4)
 
+        """
+
+
+
+        """
         # add extra permissions
         from django.contrib.auth.models import Permission
         perms = [
@@ -44,7 +54,7 @@ class CommonMiddleware(MiddlewareMixin):
             (2, 'permission', 'detail_permission', 'Can detail permission'),
             (3, 'group', 'list_group', 'Can list group'),
             (3, 'group', 'detail_group', 'Can detail group'),
-            (3, 'group', 'update_group_permission', 'Can change group permission')
+            (3, 'group', 'update_group_permission', 'Can change group permission'),
         ]
         for item in perms:
             model_name, code_name, name = item[1], item[2], item[3]
@@ -111,17 +121,17 @@ class CommonMiddleware(MiddlewareMixin):
     # def process_request(self, request):
     #     return request
 
-    def process_response(self, request, response):
-        path = request.path_info.strip('/').split('/')
-        response = self.get_response(request)
-        if not hasattr(response, 'context_data'):
-            response.context_data = {}
-        bc = list()
-        for i in range(len(path)):
-            bc.append({'path': '/%s/' % '/'.join(path[:i + 1]),
-                       'name': path[i].capitalize()})
-        response.context_data['breadcrumb_paths'] = bc
-        return response
+    # def process_response(self, request, response):
+    #     path = request.path_info.strip('/').split('/')
+    #     response = self.get_response(request)
+    #     if not hasattr(response, 'context_data'):
+    #         response.context_data = {}
+    #     bc = list()
+    #     for i in range(len(path)):
+    #         bc.append({'path': '/%s/' % '/'.join(path[:i + 1]),
+    #                    'name': path[i].capitalize()})
+    #     response.context_data['breadcrumb_paths'] = bc
+    #     return response
 
     def process_template_response(self, request, response):
         """
@@ -147,3 +157,12 @@ class CommonMiddleware(MiddlewareMixin):
 
         return response
 
+
+class UserBasedExceptionMiddleware(MiddlewareMixin):
+    """
+    Let superuser see debug page when exception happens
+    """
+
+    def process_exception(self, request, exception):
+        if request.user.is_superuser or request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS:
+            return technical_500_response(request, *sys.exc_info())

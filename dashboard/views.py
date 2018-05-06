@@ -13,7 +13,7 @@ from django.template.response import TemplateResponse
 def index(request):
 
     if request.user.is_authenticated:
-        return render(request, 'dashboard/index.html')
+        return TemplateResponse(request, 'dashboard/index.html')
     else:
         _next = request.GET.get('next')
         login_url = reverse('user:user_login')

@@ -97,17 +97,6 @@ class User(AbstractUser, UserManager):
             ('update_user', _('Can update user')),
             ('delete_user', _('Can delete user')),
             ('update_user_permission', _('Can change user permission')),
-
-            ('list_group', _('Can list group')),
-            ('detail_group', _('Can detail group')),
-            ('create_group', _('Can create group')),
-            ('update_group', _('Can update group')),
-            ('delete_group', _('Can delete group')),
-            ('update_group_permission', _('Can change group permission')),
-
-            ('list_permission', _('Can list permission')),
-            ('detail_permission', _('Can detail permission')),
-
         )
         default_permissions = ()
 
