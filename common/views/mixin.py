@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin, BaseDetailView)
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.query import QuerySet
+from django.core import serializers
+import json
 
 
 def ret_format(result=True, messages=None, level=None, code=0, data=None, default_msg=True):
@@ -10,10 +13,10 @@ def ret_format(result=True, messages=None, level=None, code=0, data=None, defaul
     格式化Json返回数据
     :param result: bool, 一般为True
     :param messages: str|list, 要在页面展示的消息，多条消息使用列表
-    :param level: str(success, info, warning, error)，消息级别，
+    :param level: str，消息级别，
     默认result为True时为success，False时为error
     :param code: 消息代码
-    :param data: dict, 返回给前端的数据
+    :param data: Json|dict|list|QuerySet, 返回给前端的数据
     :param default_msg: messages为None时，若default_messages开启，返回一条默认消息
     :return: dict
     """
@@ -32,7 +35,14 @@ def ret_format(result=True, messages=None, level=None, code=0, data=None, defaul
     assert level in ('success', 'info', 'warning', 'error')
     assert isinstance(code, int)
     if data:
-        assert isinstance(data, dict)
+        if isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                raise ValueError('data is not type of Json, or can not be serialized by JSON')
+        if isinstance(data, QuerySet):
+            if hasattr(data, '__iter__') and isinstance(data[0], dict):
+                data = [item for item in data]
 
     return {'result': result,
             'messages': messages or [],
@@ -51,10 +61,11 @@ class JSONResponseMixin:
         """
         Returns a JSON response, transforming 'context' to make the payload.
         """
-
+        res_data = self._get_ret_form_data(result=result, messages=messages,
+                                           level=level, code=code, data=data,
+                                           default_msg=default_msg)
         return JsonResponse(
-            self._get_ret_form_data(result=result, messages=messages, level=level,
-                                    code=code, data=data, default_msg=default_msg),
+            res_data,
             **response_kwargs
         )
 

@@ -2,12 +2,10 @@
 """
 通过提交的POST数据与标准数据对比，来校验Post参数的合法性
 
-例如：
-
 """
 
 
-def check_params(standard_params):
+def check_params():
 
     def wrapper(func):
         def params_checker(request, *args, **kwargs):
@@ -19,4 +17,3 @@ def check_params(standard_params):
         return params_checker
 
     return wrapper
-

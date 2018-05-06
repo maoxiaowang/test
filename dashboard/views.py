@@ -16,7 +16,7 @@ def index(request):
         return render(request, 'dashboard/index.html')
     else:
         _next = request.GET.get('next')
-        login_url = reverse('identity:user_login')
+        login_url = reverse('user:user_login')
 
         if _next:
             login_url = '%s?next=%s' % (login_url, _next)

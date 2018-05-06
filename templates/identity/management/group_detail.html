@@ -62,7 +62,7 @@
 
   <div class="modal fade" id="groupUserUpdateModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      <form class="modal-content" method="post", action="{% url 'identity:group_user_update' group.id %}">
+      <form class="modal-content" method="post" action="{% url 'identity:group_user_update' group.id %}">
         <div class="modal-header">
           <h5 class="modal-title">{% trans 'Update group users' %}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -73,7 +73,7 @@
           <div class="row">
             <div class="col-12">
 
-              <select name="country" id="group_user_multi_select" multiple="multiple">
+              <select name="country" id="group_user_multi_select" multiple="multiple" title="group_user_multi_select">
                 {% for u in not_group_users %}
                   <option value="{{ u.id }}">{{ u.username }}</option>
                 {% endfor %}
@@ -100,7 +100,7 @@
   <div class="row">
     <div class="col-lg-12">
 
-      <div class="card-box">
+      <div class="card-box" id="groupDetailCard">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
@@ -121,7 +121,7 @@
         <p>{% trans 'Group' %} ID: {{ group.id }}</p>
       </div>
 
-      <div class="card-box">
+      <div class="card-box" id="groupUserCard">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <div class="card-box">
+      <div class="card-box" id="groupPermissionCard">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>

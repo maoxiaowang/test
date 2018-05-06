@@ -13,13 +13,13 @@
   <title>{% block title %}ECloud - {% block app_title %}{% endblock %}{% endblock %}</title>
   <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
   {% block base_css %}
-    <!-- base css -->
-
+    <!-- Base css -->
+    {% block app_css_head %}{% endblock %}
     <link href="{% static 'css/assets/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/assets/icons.css' %}" rel="stylesheet">
     <link href="{% static 'css/assets/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/pages/base.css' %}?v=1" rel="stylesheet">
-    <!-- app css -->
+    <!-- App css -->
     {% block app_css %}{% endblock %}
   {% endblock %}
 
@@ -50,11 +50,18 @@
 {% block main %}{% endblock %}  {# custom content #}
 
 {% block base_js %}
+  <!-- JQuery -->
   <script src="{% static 'js/assets/jquery.min.js' %}"></script>
   <script src="{% static 'js/assets/popper.min.js' %}"></script>
   <script src="{% static 'js/assets/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/assets/detect.js' %}"></script>
+  <script src="{% static 'js/assets/fastclick.js' %}"></script>
+  <script src="{% static 'js/assets/jquery.blockUI.js' %}"></script>
+  <script src="{% static 'js/assets/waves.js' %}"></script>
+  <script src="{% static 'js/assets/jquery.nicescroll.js' %}"></script>
+  <script src="{% static 'js/assets/jquery.slimscroll.min.js' %}"></script>
+  <script src="{% static 'js/assets/jquery.scrollTo.min.js' %}"></script>
   <script src="{% static 'js/pages/base.js' %}"></script>
-  <script src="{% static 'js/pages/utils.js' %}"></script>
   {% block app_js %}{% endblock %}
 {% endblock %}
 

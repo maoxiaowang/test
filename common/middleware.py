@@ -9,11 +9,10 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 # coding=utf-8
 
 from common.exceptions import ECloudException
-from .views_helper import ret_format
-from django.http.response import JsonResponse, HttpResponse
+from common.views.mixin import ret_format
+from django.http.response import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import ugettext_lazy as _
 from common.utils.string_ import UUID
 
 
@@ -30,7 +29,7 @@ class CommonMiddleware(MiddlewareMixin):
         # self.menus_list = [item.name for item in menus]
 
         #
-        # TODO: reate initial users, write custom migrations later
+        # TODO: create initial users, write custom migrations later
         from django.contrib.auth import get_user_model
         user_model = get_user_model()
         if not user_model.objects.filter(username='admin'):
@@ -95,8 +94,6 @@ class CommonMiddleware(MiddlewareMixin):
             # django or openstack exceptions
 
             if request.method in ('POST', 'PUT', 'DELETE'):
-                result = False
-                messages = None
                 code = 0
                 level = None
                 data = None
@@ -114,15 +111,17 @@ class CommonMiddleware(MiddlewareMixin):
     # def process_request(self, request):
     #     return request
 
-    # def process_response(self, request, response):
-    #     path = request.path_info.strip('/').split('/')
-    #     response = self.get_response(request)
-    #     path_len = len(path)
-    #     if path[0] in self.menus_list:
-    #         if not hasattr(response, 'context_data'):
-    #             response.context_data = {}
-    #         response.context_data['side_nav_menus'] = self.menus_obj
-    #     return response
+    def process_response(self, request, response):
+        path = request.path_info.strip('/').split('/')
+        response = self.get_response(request)
+        if not hasattr(response, 'context_data'):
+            response.context_data = {}
+        bc = list()
+        for i in range(len(path)):
+            bc.append({'path': '/%s/' % '/'.join(path[:i + 1]),
+                       'name': path[i].capitalize()})
+        response.context_data['breadcrumb_paths'] = bc
+        return response
 
     def process_template_response(self, request, response):
         """

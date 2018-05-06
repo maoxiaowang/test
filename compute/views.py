@@ -3,18 +3,11 @@
 Create your views here.
 """
 from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import (CreateView, UpdateView, DeleteView,
-                                  DetailView, ListView)
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.utils.decorators import method_decorator
-from django.template.response import TemplateResponse
+from django.views.generic import (DetailView, ListView)
 from django.http.response import JsonResponse
-from common.utils.string_ import str2digit
-from common.views_helper import ret_format
+from common.views.mixin import ret_format
 from django.views.decorators.http import (
-    require_GET, require_POST, require_http_methods)
+    require_POST, require_http_methods)
 from .tasks import create_server_task
 
 

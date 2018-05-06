@@ -99,7 +99,20 @@ $(function () {
                 type: $this.attr('method'),
                 data: {'user_ids': JSON.stringify(data)},
                 success: function (res) {
-                    $.handleResponse(res);
+                    res = $.handleResponse(res);
+                    var newElem = '';
+                    $.each(res.data, function (i, item) {
+                        newElem +=
+                            '<tr>\n' +
+                            '  <td>{0}</td>\n'.format(item['username']) +
+                            '  <td>{0}</td>\n'.format(item['email']) +
+                            '  <td>{0}</td>\n'.format(item['is_active']) +
+                            '  </tr>';
+                    });
+                    console.log(newElem);
+                    $target = $('#groupUserCard tbody');
+                    $target.html('');
+                    $(newElem).hide().appendTo($target).fadeIn('slow');
                     $('#groupUserUpdateModal').modal('hide');
                 },
                 complete: function () {

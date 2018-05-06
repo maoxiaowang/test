@@ -129,7 +129,7 @@
   </div>
 {% endblock %}
 
-{% block dashboard_js %}
+{% block dashboard_js_head %}
   <script>
       {# django value to js #}
       var user_perms_update_url = "{% url 'identity:user_permission_update' user_id %}";

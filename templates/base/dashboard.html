@@ -1,9 +1,11 @@
 {% extends "base/base.html" %}
 {% load static i18n %}
+{% load common_tags %}
 
 {% block app_title %}{% endblock %}
 {% block app_css %}
-  {% block dashboard_css_front %}{% endblock %}
+
+  {% block dashboard_css_head %}{% endblock %}
   <link href="{% static 'css/assets/material-design-iconic-font.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/pages/dashboard.css' %}" rel="stylesheet">
   <link href="{% static 'plugins/toastr/toastr.min.css' %}" rel="stylesheet">
@@ -45,15 +47,16 @@
 
                   {% for item in breadcrumb_paths %}
                     <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
-                      {% if breadcrumb_paths|length > 1 %}
-                        {% if forloop.counter == 1 %}
-                          <a href="">{{ item.name }}</a>
-                        {% else %}
-                          {{ item.name }}
-                        {% endif %}
-                      {% else %}
-                        {{ item.name }}
-                      {% endif %}
+{#                      {% if breadcrumb_paths|length > 1 %}#}
+{#                        {% if forloop.counter == 1 %}#}
+{#                          <a href="">{{ item.name }}</a>#}
+{#                        {% else %}#}
+{#                          {{ item.name }}#}
+{#                        {% endif %}#}
+{#                      {% else %}#}
+{#                        {{ item.name }}#}
+{#                      {% endif %}#}
+                      <a href="{{ item.path }}">{{ item.name }}</a>
                     </li>
                   {% endfor %}
                 </ol>
@@ -134,19 +137,21 @@
               <li>
                 <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
               </li>
-              {% if perms.compute %}
-                <li class="has_sub">
-                  <a href="javascript:void(0);" class="waves-effect">
-                    <i class="mdi mdi-memory"></i> <span> Compute </span> <span class="menu-arrow"></span></a>
-                  <ul class="list-unstyled">
-                    {% if perms.compute.server_list %}<li><a href="{% url 'compute:server_list' %}">Server</a></li>{% endif %}
-                    {% if perms.compute.host_list %}<li><a href="{% url 'compute:host_list' %}">Host</a></li>{% endif %}
-                    {% if perms.compute.snapshot_list %}<li><a href="{% url 'compute:snap_list' %}">Snapshot</a></li>{% endif %}
-                    {% if perms.compute.image_list %}<li><a href="{% url 'compute:image_list' %}">Image</a></li>{% endif %}
-                    {% if perms.compute.backup_list %}<li><a href="{% url 'compute:backup_list' %}">Backup</a></li>{% endif %}
-                  </ul>
-                </li>
-              {% endif %}
+              {% with perm=perms.compute %}
+                {% if perm.list_server or perm.list_host or perm.list_snapshot or perm.list_image or perm.list_backup %}
+                  <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect">
+                      <i class="mdi mdi-memory"></i> <span> Compute </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                      {% if perm.list_server %}<li><a href="{% url 'compute:server_list' %}">Server</a></li>{% endif %}
+                      {% if perm.list_host %}<li><a href="{% url 'compute:host_list' %}">Host</a></li>{% endif %}
+                      {% if perm.list_snapshot %}<li><a href="{% url 'compute:snap_list' %}">Snapshot</a></li>{% endif %}
+                      {% if perm.list_image %}<li><a href="{% url 'compute:image_list' %}">Image</a></li>{% endif %}
+                      {% if perm.list_backup %}<li><a href="{% url 'compute:backup_list' %}">Backup</a></li>{% endif %}
+                    </ul>
+                  </li>
+                {% endif %}
+              {% endwith %}
 
               <li class="has_sub">
                 <a href="javascript:void(0);" class="waves-effect">
@@ -290,29 +295,19 @@
 
     {% endblock %}  {# right_sidebar #}
 
-
 {% endblock %}  {# main #}
 
 
 {% block app_js %}
-  {#  <script src="{% static 'js/dashboard/base.js' %}?v=3"></script>#}
-
-  <script src="{% static 'js/assets/detect.js' %}"></script>
-  <script src="{% static 'js/assets/fastclick.js' %}"></script>
-  <script src="{% static 'js/assets/jquery.blockUI.js' %}"></script>
-  <script src="{% static 'js/assets/waves.js' %}"></script>
-  <script src="{% static 'js/assets/jquery.nicescroll.js' %}"></script>
-  <script src="{% static 'js/assets/jquery.slimscroll.min.js' %}"></script>
-  <script src="{% static 'js/assets/jquery.scrollTo.min.js' %}"></script>
+  {% block dashboard_js_head %}{% endblock %}
   <!-- App js -->
   <script src="{% static 'js/assets/jquery.core.js' %}"></script>
   <script src="{% static 'js/assets/jquery.app.js' %}"></script>
-
   <!-- plugins -->
   <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
   <script>
-    var global_user_id = '{{ user.id }}';
-    var logout_url = '{% url 'identity:user_logout' %}';
+      var global_user_id = '{{ user.id }}';
+      var logout_url = '{% url 'identity:user_logout' %}';
   </script>
   <script src="{% static 'js/pages/dashboard.js' %}"></script>
   {% block dashboard_js %}{% endblock %}

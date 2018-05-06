@@ -19,6 +19,7 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 from dashboard.views import index
+from django.http.response import HttpResponseRedirect
 
 
 urlpatterns = [
