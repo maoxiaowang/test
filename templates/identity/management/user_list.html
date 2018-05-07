@@ -14,7 +14,7 @@
 {% block container %}
 <div class="row">
   <div class="col-lg-12">
-    <div class="card-box">
+    <div class="card-box" id="userListCard">
       <div class="dropdown pull-right">
         <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
           <i class="mdi mdi-dots-vertical"></i>
@@ -63,5 +63,6 @@
 {% endblock %}
 
 {% block dashboard_js %}
+
   <script src="{% static 'js/pages/identity/user.js' %}"></script>
 {% endblock %}

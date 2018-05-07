@@ -8,10 +8,27 @@ $('#userCreateModal form').submit(function (event) {
         data: $this.serialize(),
         type: $this.attr('method'),
         success: function (res) {
-            $.handleResponse(res);
+            res = $.handleResponse(res);
             if (res.result) {
-                $('#userCreateModal').modal('hide');
-                $.cleanFormInput($this);
+                var newElem = '';
+                $.each(res.data, function (i, item) {
+                    var dateJoined = item['date_joined'] || '-';
+                    var lastLogin = item['last_login'] || '-';
+                    newElem +=
+                        '<tr>\n' +
+                        '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format('/identity/user/detail/{0}/'.format(item['id']), item['username']) +
+                        '  <td>{0}</td>\n'.format(item['email']) +
+                        '  <td>{0}</td>\n'.format(dateJoined) +
+                        '  <td>{0}</td>\n'.format(lastLogin) +
+                        '</tr>';
+                });
+
+                $target = $('#userListCard tbody');
+                $target.html('');
+                $(newElem).hide().appendTo($target).fadeIn('slow');
+
+                    $('#userCreateModal').modal('hide');
+                    $.cleanFormInput($this);
             }
         },
         complete: function () {
@@ -35,10 +52,10 @@ $(function () {
             },
             'types' : {
                 'default' : {
-                    'icon' : 'fa fa-folder'
+                    'icon' : 'mdi mdi-note-multiple-outline'
                 },
                 'file' : {
-                    'icon' : 'fa fa-file'
+                    'icon' : 'mdi mdi-note-outline'
                 }
             },
             'plugins' : ['types', 'checkbox']
@@ -54,8 +71,8 @@ $(function () {
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
-                   $.handleResponse(res);
-                   $('#userPermsUpdateModal').modal('hide');
+                    $.handleResponse(res);
+                    $('#userPermsUpdateModal').modal('hide');
                 },
                 complete: function () {
                     $.removeLoadingCover();

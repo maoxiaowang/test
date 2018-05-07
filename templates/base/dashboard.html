@@ -26,7 +26,7 @@
       <div class="topbar">
         <!-- LOGO -->
         <div class="topbar-left">
-          <a href="{% url 'dashboard:index' %}" class="logo"><span>Admin<span>to</span></span><i class="mdi mdi-layers"></i></a>
+          <a href="{% url 'dashboard:index' %}" class="logo"><span>E<span>Cloud</span></span><i class="mdi mdi-layers"></i></a>
         </div>
 
         <!-- Button mobile view to collapse sidebar menu -->
@@ -55,7 +55,7 @@
                             <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
                           {% endif %}
                         {% else %}
-                          <a href="{{ item.path }}">{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
+                          <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
 
                         {% endif %}
 
@@ -111,10 +111,10 @@
           <!-- User -->
           <div class="user-box">
             <div class="user-img">
-              <img src="{% static 'images/users/avatar-1.jpg' %}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+              <img src="{% static 'images/users/avatar-1.jpg' %}" alt="user-img" title="{{ user.username }}" class="rounded-circle img-thumbnail img-responsive">
               <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
             </div>
-            <h5><a href="#">Mat Helme</a> </h5>
+            <h5><a href="{% url 'identity:user_detail' user.id %}">{{ user.username }}</a> </h5>
             <ul class="list-inline">
               <li class="list-inline-item">
                 <a href="#" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Settings' %}">
@@ -157,36 +157,47 @@
                 {% endif %}
               {% endwith %}
 
-              <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect">
-                  <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                  <li><a href="{% url 'storage:storage_list' %}">Storage</a></li>
-                  <li><a href="{% url 'storage:volume_list' %}">Volume</a></li>
-                </ul>
-              </li>
+              {% with perm=perms.cinder %}
+                {% if perm.list_volume %}
+                  <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect">
+                      <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                      {% if perm.list_storage %}<li><a href="{% url 'storage:storage_list' %}">Storage</a></li>{% endif %}
+                      {% if perm.list_volume %}<li><a href="{% url 'storage:volume_list' %}">Volume</a></li>{% endif %}
+                    </ul>
+                  </li>
+                {% endif %}
+              {% endwith %}
 
-              <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect">
-                  <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                  <li><a href="{% url 'network:network_list' %}">Network</a></li>
-                </ul>
-              </li>
 
-              <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect">
-                  <i class="mdi mdi-security"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                  <li><a href="{% url 'identity:user_list' %}">User</a></li>
-                  <li><a href="{% url 'identity:group_list' %}">Group</a></li>
-                  <li><a href="{% url 'identity:permission_list' %}">Permission</a></li>
-                </ul>
-              </li>
+                  <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect">
+                      <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                      <li><a href="{% url 'network:network_list' %}">Network</a></li>
+                    </ul>
+                  </li>
 
-              <li>
-                <a href="{% url 'settings:settings_list' %}" class="waves-effect"><i class="mdi mdi-settings"></i> <span> {% trans 'Settings' %} </span> </a>
-              </li>
+              {% with perm=perms.identity %}
+                {% if perm.list_user or perm.list_group or perm.list_permission %}
+                  <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect">
+                      <i class="mdi mdi-security"></i> <span> Identity </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                      {% if perm.list_user %}<li><a href="{% url 'identity:user_list' %}">User</a></li>{% endif %}
+                      {% if perm.list_group %}<li><a href="{% url 'identity:group_list' %}">Group</a></li>{% endif %}
+                      {% if perm.list_permission %}<li><a href="{% url 'identity:permission_list' %}">Permission</a></li>{% endif %}
+                    </ul>
+                  </li>
+                {% endif %}
+              {% endwith %}
+
+              {% if perms.settings.settings_list %}
+                <li>
+                  <a href="{% url 'settings:settings_list' %}" class="waves-effect"><i class="mdi mdi-settings"></i> <span> {% trans 'Settings' %} </span> </a>
+                </li>
+              {% endif %}
             </ul>
             <div class="clearfix"></div>
           </div>

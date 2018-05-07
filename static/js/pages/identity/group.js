@@ -14,10 +14,10 @@ $(function () {
             },
             'types' : {
                 'default' : {
-                    'icon' : 'fa fa-folder'
+                    'icon' : 'mdi mdi-note-multiple-outline'
                 },
                 'file' : {
-                    'icon' : 'fa fa-file'
+                    'icon' : 'mdi mdi-note-outline'
                 }
             },
             'plugins' : ['types', 'checkbox']
@@ -107,13 +107,17 @@ $(function () {
                             '  <td>{0}</td>\n'.format(item['username']) +
                             '  <td>{0}</td>\n'.format(item['email']) +
                             '  <td>{0}</td>\n'.format(item['is_active']) +
-                            '  </tr>';
+                            '</tr>';
                     });
-                    console.log(newElem);
+
                     $target = $('#groupUserCard tbody');
                     $target.html('');
                     $(newElem).hide().appendTo($target).fadeIn('slow');
-                    $('#groupUserUpdateModal').modal('hide');
+                    if (res.result) {
+                        $('#groupUserUpdateModal').modal('hide');
+                        $.cleanFormInput($this);
+                    }
+
                 },
                 complete: function () {
                     $.removeLoadingCover();

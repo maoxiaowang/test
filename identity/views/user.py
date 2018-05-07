@@ -92,7 +92,9 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                 password=form.cleaned_data['password1']
             )
             return self.render_to_json_response(
-                messages=_('Successfully created user') + ' %s' % username)
+                messages=_('Successfully created user') + ' %s' % username,
+                data=self.model.objects.all().values('id', 'username', 'email',
+                                                     'date_joined', 'last_login'))
         else:
             return self.render_to_json_response(
                 result=False, messages=form_errors_to_list(form.errors))

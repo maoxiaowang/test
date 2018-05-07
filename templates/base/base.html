@@ -36,14 +36,6 @@
   {% endif %}
 {% endblock %}
 
-<div id="loadingCover">
-  <div>
-    <div class="col align-self-center">
-      <img src="{% static 'images/spinners/rotate-palette-loader.svg' %}">
-    </div>
-  </div>
-</div>
-
 {# all modals here #}
 {% block modals %}{% endblock %}
 
@@ -61,6 +53,10 @@
   <script src="{% static 'js/assets/jquery.nicescroll.js' %}"></script>
   <script src="{% static 'js/assets/jquery.slimscroll.min.js' %}"></script>
   <script src="{% static 'js/assets/jquery.scrollTo.min.js' %}"></script>
+  <script>
+      {# val to base.js #}
+    var loadingImageUrl = "{% static 'images/spinners/rotate-palette-loader.svg' %}"
+  </script>
   <script src="{% static 'js/pages/base.js' %}"></script>
   {% block app_js %}{% endblock %}
 {% endblock %}

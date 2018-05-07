@@ -221,11 +221,23 @@ String.prototype.format = function () {
 
 // jQuery def
 (function ($) {
-    $.addLoadingCover = function () {
-        $('#loadingCover').fadeIn('slow');
+    $.addLoadingCover = function (obj) {
+        var loadingHtml =
+            '<div id="loadingCover">\n' +
+            '  <div>\n' +
+            '    <div class="col align-self-center">\n' +
+            '      <img src="{0}">\n'.format(loadingImageUrl) +
+            '    </div>\n' +
+            '  </div>\n' +
+            '</div>';
+        var _obj = obj || 'body';
+        var $parent_elem = getJQueryObject(_obj);
+        $(loadingHtml).hide().appendTo($parent_elem).fadeIn('slow');
     };
-    $.removeLoadingCover = function () {
-        $('#loadingCover').fadeOut('fast');
+    $.removeLoadingCover = function (obj) {
+        var _obj = obj ? obj : 'body';
+        var $parent_elem = getJQueryObject(_obj);
+        $parent_elem.children('#loadingCover').fadeOut('fast').remove();
     };
 
     $.cleanFormInput = function ($form) {
