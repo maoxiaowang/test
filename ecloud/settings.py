@@ -46,8 +46,7 @@ INSTALLED_APPS = [
     'meters',
     'network',
     'storage',
-    'settings',
-
+    'settings'
 ]
 
 MIDDLEWARE = [
@@ -187,7 +186,7 @@ AUTH_USER_MODEL = 'identity.User'
 AUTHENTICATION_BACKENDS = (
     'common.backends.UserAuthBackend',
 )
-ANONYMOUS_USER_ID = -1  # disable anonymous user
+ANONYMOUS_USER_ID = -1
 
 
 # Logging configurations
@@ -280,3 +279,14 @@ LOGGING = {
         },
     }
 }
+
+
+# Celery settings
+
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@192.168.100.130:5672/myvhost'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'redis://192.168.100.130:6379/0'
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = 'Asia/Shanghai'
