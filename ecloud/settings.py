@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'meters',
     'network',
     'storage',
-    'settings'
+    'settings',
+
 ]
 
 MIDDLEWARE = [
@@ -279,6 +280,19 @@ LOGGING = {
         },
     }
 }
+
+
+# OpenStack
+OPENSTACK = {
+    'keystone': {
+        'host': '127.0.0.1',
+        'port': 5000,
+        'user': 'admin',
+        'pass': '353ffc4f925f81a4d2b0',
+        'token_timeout': 12 * 60 * 60,
+    },
+}
+
 
 
 # Celery settings

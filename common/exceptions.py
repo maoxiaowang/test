@@ -4,6 +4,7 @@ Exceptions codes:
 1 - 599: Http
 600 - 999: common
 
+1000 - 1999: OpenStack
 
 Exceptions level:
 error, warning, info
@@ -35,3 +36,16 @@ class UndefinedException(ECloudException):
 class InvalidParameters(ECloudException):
     desc = 'Invalid Parameters'
     code = 601
+
+
+class ImproperConfiguration(ECloudException):
+
+    desc = 'Improper configuration'
+    code = 602
+
+    def __init__(self, *args, **kwargs):
+        self.desc = args[0] if args else kwargs.get('desc', '')
+        super().__init__(self, *args, **kwargs)
+
+    def __str__(self):
+        return '%s: %s' % (self.__name__, self.desc)

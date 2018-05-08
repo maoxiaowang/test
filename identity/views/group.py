@@ -5,6 +5,8 @@ import logging
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
@@ -15,12 +17,12 @@ from identity.exceptions import *
 from identity.forms import *
 
 User = get_user_model()
-logger = logging.getLogger('default')
 
 
 # Create your views here.
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupList(PermissionRequiredMixin, ListView):
 
     permission_required = 'identity.list_group'
@@ -34,6 +36,7 @@ class GroupList(PermissionRequiredMixin, ListView):
         return super().get_context_data(**kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'identity.detail_group'
@@ -74,6 +77,7 @@ class GroupDetail(PermissionRequiredMixin, DetailView):
         return super().get_context_data(**kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
     permission_required = 'identity.add_group'
@@ -92,6 +96,7 @@ class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
             raise self.render_to_json_response(result=False)
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'identity.change_group'
@@ -102,6 +107,7 @@ class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
         pass
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'identity.update_group_user'
@@ -134,6 +140,7 @@ class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
             data=obj.user_set.all().values('username', 'email', 'is_active'))
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
     permission_required = 'identity.delete_group'
@@ -148,6 +155,7 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class GroupPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
     permission_required = 'identity.update_group_permission'

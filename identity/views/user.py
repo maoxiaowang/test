@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
@@ -74,6 +76,7 @@ class Logout(auth_views.LogoutView):
     pass
 
 
+@method_decorator(login_required, name='dispatch')
 class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
     permission_required = 'identity.create_user'
@@ -100,6 +103,7 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                 result=False, messages=form_errors_to_list(form.errors))
 
 
+@method_decorator(login_required, name='dispatch')
 class UserUpdate(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'identity.update_user'
@@ -112,6 +116,7 @@ class UserUpdate(PermissionRequiredMixin, UpdateView):
         pass
 
 
+@method_decorator(login_required, name='dispatch')
 class UserDelete(PermissionRequiredMixin, DeleteView):
 
     permission_required = 'identity.delete_user'
@@ -121,6 +126,7 @@ class UserDelete(PermissionRequiredMixin, DeleteView):
     success_url = '/identity/user/'
 
 
+@method_decorator(login_required, name='dispatch')
 class UserDetail(PermissionRequiredMixin, DetailView):
 
     permission_required = 'identity.detail_user'
@@ -157,6 +163,7 @@ class UserDetail(PermissionRequiredMixin, DetailView):
         return super().get_context_data(**kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserList(PermissionRequiredMixin, ListView):
 
     permission_required = 'identity.list_user'
@@ -172,6 +179,7 @@ class UserList(PermissionRequiredMixin, ListView):
         return super().get_context_data(**kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
     permission_required = 'identitiy.update_user_permission'
@@ -207,6 +215,7 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
         return self.render_to_json_response()
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordChange(auth_views.PasswordChangeView):
     """
     Change password by providing current password
@@ -215,6 +224,7 @@ class PasswordChange(auth_views.PasswordChangeView):
     template_name = 'identity/authentication/password_change.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordChangeDone(auth_views.PasswordChangeDoneView):
     """
     Change password done
@@ -222,6 +232,7 @@ class PasswordChangeDone(auth_views.PasswordChangeDoneView):
     template_name = 'identity/authentication/password_change_done.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordReset(auth_views.PasswordResetView):
     """
     Validate and send a password reset email
@@ -229,6 +240,7 @@ class PasswordReset(auth_views.PasswordResetView):
     pass
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordResetDone(auth_views.PasswordResetDoneView):
     """
     Email has been sent
@@ -236,6 +248,7 @@ class PasswordResetDone(auth_views.PasswordResetDoneView):
     pass
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
     """
     Authorized to set a new password
@@ -243,6 +256,7 @@ class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
     pass
 
 
+@method_decorator(login_required, name='dispatch')
 class PasswordResetComplete(auth_views.PasswordResetCompleteView):
     """
     Password reset all done
