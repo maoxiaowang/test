@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -285,22 +285,22 @@ LOGGING = {
 # OpenStack
 OPENSTACK = {
     'keystone': {
-        'host': '127.0.0.1',
+        'host': '10.10.132.161',
         'port': 5000,
         'user': 'admin',
-        'pass': '353ffc4f925f81a4d2b0',
-        'token_timeout': 12 * 60 * 60,
+        'pass': '06a29a1b7d84cb7b713a',
+        'token_timeout': 12 * 60 * 60,  # keystone token timeout, seconds
+        'project_id': 'c5bb6219baf84706aba37bf9f37ea911',   # should active
     },
 }
 
 
-
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://myuser:mypassword@192.168.100.130:5672/myvhost'
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@10.10.129.72:5672/myvhost'
 
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = 'redis://192.168.100.130:6379/0'
+CELERY_RESULT_BACKEND = 'redis://10.10.129.72:6379/3'
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_TIMEZONE = 'Asia/Shanghai'

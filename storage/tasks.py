@@ -1,24 +1,20 @@
 # Create your tasks here
-from celery import shared_task, Celery
+from celery import shared_task
+from common.openstack.cinder import CinderRequest
 
-app = Celery('storage')
-
-
-@shared_task
-def mul(x, y):
-    return x * y
+REQUEST = CinderRequest('cinder')
 
 
 @shared_task
-def xsum(numbers):
-    return sum(numbers)
+def list_volumes(request, project_id, *args, **kwargs):
+    """
 
-#
-# class MyTask(Task):
-#     def on_success(self, retval, task_id, args, kwargs):
-#         print('task done: {0}'.format(retval))
-#         return super(MyTask, self).on_success(retval, task_id, args, kwargs)
-#
-#     def on_failure(self, exc, task_id, args, kwargs, einfo):
-#         print('task fail, reason: {0}'.format(exc))
-#         return super(MyTask, self).on_failure(exc, task_id, args, kwargs, einfo)
+    :param request: Django request object
+    :param project_id:
+    :param args:
+    :param kwargs:
+    :return:
+    """
+
+    res = REQUEST.list_volumes(request, project_id, *args, **kwargs)
+    return res
