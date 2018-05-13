@@ -2,7 +2,7 @@
 from celery import shared_task
 from common.openstack.cinder import CinderRequest
 
-REQUEST = CinderRequest('cinder')
+R = CinderRequest()
 
 
 @shared_task
@@ -16,5 +16,5 @@ def list_volumes(request, project_id, *args, **kwargs):
     :return:
     """
 
-    res = REQUEST.list_volumes(request, project_id, *args, **kwargs)
+    res = R.list_volumes(request, project_id, *args, **kwargs)
     return res

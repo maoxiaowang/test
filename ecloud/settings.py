@@ -31,12 +31,14 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'cinder',
     'nova',
     'neutron',
@@ -304,3 +306,8 @@ CELERY_RESULT_BACKEND = 'redis://10.10.129.72:6379/3'
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_TIMEZONE = 'Asia/Shanghai'
+
+
+# Channels
+
+ASGI_APPLICATION = "ecloud.routing.application"
