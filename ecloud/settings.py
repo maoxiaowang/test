@@ -299,15 +299,24 @@ OPENSTACK = {
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://myuser:mypassword@10.10.129.72:5672/myvhost'
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@192.168.100.130:5672/myvhost'
 
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = 'redis://10.10.129.72:6379/3'
+CELERY_RESULT_BACKEND = 'redis://192.168.100.130:6379/3'
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERY_ENABLE_UTC = True
 
 
 # Channels
 
 ASGI_APPLICATION = "ecloud.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('192.168.100.130', 6379)],
+        },
+    },
+}

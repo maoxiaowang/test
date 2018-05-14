@@ -17,3 +17,7 @@ class CinderRequest(OpenStackRequest):
 
     def create_volumes(self):
         pass
+
+    def create_volume_type(self, request, project_id, **kwargs):
+        return self.post(request, '/v3/%s/types' % project_id, data=None)
+
