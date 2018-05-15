@@ -197,7 +197,19 @@ class UserCreationForm(auth_forms.UserCreationForm):
 
 
 class UserUpdateForm(forms.Form):
-    pass
+    email = forms.EmailField(
+        label=_('Email Address'),
+        widget=forms.EmailInput(
+            attrs={
+                'id': 'inputEmail',
+                'class': 'form-control',
+                'max_length': 64,
+                'min_length': 8,
+                'required': True,
+                'placeholder': _('Email')
+            }
+        )
+    )
 
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):

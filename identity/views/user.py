@@ -104,16 +104,23 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class UserUpdate(PermissionRequiredMixin, UpdateView):
+class UserUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
     permission_required = 'identity.update_user'
     raise_exception = True
     model = User
     form_class = UserUpdateForm
-    template_name = ''
+    pk_url_kwarg = 'user_id'
 
     def post(self, request, *args, **kwargs):
-        pass
+        form = self.form_class(data=request.POST, error_class=DivErrorList)
+        if form.is_valid():
+            user_obj = self.get_object()
+            user_obj.email = request.POST.get('email')
+            user_obj.save()
+            return self.render_to_json_response(data={'email': user_obj.email})
+        else:
+            raise self.render_to_json_response(result=False)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -159,7 +166,7 @@ class UserDetail(PermissionRequiredMixin, DetailView):
 
         kwargs.update({'all_perms': all_perms,
                        'perm_content_types': res,
-                       'user_id': self.kwargs[self.pk_url_kwarg]})
+                       'user_update_form': UserUpdateForm})
         return super().get_context_data(**kwargs)
 
 

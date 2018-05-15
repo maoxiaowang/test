@@ -27,12 +27,37 @@ $('#userCreateModal form').submit(function (event) {
                 $target.html('');
                 $(newElem).hide().appendTo($target).fadeIn('slow');
 
-                    $('#userCreateModal').modal('hide');
-                    $.cleanFormInput($this);
+                $('#userCreateModal').modal('hide');
+                $.cleanFormInput($this);
             }
         },
         complete: function () {
 
+            $.removeLoadingCover();
+        },
+        error: function () {
+        }
+    });
+});
+
+$('#userDetailUpdateModal form').submit(function (event) {
+    var $this = $(this);
+    event.preventDefault();
+    $.addLoadingCover();
+    $.ajax({
+        url: $this.attr('action'),
+        data: $this.serialize(),
+        type: $this.attr('method'),
+        success: function (res) {
+            res = $.handleResponse(res);
+            if (res.result) {
+                var newEmail = res.data['email'];
+                $('#userEmail > span').text(newEmail);
+                $('#userDetailUpdateModal').modal('hide');
+                $.cleanFormInput($this);
+            }
+        },
+        complete: function () {
             $.removeLoadingCover();
         },
         error: function () {

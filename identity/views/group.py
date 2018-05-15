@@ -86,7 +86,6 @@ class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
     model = Group
 
     def post(self, request, *args, **kwargs):
-        print('POST')
         form = self.form_class(data=request.POST, auto_id=True,
                                error_class=DivErrorList)
         if form.is_valid():
