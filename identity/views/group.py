@@ -1,6 +1,5 @@
 # coding=utf-8
 import json
-import logging
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -11,9 +10,8 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from common.exceptions import InvalidParameters
-from common.views.mixin import JSONResponseMixin
+from common.mixin import JSONResponseMixin
 from identity.models import Group, Permission
-from identity.exceptions import *
 from identity.forms import *
 
 User = get_user_model()

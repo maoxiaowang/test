@@ -5,7 +5,7 @@ Create your views here.
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import (DetailView, ListView)
 from django.http.response import JsonResponse
-from common.views.mixin import ret_format
+from common.mixin import ret_format
 from django.views.decorators.http import (
     require_POST, require_http_methods)
 from .tasks import create_server_task

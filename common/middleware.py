@@ -18,7 +18,7 @@ from django.views.debug import technical_500_response
 
 from common.exceptions import ECloudException
 from common.utils.string_ import UUID
-from common.views.mixin import ret_format
+from common.mixin import ret_format
 
 
 class CommonMiddleware(MiddlewareMixin):

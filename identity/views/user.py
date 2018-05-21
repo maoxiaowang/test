@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from common.exceptions import InvalidParameters
 from common.forms.utils import form_errors_to_list
-from common.views.mixin import JSONResponseMixin
+from common.mixin import JSONResponseMixin
 from identity.models import Permission
 from identity.forms import *
 

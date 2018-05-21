@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # 'channels',
+    'guardian',
     # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -176,6 +177,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    #.replace('\\', '/')
 
 MEDIA_URL = '/media/'
 
+
 # Self-defined authentication
 
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -188,8 +190,19 @@ AUTH_USER_MODEL = 'identity.User'
 
 AUTHENTICATION_BACKENDS = (
     'common.backends.UserAuthBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
-ANONYMOUS_USER_ID = -1
+
+
+# Guardian
+
+GUARDIAN_RAISE_403 = True   # raise django.http.HttpResponseForbidden
+
+# GUARDIAN_RENDER_403 = False
+
+# GUARDIAN_TEMPLATE_403 = '403.html'
+
+ANONYMOUS_USER_NAME = None  # disable anonymous user object permissions
 
 
 # Logging configurations

@@ -2,12 +2,16 @@
 """
 Storage, volume
 """
-from django.views.generic import (
-    CreateView, UpdateView, DeleteView, ListView, DetailView, View)
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.views.generic import (View, CreateView,
+    UpdateView, DeleteView, ListView, DetailView)
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.utils.decorators import method_decorator
 from cinder.models import Volumes
+from storage.tasks import create_volumes
+from common.mixin import JSONResponseMixin
+# from guardian.mixins import PermissionRequiredMixin
+
 # Create your views here.
 
 
@@ -33,18 +37,15 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
     template_name = 'storage/volume_detail.html'
 
 
-class VolumeCreate(PermissionRequiredMixin, CreateView):
+class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
 
     permission_required = 'storage.create_volume'
     raise_exception = True
-    template_name = 'storage/volume_create.html'
     model = Volumes
 
-    def get_context_data(self, **kwargs):
-        pass
-
     def post(self, request, *args, **kwargs):
-        pass
+        # TODO: create volume
+        create_volumes(request).delay()
 
 
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
