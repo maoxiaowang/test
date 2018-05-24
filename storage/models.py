@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 # UserModel = get_user_model()
 
 
-class VolumeResource(models.Model):
+class StorageVolume(models.Model):
     """
 
     """

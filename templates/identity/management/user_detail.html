@@ -7,17 +7,18 @@
 {% endblock %}
 
 {% block modals %}
+
   <div class="modal fade" id="userDetailUpdateModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/user_update_form.html' with form=user_update_form%}
     </div>
   </div>
 
-  <div class="modal fade" id="userPermsUpdateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="userLocalPermsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{% trans 'Update user permissions' %}</h5>
+          <h5 class="modal-title">{% trans 'Update user local permissions' %}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -26,7 +27,68 @@
           <div class="row">
             <div class="col-12">
               {# render jstree #}
-              <div id="userPermsTree">
+              <div id="userLocalPermsTree">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                      Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link">
+                      Profile
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#messages1" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      Messages
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#settings1" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      Settings
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade active show" id="home1">
+                    <p>tree1</p>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="profile1"><p>tree2</p>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="messages1">
+                    <p>tree3</p>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="settings1">
+                    <p>tree4</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="userLocalPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>  <!-- userLocalPermsModal -->
+
+  <div class="modal fade" id="userGlobalPermsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{% trans 'Update user global permissions' %}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              {# render jstree #}
+              <div id="userGlobalPermsTree">
                 <ul>
                   {% for ct in perm_content_types %}
                     {# user by content_types #}
@@ -46,12 +108,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="userPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="userGlobalPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
     </div>
-  </div>  <!-- userPermUpdateModal -->
+  </div>  <!-- userGlobalPermsModal -->
 {% endblock %}
 
 {% block container %}
@@ -81,25 +143,50 @@
         <p>{% trans 'user' %} ID <span>{{ user.id }}</span></p>
         <p>{% trans 'active' %} <span>{% if user.is_active %}{% trans 'yes' %}{% else %}{% trans 'no' %}{% endif %}</span></p>
         <p id="userEmail">{% trans 'email' %} <span>{{ user.email }}</span></p>
-      </div>
+      </div>  {# userDetailCardBox #}
 
-      <div class="card-box" id="userPermissionCardBox">
+
+      <div class="card-box" id="userLocalPermsCardBox">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userPermsUpdateModal">{% trans 'Update permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userLocalPermsModal">{% trans 'Update local permission' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
         </div>
 
-        <h4 class="header-title m-t-0 m-b-30">{% trans 'User permissions' %}</h4>
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'User local permissions' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
           {% blocktrans %}
-            Welcome to user permission, please click top-right icon to discover more.
+            Welcome to user local permission, please click top-right icon to discover more.
+          {% endblocktrans %}
+        </p>
+
+        {# table here, 对应modal可使用tabs来展示，列出各类资源（Content-Type）下所有对象，更改每个用户权限 #}
+
+      </div>  {# userLocalPermsCardBox #}
+
+      <div class="card-box" id="userGlobalPermsCardBox">
+        <div class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userGlobalPermsModal">{% trans 'Update global permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+          </div>
+        </div>
+
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'User global permissions' %}</h4>
+
+        <p class="text-muted font-13 m-b-25">
+          {% blocktrans %}
+            Welcome to user global permission, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
@@ -123,7 +210,8 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div>  {# userGlobalPermsCardBox #}
+
     </div><!-- end col -->
 
   </div>
@@ -132,7 +220,8 @@
 {% block dashboard_js_head %}
   <script>
       {# django value to js #}
-      var user_perms_update_url = "{% url 'identity:user_permission_update' user.id %}";
+      var userGlobalPermsUrl = "{% url 'identity:user_permission_update' user.id %}";
+      var userLocalPermsUrl = "";
   </script>
   <script src="{% static 'js/pages/identity/user.js' %}"></script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>

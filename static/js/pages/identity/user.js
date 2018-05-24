@@ -16,7 +16,8 @@ $('#userCreateModal form').submit(function (event) {
                     var lastLogin = item['last_login'] || '-';
                     newElem +=
                         '<tr>\n' +
-                        '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format('/identity/user/detail/{0}/'.format(item['id']), item['username']) +
+                        '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
+                            '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
                         '  <td>{0}</td>\n'.format(item['email']) +
                         '  <td>{0}</td>\n'.format(dateJoined) +
                         '  <td>{0}</td>\n'.format(lastLogin) +
@@ -66,7 +67,7 @@ $('#userDetailUpdateModal form').submit(function (event) {
 });
 
 $(function () {
-    var $gTree = $('#userPermsTree');
+    var $gTree = $('#userGlobalPermsTree');
     if ($gTree.length > 0) {
         // init jstree
         $gTree.jstree({
@@ -87,22 +88,22 @@ $(function () {
         });
 
         // change group permissions
-        $('#userPermsBtn').click(function () {
+        $('#userGlobalPermsBtn').click(function () {
             var data = $gTree.jstree().get_checked();
             var jsonData = JSON.stringify(data);
             $.addLoadingCover();
             $.ajax({
-                url: user_perms_update_url,
+                url: userGlobalPermsUrl,
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
                     $.handleResponse(res);
-                    $('#userPermsUpdateModal').modal('hide');
+                    $('#userGlobalPermsModal').modal('hide');
                 },
                 complete: function () {
                     $.removeLoadingCover();
                 }
-            })
+            });
 
         });
     }

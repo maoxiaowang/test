@@ -173,7 +173,7 @@ STATICFILES_DIRS = [
     ('plugins', os.path.join(STATIC_ROOT, 'plugins')),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    #.replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # .replace('\\', '/')
 
 MEDIA_URL = '/media/'
 
