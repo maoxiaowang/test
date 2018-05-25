@@ -10,7 +10,7 @@ class StorageVolume(models.Model):
 
     """
     id = models.CharField(primary_key=True, max_length=36)
-    name = models.CharField(max_length=16, verbose_name=_('name'))
+    name = models.CharField(max_length=255, verbose_name=_('name'))
     # user = models.ForeignKey(UserModel, on_delete=models.CASCADE,
     #                          related_name='volume_owner')
 

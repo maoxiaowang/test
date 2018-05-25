@@ -14,11 +14,11 @@
     </div>
   </div>
 
-  <div class="modal fade" id="userLocalPermsModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="userObjectPermsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{% trans 'Update user local permissions' %}</h5>
+          <h5 class="modal-title">{% trans 'Update user object permissions' %}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -27,40 +27,50 @@
           <div class="row">
             <div class="col-12">
               {# render jstree #}
-              <div id="userLocalPermsTree">
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link active">
-                      Home
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link">
-                      Profile
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#messages1" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      Messages
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#settings1" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      Settings
-                    </a>
-                  </li>
-                </ul>
-                <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane fade active show" id="home1">
-                    <p>tree1</p>
+              <div id="userObjectPermsTree">
+                <div id="resourceAccordion" role="tablist" aria-multiselectable="true">
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                      <h5 class="mb-0 mt-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="text-dark" aria-expanded="true" aria-controls="collapseOne">
+                          {% trans 'storage' %}
+                        </a>
+                      </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" style="">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
                   </div>
-                  <div role="tabpanel" class="tab-pane fade" id="profile1"><p>tree2</p>
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                      <h5 class="mb-0 mt-0">
+                        <a class="collapsed text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          {% trans 'compute' %}
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
                   </div>
-                  <div role="tabpanel" class="tab-pane fade" id="messages1">
-                    <p>tree3</p>
-                  </div>
-                  <div role="tabpanel" class="tab-pane fade" id="settings1">
-                    <p>tree4</p>
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingThree">
+                      <h5 class="mb-0 mt-0">
+                        <a class="collapsed text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          {% trans 'network' %}
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -68,12 +78,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="userLocalPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="userObjectPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
     </div>
-  </div>  <!-- userLocalPermsModal -->
+  </div>  <!-- userObjectPermsModal -->
 
   <div class="modal fade" id="userGlobalPermsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -146,29 +156,29 @@
       </div>  {# userDetailCardBox #}
 
 
-      <div class="card-box" id="userLocalPermsCardBox">
+      <div class="card-box" id="userObjectPermsCardBox">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userLocalPermsModal">{% trans 'Update local permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#userObjectPermsModal">{% trans 'Update object permission' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
         </div>
 
-        <h4 class="header-title m-t-0 m-b-30">{% trans 'User local permissions' %}</h4>
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'User object permissions' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
           {% blocktrans %}
-            Welcome to user local permission, please click top-right icon to discover more.
+            Welcome to user object permission, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
         {# table here, 对应modal可使用tabs来展示，列出各类资源（Content-Type）下所有对象，更改每个用户权限 #}
 
-      </div>  {# userLocalPermsCardBox #}
+      </div>  {# userObjectPermsCardBox #}
 
       <div class="card-box" id="userGlobalPermsCardBox">
         <div class="dropdown pull-right">
@@ -221,7 +231,7 @@
   <script>
       {# django value to js #}
       var userGlobalPermsUrl = "{% url 'identity:user_permission_update' user.id %}";
-      var userLocalPermsUrl = "";
+      var userObjectPermsUrl = "";
   </script>
   <script src="{% static 'js/pages/identity/user.js' %}"></script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>

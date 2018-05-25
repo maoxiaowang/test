@@ -17,6 +17,7 @@ from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
 from identity.models import Permission
 from identity.forms import *
+from .helper import get_resources
 
 User = get_user_model()
 logger = logging.getLogger('default')
@@ -145,12 +146,12 @@ class UserDetail(PermissionRequiredMixin, DetailView):
     extra_context = {}
 
     def get_context_data(self, **kwargs):
-        # rendering group permission modal
+        # rendering user's global permission modal
         all_perms = Permission.objects.all()
         cts = list()
         res = list()
-        user_perms = self.object.user_permissions.all()
-        user_perms_id_list = [item.id for item in user_perms]
+        global_perms = self.object.user_permissions.all()
+        global_perms_id_list = [item.id for item in global_perms]
 
         for ap in all_perms:
             if ap.content_type_id not in cts:
@@ -158,13 +159,16 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                 res.append(
                     {'id': ap.content_type_id,
                      'name': ap.content_type.name})
-            if ap.id in user_perms_id_list:
+            if ap.id in global_perms_id_list:
                 ap.assigned = True
             else:
                 ap.assigned = False
-        # current group's permission
+
+        # user's object permission modal
+        resources = get_resources(user=self.object)
 
         kwargs.update({'all_perms': all_perms,
+                       'resources': resources,
                        'perm_content_types': res,
                        'user_update_form': UserUpdateForm})
         return super().get_context_data(**kwargs)
