@@ -48,7 +48,38 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
-class User(AbstractUser, UserManager):
+class ResourceMixin:
+
+    def has_resource(self, resource_id):
+        return Resource.objects.filter(id=resource_id, user=self).exists()
+
+    def get_resources(self, resource_type=None):
+        if resource_type:
+            return Resource.objects.filter(user=self, type=resource_type)
+        return Resource.objects.filter(user=self)
+
+    def assign_resource(self, resource_id, resource_type):
+        obj = Resource.objects.filter(id=resource_id)
+        if obj.exists():
+            obj.update(user=self)
+        else:
+            Resource.objects.create(id=resource_id,
+                                    type=resource_type,
+                                    user=self)
+
+    def delete_resource(self, resource_id):
+        Resource.objects.get(pk=resource_id, user=self).delete()
+
+    def undo_assign_resource(self, resource_id):
+        try:
+            resource = Resource.objects.get(id=resource_id)
+            resource.user = None
+            resource.save()
+        except models.ObjectDoesNotExist:
+            pass
+
+
+class User(ResourceMixin, AbstractUser, UserManager):
     """
     用户
     """
@@ -122,3 +153,30 @@ class Tenant(models.Model):
 
     class Meta:
         db_table = 'auth_tenant'
+
+
+class Resource(models.Model):
+    """
+    用户资源分配
+    """
+    id = models.CharField(primary_key=True, max_length=36)
+    type = models.CharField(max_length=255, verbose_name=_('type'))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        ordering = ['type', 'id']
+        db_table = 'resource'
+        permissions = (
+            ('list_volume', _('Can see volume list')),
+            ('detail_volume', _('Can see volume detail')),
+            ('create_volume', _('Can create volume')),
+            ('update_volume', _('Can update volume')),
+            ('delete_volume', _('Can delete volume')),
+
+            ('list_host', _('Can see host list')),
+            ('detail_host', _('Can see host detail')),
+            ('add_host', _('Can add host')),
+            ('update_host', _('Can update host')),
+            ('remove_host', _('Can remove host')),
+        )
+        default_permissions = ()

@@ -73,7 +73,7 @@
           <div class="row">
             <div class="col-12">
 
-              <select name="country" id="group_user_multi_select" multiple="multiple" title="group_user_multi_select">
+              <select name="group_user" id="group_user_multi_select" multiple="multiple" title="group_user_multi_select">
                 {% for u in not_group_users %}
                   <option value="{{ u.id }}">{{ u.username }}</option>
                 {% endfor %}

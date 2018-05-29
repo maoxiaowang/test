@@ -34,27 +34,27 @@ from django.contrib.auth.backends import get_user_model
 #         return self.name
 #
 #
-class Host(models.Model):
-    """
-    宿主机
-    """
-    id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
-    name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
-
-    class Meta:
-        db_table = 'compute_host'
-        ordering = ['name', 'id']
-        permissions = (
-            ('list_host', _('Can see host list')),
-            ('detail_host', _('Can see host detail')),
-            ('add_host', _('Can add host')),
-            ('change_host', _('Can change host')),
-            ('remove_host', _('Can remove host')),
-        )
-        default_permissions = ()
-
-    def __str__(self):
-        return self.name
+# class Host(models.Model):
+#     """
+#     宿主机
+#     """
+#     id = models.CharField(max_length=36, verbose_name=_('id'), primary_key=True)
+#     name = models.CharField(max_length=16, verbose_name=_('username'), blank=True)
+#
+#     class Meta:
+#         db_table = 'compute_host'
+#         ordering = ['name', 'id']
+#         permissions = (
+#             ('list_host', _('Can see host list')),
+#             ('detail_host', _('Can see host detail')),
+#             ('add_host', _('Can add host')),
+#             ('change_host', _('Can change host')),
+#             ('remove_host', _('Can remove host')),
+#         )
+#         default_permissions = ()
+#
+#     def __str__(self):
+#         return self.name
 #
 #
 # class Snapshot(models.Model):

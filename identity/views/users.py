@@ -15,9 +15,9 @@ from django.views.generic import CreateView, UpdateView, DeleteView, DetailView,
 from common.exceptions import InvalidParameters
 from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
-from identity.models import Permission
+from identity.models import Permission, Resource
 from identity.forms import *
-from .helper import get_resources
+from identity.views.resources import resource_detail
 
 User = get_user_model()
 logger = logging.getLogger('default')
@@ -150,6 +150,7 @@ class UserDetail(PermissionRequiredMixin, DetailView):
         all_perms = Permission.objects.all()
         cts = list()
         res = list()
+
         global_perms = self.object.user_permissions.all()
         global_perms_id_list = [item.id for item in global_perms]
 
@@ -165,10 +166,27 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                 ap.assigned = False
 
         # user's object permission modal
-        resources = get_resources(user=self.object)
+        user_resources = self.object.get_resources()
+        format_resources = {}   # format resources to a dict category by type
+        for r in user_resources:
+            if format_resources.get(r.type) is None:
+                format_resources[r.type] = [resource_detail(r)]
+            else:
+                format_resources[r.type].append(resource_detail(r))
+        user_resource_ids = [i.id for i in user_resources]
+
+        format_not_resources = {}
+        not_user_resources = Resource.objects.exclude(id__in=user_resource_ids)
+        for r in not_user_resources:
+            if format_not_resources.get(r.type) is None:
+                format_not_resources[r.type] = [resource_detail(r)]
+            else:
+                format_not_resources[r.type].append(resource_detail(r))
 
         kwargs.update({'all_perms': all_perms,
-                       'resources': resources,
+                       'format_not_resources': format_not_resources,
+                       'format_resources': format_resources,
+                       'resources': user_resources,
                        'perm_content_types': res,
                        'user_update_form': UserUpdateForm})
         return super().get_context_data(**kwargs)

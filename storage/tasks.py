@@ -2,7 +2,6 @@
 import time
 from celery import shared_task
 from common.openstack.cinder import CinderRequest
-from guardian.shortcuts import assign_perm
 
 
 R = CinderRequest()
@@ -48,8 +47,6 @@ def _create_volume(request, *args, **kwargs):
     user_obj = None
     volume_obj = None
 
-    assign_perm('update_volume', user_obj, obj=volume_obj)
-    assign_perm('delete_volume', user_obj, obj=volume_obj)
     # and more if it is needed
 
 

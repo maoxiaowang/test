@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import TemplateView
 from django.urls import path, re_path, register_converter
 from django.urls.converters import UUIDConverter
-from . import views
+from storage.views import views
 
 app_name = 'storage'
 
