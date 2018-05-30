@@ -31,7 +31,7 @@
 
               <ul class="nav nav-tabs">
                 <li class="nav-item">
-                  <a href="#host" data-toggle="tab" aria-expanded="false" class="nav-link active">{% trans 'host' %}</a>
+                  <a href="#userHost" data-toggle="tab" aria-expanded="false" class="nav-link active">{% trans 'host' %}</a>
                 </li>
                 <li class="nav-item">
                   <a href="#volume" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'volume' %}</a>
@@ -48,7 +48,7 @@
               </ul>
 
               <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade active show" id="host">
+                <div role="tabpanel" class="tab-pane fade active show" id="userHost">
                   <select name="user_host" id="user_host_multi_select" multiple="multiple" title="user_host_multi_select">
                     {% with not_host=format_not_resources.host host=format_resources.host%}
                       {% if not_host %}
@@ -64,7 +64,7 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="volume">
+                <div role="tabpanel" class="tab-pane fade" id="user_volume">
                   <select name="user_volume" id="user_volume_multi_select" multiple="multiple" title="user_volume_multi_select">
                     {% with not_volume=format_not_resources.volume volume=format_resources.volume%}
                       {% if not_volume %}
@@ -80,7 +80,7 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="instance">
+                <div role="tabpanel" class="tab-pane fade" id="user_instance">
                   <select name="user_instance" id="user_instance_multi_select" multiple="multiple" title="user_instance_multi_select">
                     {% with not_instance=format_not_resources.instance instance=format_resources.instance%}
                       {% if not_instance %}
@@ -96,10 +96,10 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="storage">
+                <div role="tabpanel" class="tab-pane fade" id="user_storage">
                   <p>4444</p>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="network">
+                <div role="tabpanel" class="tab-pane fade" id="user_network">
                   <p>4444</p>
                 </div>
               </div>
@@ -116,7 +116,7 @@
     </div>
   </div>  <!-- userObjectPermsModal -->
 
-  <div class="modal fade" id="userGlobalPermsModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-global-perms-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

@@ -190,7 +190,7 @@ AUTH_USER_MODEL = 'identity.User'
 
 AUTHENTICATION_BACKENDS = (
     'common.backends.UserAuthBackend',
-    'guardian.backends.ObjectPermissionBackend',
+    # 'guardian.backends.ObjectPermissionBackend',
 )
 
 

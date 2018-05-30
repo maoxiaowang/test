@@ -59,7 +59,7 @@ class Login(auth_views.LoginView):
             user = User.objects.get(username=username)
 
             # log into
-            login(request, user, backend='common.backends.UserAuthBackend')
+            login(request, user)
 
             remember_me = form.cleaned_data['remember_me']
             if not remember_me:

@@ -306,21 +306,21 @@ $(function () {
         // handle django messages
         var $messages = $('ul.messages');
         if ($messages.length > 0) {
-            $.each($messages.find('li'), function (i, item) {
-                var level = $(item).attr('data-messages-level');
+            $.each($messages.find('li.message'), function (i, item) {
+                var level = $(item).attr('data-message-level');
                 var msg = $(item).text();
                 switch (level) {
                     case 'success':
-                        toastr.success(item);
+                        toastr.success(msg);
                         break;
                     case 'info':case 'debug':
-                    toastr.info(item);
-                    break;
+                        toastr.info(msg);
+                        break;
                     case 'warning':
-                        toastr.warning(item);
+                        toastr.warning(msg);
                         break;
                     case 'error':
-                        toastr.error(item);
+                        toastr.error(msg);
                         break;
                 }
             });

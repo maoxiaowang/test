@@ -208,7 +208,7 @@ $(function () {
                 type: 'POST',
                 success: function (res) {
                     $.handleResponse(res);
-                    $('#userGlobalPermsModal').modal('hide');
+                    $('#user-global-perms-modal').modal('hide');
                 },
                 complete: function () {
                     $.removeLoadingCover();
