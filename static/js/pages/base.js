@@ -256,11 +256,20 @@ String.prototype.format = function () {
                     res = $.parseJSON(res);
                 } catch (e) {return res;}
             }
+            reload = reload ? reload : false;
 
-            if (res.result && reload) {
-                // reload page
-                console.log('reload');
-                window.location.reload();
+            if (res.result) {
+                if (typeof(reload) === "string") {
+                    console.log('redirect');
+                    window.location.href = reload;
+                }
+                else if (reload) {
+                    // reload page
+                    console.log('reload');
+                    window.location.reload();
+                }
+                return res;
+
 
             } else {
                 $.each(res.messages, function (i, item) {

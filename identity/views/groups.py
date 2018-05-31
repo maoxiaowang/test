@@ -139,6 +139,9 @@ class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
                 # add
                 obj.user_set.add(nid)
 
+        messages.add_message(request, messages.SUCCESS,
+                             _('Users of group %s has been successfully updated.' % obj.name))
+
         return self.render_to_json_response(
             data=obj.user_set.all().values('username', 'email', 'is_active'))
 
@@ -163,7 +166,7 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
         except Exception as e:
             logger.error('Group deleting error, %s' % str(e))
             raise GroupDeletingError
-        return
+        return self.render_to_json_response()
 
 
 @method_decorator(login_required, name='dispatch')

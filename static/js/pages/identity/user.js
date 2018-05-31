@@ -10,23 +10,23 @@ $('#user-create-modal form').submit(function (event) {
         success: function (res) {
             res = $.handleResponse(res);
             if (res.result) {
-                var newElem = '';
-                $.each(res.data, function (i, item) {
-                    var dateJoined = item['date_joined'] || '-';
-                    var lastLogin = item['last_login'] || '-';
-                    newElem +=
-                        '<tr>\n' +
-                        '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
-                            '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
-                        '  <td>{0}</td>\n'.format(item['email']) +
-                        '  <td>{0}</td>\n'.format(dateJoined) +
-                        '  <td>{0}</td>\n'.format(lastLogin) +
-                        '</tr>';
-                });
-
-                var $target = $('#user-list-card tbody');
-                $target.html('');
-                $(newElem).hide().appendTo($target).fadeIn('slow');
+                // var newElem = '';
+                // $.each(res.data, function (i, item) {
+                //     var dateJoined = item['date_joined'] || '-';
+                //     var lastLogin = item['last_login'] || '-';
+                //     newElem +=
+                //         '<tr>\n' +
+                //         '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
+                //             '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
+                //         '  <td>{0}</td>\n'.format(item['email']) +
+                //         '  <td>{0}</td>\n'.format(dateJoined) +
+                //         '  <td>{0}</td>\n'.format(lastLogin) +
+                //         '</tr>';
+                // });
+                //
+                // var $target = $('#user-list-card tbody');
+                // $target.html('');
+                // $(newElem).hide().appendTo($target).fadeIn('slow');
 
                 $('#user-create-modal').modal('hide');
                 $.cleanFormInput($this);

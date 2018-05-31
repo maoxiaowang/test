@@ -24,7 +24,7 @@ $(function () {
         });
 
         // group users select
-        $('#group_user_multi_select').multiSelect({
+        $('#group-user-multi-select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已加入{0}组的用户</div>".format(groupName),
@@ -99,20 +99,20 @@ $(function () {
                 type: $this.attr('method'),
                 data: {'user_ids': JSON.stringify(data)},
                 success: function (res) {
-                    res = $.handleResponse(res);
-                    var newElem = '';
-                    $.each(res.data, function (i, item) {
-                        newElem +=
-                            '<tr>\n' +
-                            '  <td>{0}</td>\n'.format(item['username']) +
-                            '  <td>{0}</td>\n'.format(item['email']) +
-                            '  <td>{0}</td>\n'.format(item['is_active']) +
-                            '</tr>';
-                    });
-
-                    $target = $('#group-user-card tbody');
-                    $target.html('');
-                    $(newElem).hide().appendTo($target).fadeIn('slow');
+                    res = $.handleResponse(res, true);
+                    // var newElem = '';
+                    // $.each(res.data, function (i, item) {
+                    //     newElem +=
+                    //         '<tr>\n' +
+                    //         '  <td>{0}</td>\n'.format(item['username']) +
+                    //         '  <td>{0}</td>\n'.format(item['email']) +
+                    //         '  <td>{0}</td>\n'.format(item['is_active']) +
+                    //         '</tr>';
+                    // });
+                    //
+                    // $target = $('#group-user-card tbody');
+                    // $target.html('');
+                    // $(newElem).hide().appendTo($target).fadeIn('slow');
                     if (res.result) {
                         $('#group-user-update-modal').modal('hide');
                         $.cleanFormInput($this);
@@ -137,6 +137,7 @@ $(function () {
                 type: $this.attr('method'),
                 success: function (res) {
                     $.handleResponse(res);
+                    window.location.href = groupListUrl;
                     // $('#group-delete-modal').modal('hide');
                 },
                 complete: function () {
