@@ -1,7 +1,7 @@
 
 $(function () {
 
-    var $gTree = $('#groupPermsTree');
+    var $gTree = $('#group-perms-tree');
     if ($gTree.length > 0) {
         /* detail page */
 
@@ -27,7 +27,7 @@ $(function () {
         $('#group_user_multi_select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-            selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已加入{0}组的用户</div>".format(group_name),
+            selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已加入{0}组的用户</div>".format(groupName),
             afterInit: function (ms) {
                 var that = this,
                     $selectableSearch = that.$selectableUl.prev(),
@@ -45,7 +45,7 @@ $(function () {
 
                 that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
                     .on('keydown', function (e) {
-                        if (e.which == 40) {
+                        if (e.which === 40) {
                             that.$selectionUl.focus();
                             return false;
                         }
@@ -62,17 +62,17 @@ $(function () {
         });
 
         // change group permissions
-        $('#groupPermsBtn').click(function () {
+        $('#group-perms-btn').click(function () {
             var data = $gTree.jstree().get_checked();
             var jsonData = JSON.stringify(data);
             $.addLoadingCover();
             $.ajax({
-                url: group_perms_update_url,
+                url: groupPermsUpdateUrl,
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
                     $.handleResponse(res);
-                    $('#groupPermsUpdateModal').modal('hide');
+                    $('#group-perms-update-modal').modal('hide');
                 },
                 complete: function () {
                     $.removeLoadingCover();
@@ -82,13 +82,13 @@ $(function () {
         });
 
         // group user update
-        $('#groupUserUpdateModal form').submit(function (event) {
+        $('#group-user-update-modal form').submit(function (event) {
             var $this = $(this);
             event.preventDefault();
             var selected_names = $this.find('.ms-selection li.ms-selected > span').map(
                 function(){return $(this).text();}).get().join(' ');
             var data = [];
-            $.each($('#group_user_multi_select option'), function (i, item) {
+            $.each($('#group-user-multi-select option'), function (i, item) {
                 if (selected_names.indexOf($(item).text()) >= 0) {
                     data.push($(item).val());
                 }
@@ -110,11 +110,11 @@ $(function () {
                             '</tr>';
                     });
 
-                    $target = $('#groupUserCard tbody');
+                    $target = $('#group-user-card tbody');
                     $target.html('');
                     $(newElem).hide().appendTo($target).fadeIn('slow');
                     if (res.result) {
-                        $('#groupUserUpdateModal').modal('hide');
+                        $('#group-user-update-modal').modal('hide');
                         $.cleanFormInput($this);
                     }
 
@@ -126,26 +126,26 @@ $(function () {
                 }
             });
         });
-        //
-        // // delete group
-        // $('#groupDeleteModal form').submit(function (event) {
-        //     var $this = $(this);
-        //     event.preventDefault();
-        //     $.addLoadingCover();
-        //     $.ajax({
-        //         url: $this.attr('action'),
-        //         type: $this.attr('method'),
-        //         success: function (res) {
-        //             $.handleResponse(res);
-        //             $('#groupDeleteModal').modal('hide');
-        //         },
-        //         complete: function () {
-        //             $.removeLoadingCover();
-        //         },
-        //         error: function () {
-        //         }
-        //     });
-        // });
+
+        // delete group
+        $('#group-delete-modal form').submit(function (event) {
+            var $this = $(this);
+            event.preventDefault();
+            $.addLoadingCover();
+            $.ajax({
+                url: $this.attr('action'),
+                type: $this.attr('method'),
+                success: function (res) {
+                    $.handleResponse(res);
+                    // $('#group-delete-modal').modal('hide');
+                },
+                complete: function () {
+                    $.removeLoadingCover();
+                },
+                error: function () {
+                }
+            });
+        });
 
     }
 
@@ -164,8 +164,8 @@ $(function () {
             data: $this.serialize(),
             type: $this.attr('method'),
             success: function (res) {
-                $.handleResponse(res);
-                $('#group-create-modal').modal('hide');
+                $.handleResponse(res, true);
+                // $('#group-create-modal').modal('hide');
             },
             complete: function () {
                 $.cleanFormInput($this);

@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+import logging
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -13,7 +14,9 @@ from common.exceptions import InvalidParameters
 from common.mixin import JSONResponseMixin
 from identity.models import Group, Permission
 from identity.forms import *
+from identity.exceptions import *
 
+logger = logging.getLogger('default')
 User = get_user_model()
 
 
@@ -87,7 +90,10 @@ class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
         form = self.form_class(data=request.POST, auto_id=True,
                                error_class=DivErrorList)
         if form.is_valid():
-            self.model.objects.create(name=request.POST.get('name'))
+            group_name = request.POST.get('name')
+            self.model.objects.create(name=group_name)
+            messages.add_message(request, messages.SUCCESS,
+                                 _('Group %s has been successfully created.' % group_name))
             return self.render_to_json_response()
         else:
             raise self.render_to_json_response(result=False)
@@ -148,8 +154,16 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         # add messages
-        messages.add_message(request, messages.SUCCESS, _('Delete group succeeded'))
-        return self.delete(request, *args, **kwargs)
+
+        messages.add_message(request, messages.SUCCESS,
+                             _('Group %s has been successfully deleted.'
+                               % self.get_object().name))
+        try:
+            self.delete(request, *args, **kwargs)
+        except Exception as e:
+            logger.error('Group deleting error, %s' % str(e))
+            raise GroupDeletingError
+        return
 
 
 @method_decorator(login_required, name='dispatch')

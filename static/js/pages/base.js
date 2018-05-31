@@ -248,35 +248,40 @@ String.prototype.format = function () {
         });
     };
 
-    $.handleResponse = function (res) {
+    $.handleResponse = function (res, reload) {
         if (res) {
             console.log(res);
             if (!(res instanceof Object)) {
                 try {
                     res = $.parseJSON(res);
-                } catch (e) {
-                    return res;
-                }
-
+                } catch (e) {return res;}
             }
 
-            $.each(res.messages, function (i, item) {
-                switch (res.level) {
-                    case 'success':
-                        toastr.success(item);
-                        break;
-                    case 'info':
-                        toastr.info(item);
-                        break;
-                    case 'warning':
-                        toastr.warning(item);
-                        break;
-                    case 'error':
-                        toastr.error(item);
-                        break;
-                }
-            });
-            return res;
+            if (res.result && reload) {
+                // reload page
+                console.log('reload');
+                window.location.reload();
+
+            } else {
+                $.each(res.messages, function (i, item) {
+                    switch (res.level) {
+                        case 'success':
+                            toastr.success(item);
+                            break;
+                        case 'info':
+                            toastr.info(item);
+                            break;
+                        case 'warning':
+                            toastr.warning(item);
+                            break;
+                        case 'error':
+                            toastr.error(item);
+                            break;
+                    }
+                });
+                return res;
+            }
+
         }
 
     };

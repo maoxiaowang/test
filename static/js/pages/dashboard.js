@@ -38,30 +38,31 @@
                 confirmButtonText: 'Yes, log out',
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger m-l-10'
-            }).then(function (value) {
-                $.addLoadingCover();
-                $.ajax({
-                    url: logout_url,
-                    type: 'POST',
-                    success: function (res) {
-                        if (res.messages.length > 0) {
-                            $.handleResponse(res);
-                        } else {window.location.reload();}
+            }).then(function (result) {
+                if (result.value) {
+                    $.addLoadingCover();
+                    $.ajax({
+                        url: logout_url,
+                        type: 'POST',
+                        success: function (res) {
+                            if (res.messages.length > 0) {
+                                $.handleResponse(res);
+                            } else {window.location.reload();}
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {}
 
-
-                    }
-                });
             });
         });
 
     };
-        //init
+    //init
     $.SweetAlert = new SweetAlert;
     $.SweetAlert.Constructor = SweetAlert
 }(window.jQuery),
 
 //initializing
-function ($) {
-    "use strict";
-    $.SweetAlert.init()
-}(window.jQuery);
+    function ($) {
+        "use strict";
+        $.SweetAlert.init()
+    }(window.jQuery);

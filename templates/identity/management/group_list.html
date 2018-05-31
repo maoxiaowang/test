@@ -20,7 +20,7 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupCreateModal">{% trans 'New group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-create-modal">{% trans 'New group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">{% trans 'Edit group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
@@ -35,25 +35,31 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'Group' %}</th>
-              <th>{% trans 'Id' %}</th>
+        {% if group_list|length > 0 %}
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for g in group_list %}
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
               <tr>
-                <td><a href="{% url 'identity:group_detail' g.id %}">{{ g.name }}</a></td>
-                <td>{{ g.id }}</td>
+                <th>{% trans 'Group' %}</th>
+                <th>{% trans 'Id' %}</th>
+
               </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+              {% for g in group_list %}
+                <tr>
+                  <td><a href="{% url 'identity:group_detail' g.id %}">{{ g.name }}</a></td>
+                  <td>{{ g.id }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="m-4 text-center text-muted">{% trans 'No group here' %}</div>
+        {% endif %}
+
       </div>
     </div><!-- end col -->
 

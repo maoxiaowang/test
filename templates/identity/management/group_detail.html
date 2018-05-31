@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="groupPermsUpdateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="group-perms-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -33,7 +33,7 @@
           <div class="row">
             <div class="col-12">
               {# render jstree #}
-              <div id="groupPermsTree">
+              <div id="group-perms-tree">
                 <ul>
                   {% for ct in perm_content_types %}
                     {# group by content_types #}
@@ -53,14 +53,14 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="groupPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="group-perms-btn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
     </div>
   </div>  <!-- groupPermUpdateModal -->
 
-  <div class="modal fade" id="groupUserUpdateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="group-user-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <form class="modal-content" method="post" action="{% url 'identity:group_user_update' group.id %}">
         <div class="modal-header">
@@ -73,7 +73,7 @@
           <div class="row">
             <div class="col-12">
 
-              <select name="group_user" id="group_user_multi_select" multiple="multiple" title="group_user_multi_select">
+              <select name="group_user" id="group-user-multi-select" multiple="multiple" title="group-user-multi-select">
                 {% for u in not_group_users %}
                   <option value="{{ u.id }}">{{ u.username }}</option>
                 {% endfor %}
@@ -91,7 +91,7 @@
         </div>
       </form>
     </div>
-  </div>  <!-- groupUserUpdateModal -->
+  </div>  <!-- group-user-update-modal -->
 
 
 {% endblock %}
@@ -100,14 +100,14 @@
   <div class="row">
     <div class="col-lg-12">
 
-      <div class="card-box" id="groupDetailCard">
+      <div class="card-box" id="group-detail-card">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupDetailUpdateModal">{% trans 'Update group' %}</a>
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupDeleteModal">{% trans 'Delete group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-detail-modal">{% trans 'Update group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-delete-modal">{% trans 'Delete group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
         </div>
@@ -121,13 +121,13 @@
         <p>{% trans 'Group' %} ID: {{ group.id }}</p>
       </div>
 
-      <div class="card-box" id="groupUserCard">
+      <div class="card-box" id="group-user-card">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupUserUpdateModal">{% trans 'Update group users' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-user-update-modal">{% trans 'Update group users' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
@@ -161,13 +161,13 @@
         </div>
       </div>
 
-      <div class="card-box" id="groupPermissionCard">
+      <div class="card-box" id="group-perms-card">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#groupPermsUpdateModal">{% trans 'Update permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-perms-update-modal">{% trans 'Update permission' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
@@ -211,8 +211,9 @@
 {% block dashboard_js %}
   <script>
       {# django value to js #}
-      var group_perms_update_url = "{% url 'identity:group_permission_update' group.id %}";
-      var group_name = '{{ group.name }}'
+      var groupPermsUpdateUrl = "{% url 'identity:group_permission_update' group.id %}";
+      var groupListUrl = "{% url 'identity:group_list' %}";
+      var groupName = '{{ group.name }}'
   </script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>
   <script src="{% static 'plugins/multiselect/jquery.multi-select.js' %}"></script>

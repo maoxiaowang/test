@@ -35,3 +35,10 @@ class InvalidEmailFormat(ECloudException):
 class InvalidGroupFormat(ECloudException):
     code = 10005
     desc = 'Invalid group format'
+
+
+# group: 10100 - 10199
+
+class GroupDeletingError(ECloudException):
+    code = 10100
+    desc = 'Group deleting error'
