@@ -1,5 +1,5 @@
 
-$('#userCreateModal form').submit(function (event) {
+$('#user-create-modal form').submit(function (event) {
     var $this = $(this);
     event.preventDefault();
     $.addLoadingCover();
@@ -24,11 +24,11 @@ $('#userCreateModal form').submit(function (event) {
                         '</tr>';
                 });
 
-                $target = $('#userListCard tbody');
+                var $target = $('#user-list-card tbody');
                 $target.html('');
                 $(newElem).hide().appendTo($target).fadeIn('slow');
 
-                $('#userCreateModal').modal('hide');
+                $('#user-create-modal').modal('hide');
                 $.cleanFormInput($this);
             }
         },
@@ -41,7 +41,7 @@ $('#userCreateModal form').submit(function (event) {
     });
 });
 
-$('#userDetailUpdateModal form').submit(function (event) {
+$('#user-detail-modal form').submit(function (event) {
     var $this = $(this);
     event.preventDefault();
     $.addLoadingCover();
@@ -54,7 +54,7 @@ $('#userDetailUpdateModal form').submit(function (event) {
             if (res.result) {
                 var newEmail = res.data['email'];
                 $('#userEmail > span').text(newEmail);
-                $('#userDetailUpdateModal').modal('hide');
+                $('#user-detail-modal').modal('hide');
                 $.cleanFormInput($this);
             }
         },
@@ -67,7 +67,7 @@ $('#userDetailUpdateModal form').submit(function (event) {
 });
 
 $(function () {
-    var $gTree = $('#userGlobalPermsTree');
+    var $gTree = $('#user-perms-tree');
     if ($gTree.length > 0) {
         // init jstree
         $gTree.jstree({
@@ -88,7 +88,7 @@ $(function () {
         });
 
         // user resources select
-        $('#user_host_multi_select').multiSelect({
+        $('#user-host-multi-select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已分配给{0}的资源</div>".format(userName),
@@ -109,7 +109,7 @@ $(function () {
 
                 that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
                     .on('keydown', function (e) {
-                        if (e.which == 40) {
+                        if (e.which === 40) {
                             that.$selectionUl.focus();
                             return false;
                         }
@@ -124,7 +124,7 @@ $(function () {
                 this.qs2.cache();
             }
         });
-        $('#user_volume_multi_select').multiSelect({
+        $('#user-volume-multi-select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已分配给{0}的资源</div>".format(userName),
@@ -145,7 +145,7 @@ $(function () {
 
                 that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
                     .on('keydown', function (e) {
-                        if (e.which == 40) {
+                        if (e.which === 40) {
                             that.$selectionUl.focus();
                             return false;
                         }
@@ -160,7 +160,7 @@ $(function () {
                 this.qs2.cache();
             }
         });
-        $('#user_instance_multi_select').multiSelect({
+        $('#user-instance-multi-select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已分配给{0}的资源</div>".format(userName),
@@ -181,7 +181,7 @@ $(function () {
 
                 that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
                     .on('keydown', function (e) {
-                        if (e.which == 40) {
+                        if (e.which === 40) {
                             that.$selectionUl.focus();
                             return false;
                         }
@@ -198,7 +198,7 @@ $(function () {
         });
 
         // change group permissions
-        $('#userGlobalPermsBtn').click(function () {
+        $('#user-perms-update-btn').click(function () {
             var data = $gTree.jstree().get_checked();
             var jsonData = JSON.stringify(data);
             $.addLoadingCover();

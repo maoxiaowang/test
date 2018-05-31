@@ -11,7 +11,10 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
+from django.views.generic import (View, CreateView, UpdateView,
+                                  DeleteView, DetailView, ListView)
+from django.contrib.auth.views import logout
+from django.views.decorators.cache import never_cache
 from common.exceptions import InvalidParameters
 from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
@@ -73,8 +76,23 @@ class Login(auth_views.LoginView):
             return render(request, self.template_name, {'form': form})
 
 
-class Logout(auth_views.LogoutView):
-    pass
+class Logout(JSONResponseMixin, auth_views.LogoutView):
+
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            logout(request)
+        except Exception as e:
+            logger.error('logout error, %s' % str(e))
+            return self.render_to_json_response(result=False, messages=_(
+                'An error occurred when logged out'))
+        next_page = self.get_next_page()
+        if next_page:
+            # Redirect to this page until the session has been cleared.
+            messages.add_message(request, messages.SUCCESS,
+                                 _('You have successfully logged out'))
+            return self.render_to_json_response(default_msg=False)
+        return super().dispatch(request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')

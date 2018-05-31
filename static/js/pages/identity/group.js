@@ -155,7 +155,7 @@ $(function () {
 $(function () {
 
     // create group
-    $('#groupCreateModal form').submit(function (event) {
+    $('#group-create-modal form').submit(function (event) {
         var $this = $(this);
         event.preventDefault();
         $.addLoadingCover();
@@ -165,7 +165,7 @@ $(function () {
             type: $this.attr('method'),
             success: function (res) {
                 $.handleResponse(res);
-                $('#groupCreateModal').modal('hide');
+                $('#group-create-modal').modal('hide');
             },
             complete: function () {
                 $.cleanFormInput($this);

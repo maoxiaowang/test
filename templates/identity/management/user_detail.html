@@ -9,13 +9,13 @@
 
 {% block modals %}
 
-  <div class="modal fade" id="userDetailUpdateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-detail-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/user_update_form.html' with form=user_update_form%}
     </div>
   </div>
 
-  <div class="modal fade" id="userResourceModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-resource-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,25 +31,25 @@
 
               <ul class="nav nav-tabs">
                 <li class="nav-item">
-                  <a href="#userHost" data-toggle="tab" aria-expanded="false" class="nav-link active">{% trans 'host' %}</a>
+                  <a href="#user-host" data-toggle="tab" aria-expanded="false" class="nav-link active">{% trans 'host' %}</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#volume" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'volume' %}</a>
+                  <a href="#user-volume" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'volume' %}</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#instance" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'instance' %}</a>
+                  <a href="#user-instance" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'instance' %}</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#storage" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'storage' %}</a>
+                  <a href="#user-storage" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'storage' %}</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#network" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'network' %}</a>
+                  <a href="#user-network" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'network' %}</a>
                 </li>
               </ul>
 
               <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade active show" id="userHost">
-                  <select name="user_host" id="user_host_multi_select" multiple="multiple" title="user_host_multi_select">
+                <div role="tabpanel" class="tab-pane fade active show" id="user-host">
+                  <select name="user_host" id="user-host-multi-select" multiple="multiple" title="user_host_multi_select">
                     {% with not_host=format_not_resources.host host=format_resources.host%}
                       {% if not_host %}
                         {% for r in not_host %}
@@ -64,8 +64,8 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user_volume">
-                  <select name="user_volume" id="user_volume_multi_select" multiple="multiple" title="user_volume_multi_select">
+                <div role="tabpanel" class="tab-pane fade" id="user-volume">
+                  <select name="user-volume" id="user-volume-multi-select" multiple="multiple" title="user-volume-multi-select">
                     {% with not_volume=format_not_resources.volume volume=format_resources.volume%}
                       {% if not_volume %}
                         {% for r in not_volume %}
@@ -80,8 +80,8 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user_instance">
-                  <select name="user_instance" id="user_instance_multi_select" multiple="multiple" title="user_instance_multi_select">
+                <div role="tabpanel" class="tab-pane fade" id="user-instance">
+                  <select name="user-instance" id="user-instance-multi-select" multiple="multiple" title="user-instance-multi-select">
                     {% with not_instance=format_not_resources.instance instance=format_resources.instance%}
                       {% if not_instance %}
                         {% for r in not_instance %}
@@ -96,10 +96,10 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user_storage">
+                <div role="tabpanel" class="tab-pane fade" id="user-storage">
                   <p>4444</p>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user_network">
+                <div role="tabpanel" class="tab-pane fade" id="user-network">
                   <p>4444</p>
                 </div>
               </div>
@@ -109,7 +109,7 @@
 
         </div>
         <div class="modal-footer">
-          <button id="userObjectPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="user-resource-update-btn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
@@ -129,7 +129,7 @@
           <div class="row">
             <div class="col-12">
               {# render jstree #}
-              <div id="userGlobalPermsTree">
+              <div id="user-perms-tree">
                 <ul>
                   {% for ct in perm_content_types %}
                     {# user by content_types #}
@@ -149,7 +149,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="userGlobalPermsBtn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="user-perms-update-btn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>

@@ -4,7 +4,7 @@
 {% block app_title %}{% trans 'Group' %}{% endblock %}
 
 {% block modals %}
-  <div class="modal fade" id="groupCreateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="group-create-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/group_create_form.html' with form=group_create_form%}
     </div>

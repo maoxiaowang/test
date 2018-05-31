@@ -249,33 +249,36 @@ String.prototype.format = function () {
     };
 
     $.handleResponse = function (res) {
-        console.log(res);
-        if (!(res instanceof Object)) {
-            try {
-                res = $.parseJSON(res);
-            } catch (e) {
-                return res;
+        if (res) {
+            console.log(res);
+            if (!(res instanceof Object)) {
+                try {
+                    res = $.parseJSON(res);
+                } catch (e) {
+                    return res;
+                }
+
             }
 
+            $.each(res.messages, function (i, item) {
+                switch (res.level) {
+                    case 'success':
+                        toastr.success(item);
+                        break;
+                    case 'info':
+                        toastr.info(item);
+                        break;
+                    case 'warning':
+                        toastr.warning(item);
+                        break;
+                    case 'error':
+                        toastr.error(item);
+                        break;
+                }
+            });
+            return res;
         }
 
-        $.each(res.messages, function (i, item) {
-            switch (res.level) {
-                case 'success':
-                    toastr.success(item);
-                    break;
-                case 'info':
-                    toastr.info(item);
-                    break;
-                case 'warning':
-                    toastr.warning(item);
-                    break;
-                case 'error':
-                    toastr.error(item);
-                    break;
-            }
-        });
-        return res;
     };
 
     $.getUrlParams = function () {
@@ -314,8 +317,8 @@ $(function () {
                         toastr.success(msg);
                         break;
                     case 'info':case 'debug':
-                        toastr.info(msg);
-                        break;
+                    toastr.info(msg);
+                    break;
                     case 'warning':
                         toastr.warning(msg);
                         break;

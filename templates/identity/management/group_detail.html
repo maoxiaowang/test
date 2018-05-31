@@ -8,13 +8,13 @@
 {% endblock %}
 
 {% block modals %}
-  <div class="modal fade" id="groupDetailUpdateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="group-detail-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/group_update_form.html' with form=group_update_form %}
     </div>
   </div>
 
-  <div class="modal fade" id="groupDeleteModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="group-delete-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/group_delete_form.html' %}
     </div>

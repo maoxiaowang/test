@@ -4,7 +4,7 @@
 {% block app_title %}{% trans 'User' %}{% endblock %}
 
 {% block modals %}
-  <div class="modal fade" id="userCreateModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-create-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/user_create_form.html' with form=user_create_form %}
     </div>
@@ -14,7 +14,7 @@
 {% block container %}
 <div class="row">
   <div class="col-lg-12">
-    <div class="card-box" id="userListCard">
+    <div class="card-box" id="user-list-card">
       <div class="dropdown pull-right">
         <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
           <i class="mdi mdi-dots-vertical"></i>
@@ -40,8 +40,8 @@
           <tr>
             <th>{% trans 'Username' %}</th>
             <th>{% trans 'Email' %}</th>
-            <th>{% trans 'Joined Date' %}</th>
-            <th>{% trans 'Last Login Date' %}</th>
+            <th>{% trans 'Joined date' %}</th>
+            <th>{% trans 'Last login date' %}</th>
           </tr>
           </thead>
           <tbody>
