@@ -24,6 +24,7 @@ class AgentBuilds(models.Model):
         managed = False
         db_table = 'agent_builds'
         unique_together = (('hypervisor', 'os', 'architecture', 'deleted'),)
+        default_permissions = ()
 
 
 class AggregateHosts(models.Model):
@@ -38,6 +39,7 @@ class AggregateHosts(models.Model):
         managed = False
         db_table = 'aggregate_hosts'
         unique_together = (('host', 'aggregate', 'deleted'),)
+        default_permissions = ()
 
 
 class AggregateMetadata(models.Model):
@@ -53,6 +55,7 @@ class AggregateMetadata(models.Model):
         managed = False
         db_table = 'aggregate_metadata'
         unique_together = (('aggregate', 'key', 'deleted'),)
+        default_permissions = ()
 
 
 class Aggregates(models.Model):
@@ -65,6 +68,7 @@ class Aggregates(models.Model):
     class Meta:
         managed = False
         db_table = 'aggregates'
+        default_permissions = ()
 
 
 class BlockDeviceMapping(models.Model):
@@ -91,6 +95,7 @@ class BlockDeviceMapping(models.Model):
     class Meta:
         managed = False
         db_table = 'block_device_mapping'
+        default_permissions = ()
 
 
 class BwUsageCache(models.Model):
@@ -110,6 +115,7 @@ class BwUsageCache(models.Model):
     class Meta:
         managed = False
         db_table = 'bw_usage_cache'
+        default_permissions = ()
 
 
 class Cells(models.Model):
@@ -128,6 +134,7 @@ class Cells(models.Model):
         managed = False
         db_table = 'cells'
         unique_together = (('name', 'deleted'),)
+        default_permissions = ()
 
 
 class Certificates(models.Model):
@@ -142,6 +149,7 @@ class Certificates(models.Model):
     class Meta:
         managed = False
         db_table = 'certificates'
+        default_permissions = ()
 
 
 class ComputeNodes(models.Model):
@@ -178,6 +186,7 @@ class ComputeNodes(models.Model):
         managed = False
         db_table = 'compute_nodes'
         unique_together = (('host', 'hypervisor_hostname', 'deleted'),)
+        default_permissions = ()
 
 
 class ConsolePools(models.Model):
@@ -197,6 +206,7 @@ class ConsolePools(models.Model):
         managed = False
         db_table = 'console_pools'
         unique_together = (('host', 'console_type', 'compute_host', 'deleted'),)
+        default_permissions = ()
 
 
 class Consoles(models.Model):
@@ -213,6 +223,7 @@ class Consoles(models.Model):
     class Meta:
         managed = False
         db_table = 'consoles'
+        default_permissions = ()
 
 
 class DnsDomains(models.Model):
@@ -228,6 +239,7 @@ class DnsDomains(models.Model):
     class Meta:
         managed = False
         db_table = 'dns_domains'
+        default_permissions = ()
 
 
 class FixedIps(models.Model):
@@ -248,6 +260,7 @@ class FixedIps(models.Model):
         managed = False
         db_table = 'fixed_ips'
         unique_together = (('address', 'deleted'),)
+        default_permissions = ()
 
 
 class FloatingIps(models.Model):
@@ -267,6 +280,7 @@ class FloatingIps(models.Model):
         managed = False
         db_table = 'floating_ips'
         unique_together = (('address', 'deleted'),)
+        default_permissions = ()
 
 
 class InstanceActions(models.Model):
@@ -286,6 +300,7 @@ class InstanceActions(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_actions'
+        default_permissions = ()
 
 
 class InstanceActionsEvents(models.Model):
@@ -305,6 +320,7 @@ class InstanceActionsEvents(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_actions_events'
+        default_permissions = ()
 
 
 class InstanceExtra(models.Model):
@@ -321,6 +337,7 @@ class InstanceExtra(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_extra'
+        default_permissions = ()
 
 
 class InstanceFaults(models.Model):
@@ -337,6 +354,7 @@ class InstanceFaults(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_faults'
+        default_permissions = ()
 
 
 class InstanceGroupMember(models.Model):
@@ -350,6 +368,7 @@ class InstanceGroupMember(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_group_member'
+        default_permissions = ()
 
 
 class InstanceGroupPolicy(models.Model):
@@ -363,6 +382,7 @@ class InstanceGroupPolicy(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_group_policy'
+        default_permissions = ()
 
 
 class InstanceGroups(models.Model):
@@ -379,6 +399,7 @@ class InstanceGroups(models.Model):
         managed = False
         db_table = 'instance_groups'
         unique_together = (('uuid', 'deleted'),)
+        default_permissions = ()
 
 
 class InstanceIdMappings(models.Model):
@@ -391,6 +412,7 @@ class InstanceIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_id_mappings'
+        default_permissions = ()
 
 
 class InstanceInfoCaches(models.Model):
@@ -405,6 +427,7 @@ class InstanceInfoCaches(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_info_caches'
+        default_permissions = ()
 
 
 class InstanceMetadata(models.Model):
@@ -419,6 +442,7 @@ class InstanceMetadata(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_metadata'
+        default_permissions = ()
 
 
 class InstanceSystemMetadata(models.Model):
@@ -433,6 +457,7 @@ class InstanceSystemMetadata(models.Model):
     class Meta:
         managed = False
         db_table = 'instance_system_metadata'
+        default_permissions = ()
 
 
 class InstanceTypeExtraSpecs(models.Model):
@@ -448,6 +473,7 @@ class InstanceTypeExtraSpecs(models.Model):
         managed = False
         db_table = 'instance_type_extra_specs'
         unique_together = (('instance_type', 'key', 'deleted'),)
+        default_permissions = ()
 
 
 class InstanceTypeProjects(models.Model):
@@ -462,6 +488,7 @@ class InstanceTypeProjects(models.Model):
         managed = False
         db_table = 'instance_type_projects'
         unique_together = (('instance_type', 'project_id', 'deleted'),)
+        default_permissions = ()
 
 
 class InstanceTypes(models.Model):
@@ -485,6 +512,7 @@ class InstanceTypes(models.Model):
         managed = False
         db_table = 'instance_types'
         unique_together = (('name', 'deleted'), ('flavorid', 'deleted'),)
+        default_permissions = ()
 
 
 class Instances(models.Model):
@@ -544,6 +572,7 @@ class Instances(models.Model):
     class Meta:
         managed = False
         db_table = 'instances'
+        default_permissions = ()
 
 
 class IscsiTargets(models.Model):
@@ -558,6 +587,7 @@ class IscsiTargets(models.Model):
     class Meta:
         managed = False
         db_table = 'iscsi_targets'
+        default_permissions = ()
 
 
 class KeyPairs(models.Model):
@@ -575,6 +605,7 @@ class KeyPairs(models.Model):
         managed = False
         db_table = 'key_pairs'
         unique_together = (('user_id', 'name', 'deleted'),)
+        default_permissions = ()
 
 
 class MigrateVersion(models.Model):
@@ -585,6 +616,7 @@ class MigrateVersion(models.Model):
     class Meta:
         managed = False
         db_table = 'migrate_version'
+        default_permissions = ()
 
 
 class Migrations(models.Model):
@@ -605,6 +637,7 @@ class Migrations(models.Model):
     class Meta:
         managed = False
         db_table = 'migrations'
+        default_permissions = ()
 
 
 class Networks(models.Model):
@@ -645,6 +678,7 @@ class Networks(models.Model):
         managed = False
         db_table = 'networks'
         unique_together = (('vlan', 'deleted'),)
+        default_permissions = ()
 
 
 class PciDevices(models.Model):
@@ -669,6 +703,7 @@ class PciDevices(models.Model):
         managed = False
         db_table = 'pci_devices'
         unique_together = (('compute_node', 'address', 'deleted'),)
+        default_permissions = ()
 
 
 class ProjectUserQuotas(models.Model):
@@ -685,6 +720,7 @@ class ProjectUserQuotas(models.Model):
         managed = False
         db_table = 'project_user_quotas'
         unique_together = (('user_id', 'project_id', 'resource', 'deleted'),)
+        default_permissions = ()
 
 
 class ProviderFwRules(models.Model):
@@ -700,6 +736,7 @@ class ProviderFwRules(models.Model):
     class Meta:
         managed = False
         db_table = 'provider_fw_rules'
+        default_permissions = ()
 
 
 class QuotaClasses(models.Model):
@@ -714,6 +751,7 @@ class QuotaClasses(models.Model):
     class Meta:
         managed = False
         db_table = 'quota_classes'
+        default_permissions = ()
 
 
 class QuotaUsages(models.Model):
@@ -731,6 +769,7 @@ class QuotaUsages(models.Model):
     class Meta:
         managed = False
         db_table = 'quota_usages'
+        default_permissions = ()
 
 
 class Quotas(models.Model):
@@ -746,6 +785,7 @@ class Quotas(models.Model):
         managed = False
         db_table = 'quotas'
         unique_together = (('project_id', 'resource', 'deleted'),)
+        default_permissions = ()
 
 
 class Reservations(models.Model):
@@ -764,6 +804,7 @@ class Reservations(models.Model):
     class Meta:
         managed = False
         db_table = 'reservations'
+        default_permissions = ()
 
 
 class S3Images(models.Model):
@@ -776,6 +817,7 @@ class S3Images(models.Model):
     class Meta:
         managed = False
         db_table = 's3_images'
+        default_permissions = ()
 
 
 class SecurityGroupDefaultRules(models.Model):
@@ -791,6 +833,7 @@ class SecurityGroupDefaultRules(models.Model):
     class Meta:
         managed = False
         db_table = 'security_group_default_rules'
+        default_permissions = ()
 
 
 class SecurityGroupInstanceAssociation(models.Model):
@@ -804,6 +847,7 @@ class SecurityGroupInstanceAssociation(models.Model):
     class Meta:
         managed = False
         db_table = 'security_group_instance_association'
+        default_permissions = ()
 
 
 class SecurityGroupRules(models.Model):
@@ -822,6 +866,7 @@ class SecurityGroupRules(models.Model):
     class Meta:
         managed = False
         db_table = 'security_group_rules'
+        default_permissions = ()
 
 
 class SecurityGroups(models.Model):
@@ -838,6 +883,7 @@ class SecurityGroups(models.Model):
         managed = False
         db_table = 'security_groups'
         unique_together = (('project_id', 'name', 'deleted'),)
+        default_permissions = ()
 
 
 class Services(models.Model):
@@ -856,6 +902,7 @@ class Services(models.Model):
         managed = False
         db_table = 'services'
         unique_together = (('host', 'topic', 'deleted'), ('host', 'binary', 'deleted'),)
+        default_permissions = ()
 
 
 class ShadowAgentBuilds(models.Model):
@@ -873,6 +920,7 @@ class ShadowAgentBuilds(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_agent_builds'
+        default_permissions = ()
 
 
 class ShadowAggregateHosts(models.Model):
@@ -886,6 +934,7 @@ class ShadowAggregateHosts(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_aggregate_hosts'
+        default_permissions = ()
 
 
 class ShadowAggregateMetadata(models.Model):
@@ -900,6 +949,7 @@ class ShadowAggregateMetadata(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_aggregate_metadata'
+        default_permissions = ()
 
 
 class ShadowAggregates(models.Model):
@@ -912,6 +962,7 @@ class ShadowAggregates(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_aggregates'
+        default_permissions = ()
 
 
 class ShadowBlockDeviceMapping(models.Model):
@@ -938,6 +989,7 @@ class ShadowBlockDeviceMapping(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_block_device_mapping'
+        default_permissions = ()
 
 
 class ShadowBwUsageCache(models.Model):
@@ -957,6 +1009,7 @@ class ShadowBwUsageCache(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_bw_usage_cache'
+        default_permissions = ()
 
 
 class ShadowCells(models.Model):
@@ -974,6 +1027,7 @@ class ShadowCells(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_cells'
+        default_permissions = ()
 
 
 class ShadowCertificates(models.Model):
@@ -988,6 +1042,7 @@ class ShadowCertificates(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_certificates'
+        default_permissions = ()
 
 
 class ShadowComputeNodes(models.Model):
@@ -1023,6 +1078,7 @@ class ShadowComputeNodes(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_compute_nodes'
+        default_permissions = ()
 
 
 class ShadowConsolePools(models.Model):
@@ -1041,6 +1097,7 @@ class ShadowConsolePools(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_console_pools'
+        default_permissions = ()
 
 
 class ShadowConsoles(models.Model):
@@ -1057,6 +1114,7 @@ class ShadowConsoles(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_consoles'
+        default_permissions = ()
 
 
 class ShadowDnsDomains(models.Model):
@@ -1072,6 +1130,7 @@ class ShadowDnsDomains(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_dns_domains'
+        default_permissions = ()
 
 
 class ShadowFixedIps(models.Model):
@@ -1091,6 +1150,7 @@ class ShadowFixedIps(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_fixed_ips'
+        default_permissions = ()
 
 
 class ShadowFloatingIps(models.Model):
@@ -1109,6 +1169,7 @@ class ShadowFloatingIps(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_floating_ips'
+        default_permissions = ()
 
 
 class ShadowInstanceActions(models.Model):
@@ -1128,6 +1189,7 @@ class ShadowInstanceActions(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_actions'
+        default_permissions = ()
 
 
 class ShadowInstanceActionsEvents(models.Model):
@@ -1147,6 +1209,7 @@ class ShadowInstanceActionsEvents(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_actions_events'
+        default_permissions = ()
 
 
 class ShadowInstanceExtra(models.Model):
@@ -1163,6 +1226,7 @@ class ShadowInstanceExtra(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_extra'
+        default_permissions = ()
 
 
 class ShadowInstanceFaults(models.Model):
@@ -1179,6 +1243,7 @@ class ShadowInstanceFaults(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_faults'
+        default_permissions = ()
 
 
 class ShadowInstanceGroupMember(models.Model):
@@ -1192,6 +1257,7 @@ class ShadowInstanceGroupMember(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_group_member'
+        default_permissions = ()
 
 
 class ShadowInstanceGroupPolicy(models.Model):
@@ -1205,6 +1271,7 @@ class ShadowInstanceGroupPolicy(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_group_policy'
+        default_permissions = ()
 
 
 class ShadowInstanceGroups(models.Model):
@@ -1220,6 +1287,7 @@ class ShadowInstanceGroups(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_groups'
+        default_permissions = ()
 
 
 class ShadowInstanceIdMappings(models.Model):
@@ -1232,6 +1300,7 @@ class ShadowInstanceIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_id_mappings'
+        default_permissions = ()
 
 
 class ShadowInstanceInfoCaches(models.Model):
@@ -1245,6 +1314,7 @@ class ShadowInstanceInfoCaches(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_info_caches'
+        default_permissions = ()
 
 
 class ShadowInstanceMetadata(models.Model):
@@ -1259,6 +1329,7 @@ class ShadowInstanceMetadata(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_metadata'
+        default_permissions = ()
 
 
 class ShadowInstanceSystemMetadata(models.Model):
@@ -1273,6 +1344,7 @@ class ShadowInstanceSystemMetadata(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_system_metadata'
+        default_permissions = ()
 
 
 class ShadowInstanceTypeExtraSpecs(models.Model):
@@ -1287,6 +1359,7 @@ class ShadowInstanceTypeExtraSpecs(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_type_extra_specs'
+        default_permissions = ()
 
 
 class ShadowInstanceTypeProjects(models.Model):
@@ -1300,6 +1373,7 @@ class ShadowInstanceTypeProjects(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_type_projects'
+        default_permissions = ()
 
 
 class ShadowInstanceTypes(models.Model):
@@ -1322,6 +1396,7 @@ class ShadowInstanceTypes(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instance_types'
+        default_permissions = ()
 
 
 class ShadowInstances(models.Model):
@@ -1381,6 +1456,7 @@ class ShadowInstances(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_instances'
+        default_permissions = ()
 
 
 class ShadowIscsiTargets(models.Model):
@@ -1395,6 +1471,7 @@ class ShadowIscsiTargets(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_iscsi_targets'
+        default_permissions = ()
 
 
 class ShadowKeyPairs(models.Model):
@@ -1411,6 +1488,7 @@ class ShadowKeyPairs(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_key_pairs'
+        default_permissions = ()
 
 
 class ShadowMigrateVersion(models.Model):
@@ -1421,6 +1499,7 @@ class ShadowMigrateVersion(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_migrate_version'
+        default_permissions = ()
 
 
 class ShadowMigrations(models.Model):
@@ -1441,6 +1520,7 @@ class ShadowMigrations(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_migrations'
+        default_permissions = ()
 
 
 class ShadowNetworks(models.Model):
@@ -1480,6 +1560,7 @@ class ShadowNetworks(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_networks'
+        default_permissions = ()
 
 
 class ShadowPciDevices(models.Model):
@@ -1503,6 +1584,7 @@ class ShadowPciDevices(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_pci_devices'
+        default_permissions = ()
 
 
 class ShadowProjectUserQuotas(models.Model):
@@ -1518,6 +1600,7 @@ class ShadowProjectUserQuotas(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_project_user_quotas'
+        default_permissions = ()
 
 
 class ShadowProviderFwRules(models.Model):
@@ -1533,6 +1616,7 @@ class ShadowProviderFwRules(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_provider_fw_rules'
+        default_permissions = ()
 
 
 class ShadowQuotaClasses(models.Model):
@@ -1547,6 +1631,7 @@ class ShadowQuotaClasses(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_quota_classes'
+        default_permissions = ()
 
 
 class ShadowQuotaUsages(models.Model):
@@ -1564,6 +1649,7 @@ class ShadowQuotaUsages(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_quota_usages'
+        default_permissions = ()
 
 
 class ShadowQuotas(models.Model):
@@ -1578,6 +1664,7 @@ class ShadowQuotas(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_quotas'
+        default_permissions = ()
 
 
 class ShadowReservations(models.Model):
@@ -1596,6 +1683,7 @@ class ShadowReservations(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_reservations'
+        default_permissions = ()
 
 
 class ShadowS3Images(models.Model):
@@ -1608,6 +1696,7 @@ class ShadowS3Images(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_s3_images'
+        default_permissions = ()
 
 
 class ShadowSecurityGroupDefaultRules(models.Model):
@@ -1623,6 +1712,7 @@ class ShadowSecurityGroupDefaultRules(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_security_group_default_rules'
+        default_permissions = ()
 
 
 class ShadowSecurityGroupInstanceAssociation(models.Model):
@@ -1636,6 +1726,7 @@ class ShadowSecurityGroupInstanceAssociation(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_security_group_instance_association'
+        default_permissions = ()
 
 
 class ShadowSecurityGroupRules(models.Model):
@@ -1653,6 +1744,7 @@ class ShadowSecurityGroupRules(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_security_group_rules'
+        default_permissions = ()
 
 
 class ShadowSecurityGroups(models.Model):
@@ -1668,6 +1760,7 @@ class ShadowSecurityGroups(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_security_groups'
+        default_permissions = ()
 
 
 class ShadowServices(models.Model):
@@ -1685,6 +1778,7 @@ class ShadowServices(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_services'
+        default_permissions = ()
 
 
 class ShadowSnapshotIdMappings(models.Model):
@@ -1697,6 +1791,7 @@ class ShadowSnapshotIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_snapshot_id_mappings'
+        default_permissions = ()
 
 
 class ShadowSnapshots(models.Model):
@@ -1718,6 +1813,7 @@ class ShadowSnapshots(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_snapshots'
+        default_permissions = ()
 
 
 class ShadowTaskLog(models.Model):
@@ -1737,6 +1833,7 @@ class ShadowTaskLog(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_task_log'
+        default_permissions = ()
 
 
 class ShadowVirtualInterfaces(models.Model):
@@ -1752,6 +1849,7 @@ class ShadowVirtualInterfaces(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_virtual_interfaces'
+        default_permissions = ()
 
 
 class ShadowVolumeIdMappings(models.Model):
@@ -1764,6 +1862,7 @@ class ShadowVolumeIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_volume_id_mappings'
+        default_permissions = ()
 
 
 class ShadowVolumeUsageCache(models.Model):
@@ -1790,6 +1889,7 @@ class ShadowVolumeUsageCache(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_volume_usage_cache'
+        default_permissions = ()
 
 
 class ShadowVolumes(models.Model):
@@ -1822,6 +1922,7 @@ class ShadowVolumes(models.Model):
     class Meta:
         managed = False
         db_table = 'shadow_volumes'
+        default_permissions = ()
 
 
 class SnapshotIdMappings(models.Model):
@@ -1834,6 +1935,7 @@ class SnapshotIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'snapshot_id_mappings'
+        default_permissions = ()
 
 
 class Snapshots(models.Model):
@@ -1855,6 +1957,7 @@ class Snapshots(models.Model):
     class Meta:
         managed = False
         db_table = 'snapshots'
+        default_permissions = ()
 
 
 class Tags(models.Model):
@@ -1865,6 +1968,7 @@ class Tags(models.Model):
         managed = False
         db_table = 'tags'
         unique_together = (('resource_id', 'tag'),)
+        default_permissions = ()
 
 
 class TaskLog(models.Model):
@@ -1885,6 +1989,7 @@ class TaskLog(models.Model):
         managed = False
         db_table = 'task_log'
         unique_together = (('task_name', 'host', 'period_beginning', 'period_ending'),)
+        default_permissions = ()
 
 
 class VirtualInterfaces(models.Model):
@@ -1901,6 +2006,7 @@ class VirtualInterfaces(models.Model):
         managed = False
         db_table = 'virtual_interfaces'
         unique_together = (('address', 'deleted'),)
+        default_permissions = ()
 
 
 class VolumeIdMappings(models.Model):
@@ -1913,6 +2019,7 @@ class VolumeIdMappings(models.Model):
     class Meta:
         managed = False
         db_table = 'volume_id_mappings'
+        default_permissions = ()
 
 
 class VolumeUsageCache(models.Model):
@@ -1939,6 +2046,7 @@ class VolumeUsageCache(models.Model):
     class Meta:
         managed = False
         db_table = 'volume_usage_cache'
+        default_permissions = ()
 
 
 class Volumes(models.Model):
@@ -1971,3 +2079,4 @@ class Volumes(models.Model):
     class Meta:
         managed = False
         db_table = 'volumes'
+        default_permissions = ()
