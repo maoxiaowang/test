@@ -8,29 +8,29 @@ $('#user-create-modal form').submit(function (event) {
         data: $this.serialize(),
         type: $this.attr('method'),
         success: function (res) {
-            res = $.handleResponse(res);
-            if (res.result) {
-                // var newElem = '';
-                // $.each(res.data, function (i, item) {
-                //     var dateJoined = item['date_joined'] || '-';
-                //     var lastLogin = item['last_login'] || '-';
-                //     newElem +=
-                //         '<tr>\n' +
-                //         '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
-                //             '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
-                //         '  <td>{0}</td>\n'.format(item['email']) +
-                //         '  <td>{0}</td>\n'.format(dateJoined) +
-                //         '  <td>{0}</td>\n'.format(lastLogin) +
-                //         '</tr>';
-                // });
-                //
-                // var $target = $('#user-list-card tbody');
-                // $target.html('');
-                // $(newElem).hide().appendTo($target).fadeIn('slow');
+            res = $.handleResponse(res, true);
+            // if (res.result) {
+            // var newElem = '';
+            // $.each(res.data, function (i, item) {
+            //     var dateJoined = item['date_joined'] || '-';
+            //     var lastLogin = item['last_login'] || '-';
+            //     newElem +=
+            //         '<tr>\n' +
+            //         '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
+            //             '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
+            //         '  <td>{0}</td>\n'.format(item['email']) +
+            //         '  <td>{0}</td>\n'.format(dateJoined) +
+            //         '  <td>{0}</td>\n'.format(lastLogin) +
+            //         '</tr>';
+            // });
+            //
+            // var $target = $('#user-list-card tbody');
+            // $target.html('');
+            // $(newElem).hide().appendTo($target).fadeIn('slow');
 
-                $('#user-create-modal').modal('hide');
-                $.cleanFormInput($this);
-            }
+            //     $('#user-create-modal').modal('hide');
+            //     $.cleanFormInput($this);
+            // }
         },
         complete: function () {
 
@@ -203,12 +203,12 @@ $(function () {
             var jsonData = JSON.stringify(data);
             $.addLoadingCover();
             $.ajax({
-                url: userGlobalPermsUrl,
+                url: userPermsUrl,
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
                     $.handleResponse(res);
-                    $('#user-global-perms-modal').modal('hide');
+                    $('#user-perms-modal').modal('hide');
                 },
                 complete: function () {
                     $.removeLoadingCover();
@@ -216,6 +216,55 @@ $(function () {
             });
 
         });
+
+
+        // delete user
+        // $('#user-delete-modal form').submit(function (event) {
+        //     var $this = $(this);
+        //     event.preventDefault();
+        //     $.addLoadingCover();
+        //     $.ajax({
+        //         url: $this.attr('action'),
+        //         type: $this.attr('method'),
+        //         success: function (res) {
+        //             $.handleResponse(res);
+        //             window.location.href = groupListUrl;
+        //             // $('#group-delete-modal').modal('hide');
+        //         },
+        //         complete: function () {
+        //             $.removeLoadingCover();
+        //         },
+        //         error: function () {
+        //         }
+        //     });
+        // });
+        $('#delete-user').click(function (event) {
+            Swal({
+                title: 'Are you sure?',
+                text: "User {0} will be deleted, and all resources ".format(userName) +
+                "and perms assigned to the user will be removed!",
+                type: 'warning',
+                showCancelButton: true,
+                // confirmButtonColor: '#4fa7f3',
+                // cancelButtonColor: '#d57171',
+                confirmButtonText: 'Yes, delete it.',
+                confirmButtonClass: 'btn btn-danger m-l-10',
+                cancelButtonClass: 'btn btn-success'
+            }).then(function (result) {
+                if (result.value) {
+                    $.addLoadingCover();
+                    $.ajax({
+                        url: userDeleteUrl,
+                        type: 'POST',
+                        success: function (res) {
+                            $.handleResponse(res, userListUrl);
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {}
+
+            });
+        });
+
     }
 
 });

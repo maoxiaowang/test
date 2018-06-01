@@ -128,23 +128,47 @@ $(function () {
         });
 
         // delete group
-        $('#group-delete-modal form').submit(function (event) {
-            var $this = $(this);
-            event.preventDefault();
-            $.addLoadingCover();
-            $.ajax({
-                url: $this.attr('action'),
-                type: $this.attr('method'),
-                success: function (res) {
-                    $.handleResponse(res);
-                    window.location.href = groupListUrl;
-                    // $('#group-delete-modal').modal('hide');
-                },
-                complete: function () {
-                    $.removeLoadingCover();
-                },
-                error: function () {
-                }
+        // $('#group-delete-modal form').submit(function (event) {
+        //     var $this = $(this);
+        //     event.preventDefault();
+        //     $.addLoadingCover();
+        //     $.ajax({
+        //         url: $this.attr('action'),
+        //         type: $this.attr('method'),
+        //         success: function (res) {
+        //             $.handleResponse(res, groupListUrl);
+        //             // $('#group-delete-modal').modal('hide');
+        //         },
+        //         complete: function () {
+        //             $.removeLoadingCover();
+        //         },
+        //         error: function () {
+        //         }
+        //     });
+        // });
+        $('#delete-group').click(function (event) {
+            Swal({
+                title: 'Are you sure?',
+                text: "Group {0} will be deleted, and all users will be removed out of the group!".format(userName),
+                type: 'warning',
+                showCancelButton: true,
+                // confirmButtonColor: '#4fa7f3',
+                // cancelButtonColor: '#d57171',
+                confirmButtonText: 'Yes, delete it.',
+                confirmButtonClass: 'btn btn-danger m-l-10',
+                cancelButtonClass: 'btn btn-success'
+            }).then(function (result) {
+                if (result.value) {
+                    $.addLoadingCover();
+                    $.ajax({
+                        url: userDeleteUrl,
+                        type: 'POST',
+                        success: function (res) {
+                            $.handleResponse(res, userListUrl);
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {}
+
             });
         });
 

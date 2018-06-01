@@ -226,7 +226,7 @@ String.prototype.format = function () {
             '<div id="loadingCover">\n' +
             '  <div>\n' +
             '    <div class="col align-self-center">\n' +
-            '      <img src="{0}">\n'.format(loadingImageUrl) +
+            '      <img style="width: 50px;" src="{0}">\n'.format(loadingImageUrl) +
             '    </div>\n' +
             '  </div>\n' +
             '</div>';

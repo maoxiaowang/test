@@ -166,6 +166,7 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
         except Exception as e:
             logger.error('Group deleting error, %s' % str(e))
             raise GroupDeletingError
+        # TODO: also need to remove all users out of the group
         return self.render_to_json_response()
 
 

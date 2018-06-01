@@ -42,3 +42,9 @@ class InvalidGroupFormat(ECloudException):
 class GroupDeletingError(ECloudException):
     code = 10100
     desc = 'Group deleting error'
+
+
+# user: 10200 - 10299
+class UserDeletingError(ECloudException):
+    code = 10200
+    desc = 'User deleting error'

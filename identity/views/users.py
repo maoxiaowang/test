@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import (View, CreateView, UpdateView,
+from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView, ListView)
 from django.contrib.auth.views import logout
 from django.views.decorators.cache import never_cache
@@ -21,6 +21,7 @@ from common.mixin import JSONResponseMixin
 from identity.models import Permission, Resource
 from identity.forms import *
 from identity.views.resources import resource_detail
+from identity.exceptions import *
 
 User = get_user_model()
 logger = logging.getLogger('default')
@@ -84,8 +85,9 @@ class Logout(JSONResponseMixin, auth_views.LogoutView):
             logout(request)
         except Exception as e:
             logger.error('logout error, %s' % str(e))
-            return self.render_to_json_response(result=False, messages=_(
-                'An error occurred when logged out'))
+            return self.render_to_json_response(
+                result=False,
+                messages='An error occurred when logged out')
         next_page = self.get_next_page()
         if next_page:
             # Redirect to this page until the session has been cleared.
@@ -113,13 +115,17 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
+            messages.add_message(request, messages.SUCCESS,
+                                 'User %s has been successfully created.' % username)
             return self.render_to_json_response(
-                messages=_('User %s has been successfully created.' % username),
-                data=self.model.objects.all().values('id', 'username', 'email',
-                                                     'date_joined', 'last_login'))
+                # messages='User %s has been successfully created.' % username,
+                # data=self.model.objects.all().values('id', 'username', 'email',
+                #                                      'date_joined', 'last_login')
+            )
         else:
             return self.render_to_json_response(
-                result=False, messages=form_errors_to_list(form.errors))
+                result=False,
+                messages=form_errors_to_list(form.errors))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -143,13 +149,27 @@ class UserUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class UserDelete(PermissionRequiredMixin, DeleteView):
+class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
     permission_required = 'identity.delete_user'
     raise_exception = True
     model = User
     pk_url_kwarg = 'user_id'
     success_url = '/identity/user/'
+
+    def post(self, request, *args, **kwargs):
+        # add messages
+        messages.add_message(request, messages.SUCCESS,
+                             _('User %s has been successfully deleted.'
+                               % self.get_object().username))
+        try:
+            self.delete(request, *args, **kwargs)
+        except Exception as e:
+            logger.error('User deleting error, %s' % str(e))
+            raise UserDeletingError
+
+        # TODO: also need to remove user's resources and perms
+        return self.render_to_json_response()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -206,7 +226,8 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                        'format_resources': format_resources,
                        'resources': user_resources,
                        'perm_content_types': res,
-                       'user_update_form': UserUpdateForm})
+                       'user_update_form': UserUpdateForm,
+                       'user_id': self.object.id})
         return super().get_context_data(**kwargs)
 
 

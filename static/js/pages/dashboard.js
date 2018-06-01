@@ -16,14 +16,13 @@
 //     })
 // });
 
-
+// SweetAlert
 !function ($) {
     "use strict";
 
     var SweetAlert = function () {
     };
 
-    //examples
     SweetAlert.prototype.init = function () {
 
         //Warning Message
@@ -36,13 +35,13 @@
                 // confirmButtonColor: '#4fa7f3',
                 // cancelButtonColor: '#d57171',
                 confirmButtonText: 'Yes, log out',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10'
+                confirmButtonClass: 'btn btn-danger m-l-10',
+                cancelButtonClass: 'btn btn-success'
             }).then(function (result) {
                 if (result.value) {
                     $.addLoadingCover();
                     $.ajax({
-                        url: logout_url,
+                        url: logoutUrl,
                         type: 'POST',
                         success: function (res) {
                             if (res.messages.length > 0) {
@@ -54,7 +53,6 @@
 
             });
         });
-
     };
     //init
     $.SweetAlert = new SweetAlert;

@@ -320,8 +320,7 @@
   <script src="{% static 'js/assets/jquery.app.js' %}"></script>
   <script src="{% static 'js/assets/reconnecting-websocket.js' %}"></script>
   <script>
-      var global_user_id = '{{ user.id }}';
-      var logout_url = '{% url 'identity:user_logout' %}';
+      var logoutUrl = '{% url 'identity:user_logout' %}';
   </script>
   <script src="{% static 'js/pages/dashboard.js' %}"></script>
   {% block dashboard_js %}{% endblock %}

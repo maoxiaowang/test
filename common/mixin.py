@@ -22,11 +22,12 @@ def ret_format(result=True, messages=None, level=None, code=0, data=None, defaul
     """
     assert isinstance(result, bool)
     if messages:
-        assert isinstance(messages, (list, tuple, str))
-        # i18n here
+        if not isinstance(messages, (list, tuple, str)):
+            raise ValueError('messages can only be list, tuple or str')
         if isinstance(messages, str):
             messages = [messages]
-            messages = [_(m) for m in messages]
+        # i18n here
+        messages = [_(m) for m in messages]
     else:
         if default_msg:
             messages = [_('Operation succeeded')] if result else [_('Operation failed')]
