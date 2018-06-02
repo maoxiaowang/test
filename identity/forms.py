@@ -61,8 +61,7 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'id': 'inputUsername',
-                'autofocus': True,
+                'id': 'login-input-username',
                 'placeholder': _('Username'),
                 'required': True,
                 'spellcheck': 'false'
@@ -75,7 +74,7 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'id': 'inputPassword',
+                'id': 'login-input-password',
                 'placeholder': _('Password'),
                 'maxlength': 32,
                 'minlength': 8,
@@ -121,7 +120,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         max_length=32,
         widget=forms.TextInput(
             attrs={
-                'id': 'inputUsername',
+                'id': 'user-create-input-name',
                 'class': 'form-control',
                 'autofocus': True,
                 'required': True,
@@ -135,7 +134,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'id': 'inputPassword1',
+                'id': 'user-create-input-password1',
                 'class': 'form-control',
                 'maxlength': 32,
                 'minlength': 8,
@@ -150,7 +149,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'id': 'inputPassword2',
+                'id': 'user-create-input-password2',
                 'class': 'form-control',
                 'maxlength': 32,
                 'minlength': 8,
@@ -164,7 +163,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         label=_('Email Address'),
         widget=forms.EmailInput(
             attrs={
-                'id': 'inputEmail',
+                'id': 'user-create-input-email',
                 'class': 'form-control',
                 'max_length': 64,
                 'min_length': 8,
@@ -201,7 +200,7 @@ class UserUpdateForm(forms.Form):
         label=_('Email Address'),
         widget=forms.EmailInput(
             attrs={
-                'id': 'inputEmail',
+                'id': 'user-update-input-password',
                 'class': 'form-control',
                 'max_length': 64,
                 'min_length': 8,
@@ -226,7 +225,7 @@ class GroupCreateForm(forms.Form):
         strip=False,
         widget=forms.TextInput(
             attrs={
-                'id': 'groupName',
+                'id': 'group-create-input-name',
                 'class': 'form-control',
                 'maxlength': 80,
                 'required': True,

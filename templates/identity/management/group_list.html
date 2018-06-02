@@ -14,7 +14,7 @@
 {% block container %}
   <div class="row">
     <div class="col-lg-12">
-      <div class="card-box" id="groupList">
+      <div class="card-box" id="group-list-card-box">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
@@ -36,14 +36,12 @@
         </p>
 
         {% if group_list|length > 0 %}
-
           <div class="table-responsive">
             <table class="table m-0">
               <thead>
               <tr>
                 <th>{% trans 'Group' %}</th>
                 <th>{% trans 'Id' %}</th>
-
               </tr>
               </thead>
               <tbody>
@@ -57,7 +55,7 @@
             </table>
           </div>
         {% else %}
-          <div class="m-4 text-center text-muted">{% trans 'No group here' %}</div>
+          <div class="m-4 text-center text-muted">{% trans 'No groups here' %}</div>
         {% endif %}
 
       </div>

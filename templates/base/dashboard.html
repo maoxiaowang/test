@@ -47,19 +47,24 @@
                   <ol class="breadcrumb m-b-20">
 
                     {% for item in breadcrumb_paths %}
-                      <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
-                        {% if breadcrumb_paths|length > 2 %}
-                          {% if forloop.counter == 3 %}
-                            <a>{{ item.name }}</a>
+                      {% if forloop.counter == 1 %}
+                        <li class="breadcrumb-item">{{ item.name }}</li>
+                      {% else %}
+                        <li class="breadcrumb-item {% if forloop.revcounter == 1 %}active{% endif %}">
+                          {% if breadcrumb_paths|length > 2 %}
+                            {% if forloop.counter == 3 %}
+                              <a>{{ item.name }}</a>
+                            {% else %}
+                              <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
+                            {% endif %}
                           {% else %}
                             <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
+
                           {% endif %}
-                        {% else %}
-                          <a {% if forloop.revcounter != 1 %}href="{{ item.path }}"{% endif %}>{% if item.name|length > 10 %}{{ item.name|truncatechars:10 }}{% else %}{{ item.name }}{% endif %}</a>
 
-                        {% endif %}
+                        </li>
+                      {% endif %}
 
-                      </li>
                     {% endfor %}
                   </ol>
                 {% endif %}
@@ -171,13 +176,13 @@
               {% endwith %}
 
 
-                  <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect">
-                      <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
-                    <ul class="list-unstyled">
-                      <li><a href="{% url 'network:network_list' %}">Network</a></li>
-                    </ul>
-                  </li>
+              <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect">
+                  <i class="mdi mdi-sitemap"></i> <span> Network </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                  <li><a href="{% url 'network:network_list' %}">Network</a></li>
+                </ul>
+              </li>
 
               {% with perm=perms.identity %}
                 {% if perm.list_user or perm.list_group or perm.list_permission %}

@@ -193,7 +193,7 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-resource-modal">{% trans 'Update user resources' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-resource-modal">{% trans 'Update resources' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
@@ -207,26 +207,30 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'Type' %}</th>
-              <th>{% trans 'Name' %}</th>
-              <th>{% trans 'Id' %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for r in resources %}
+        {% if resources|length > 0 %}
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
               <tr>
-                <td>{{ r.type }}</td>
-                <td>{{ r.display_name }}</td>
-                <td>{{ r.id }}</td>
+                <th>{% trans 'Type' %}</th>
+                <th>{% trans 'Name' %}</th>
+                <th>{% trans 'Id' %}</th>
               </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+              {% for r in resources %}
+                <tr>
+                  <td>{{ r.type }}</td>
+                  <td>{{ r.display_name }}</td>
+                  <td>{{ r.id }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="m-4 text-center text-muted">{% trans 'No users here' %}</div>
+        {% endif %}
 
       </div>  {# user-resource-card-box #}
 
@@ -236,7 +240,7 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-perms-modal">{% trans 'Update permission' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-perms-modal">{% trans 'Update permissions' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
@@ -250,26 +254,32 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'Name' %}</th>
-              <th>{% trans 'Content type' %}</th>
-              <th>{% trans 'Code name' %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for p in user.user_permissions.all %}
-              <tr>
-                <td>{{ p.name }}</td>
-                <td>{{ p.content_type }}</td>
-                <td>{{ p.codename }}</td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+        {% with permissions=user.user_permissions.all %}
+          {% if permissions|length > 0 %}
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                <tr>
+                  <th>{% trans 'Name' %}</th>
+                  <th>{% trans 'Content type' %}</th>
+                  <th>{% trans 'Code name' %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p in user.user_permissions.all %}
+                  <tr>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.content_type }}</td>
+                    <td>{{ p.codename }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="m-4 text-center text-muted">{% trans 'No permissions here' %}</div>
+          {% endif %}
+        {% endwith %}
       </div>  {# user-perms-card-box #}
 
     </div><!-- end col -->

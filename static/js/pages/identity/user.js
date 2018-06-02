@@ -1,75 +1,59 @@
 
-$('#user-create-modal form').submit(function (event) {
-    var $this = $(this);
-    event.preventDefault();
-    $.addLoadingCover();
-    $.ajax({
-        url: $this.attr('action'),
-        data: $this.serialize(),
-        type: $this.attr('method'),
-        success: function (res) {
-            res = $.handleResponse(res, true);
-            // if (res.result) {
-            // var newElem = '';
-            // $.each(res.data, function (i, item) {
-            //     var dateJoined = item['date_joined'] || '-';
-            //     var lastLogin = item['last_login'] || '-';
-            //     newElem +=
-            //         '<tr>\n' +
-            //         '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
-            //             '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
-            //         '  <td>{0}</td>\n'.format(item['email']) +
-            //         '  <td>{0}</td>\n'.format(dateJoined) +
-            //         '  <td>{0}</td>\n'.format(lastLogin) +
-            //         '</tr>';
-            // });
-            //
-            // var $target = $('#user-list-card tbody');
-            // $target.html('');
-            // $(newElem).hide().appendTo($target).fadeIn('slow');
-
-            //     $('#user-create-modal').modal('hide');
-            //     $.cleanFormInput($this);
-            // }
-        },
-        complete: function () {
-
-            $.removeLoadingCover();
-        },
-        error: function () {
-        }
-    });
-});
-
-$('#user-detail-modal form').submit(function (event) {
-    var $this = $(this);
-    event.preventDefault();
-    $.addLoadingCover();
-    $.ajax({
-        url: $this.attr('action'),
-        data: $this.serialize(),
-        type: $this.attr('method'),
-        success: function (res) {
-            res = $.handleResponse(res);
-            if (res.result) {
-                var newEmail = res.data['email'];
-                $('#userEmail > span').text(newEmail);
-                $('#user-detail-modal').modal('hide');
-                $.cleanFormInput($this);
-            }
-        },
-        complete: function () {
-            $.removeLoadingCover();
-        },
-        error: function () {
-        }
-    });
-});
-
 $(function () {
-    var $gTree = $('#user-perms-tree');
-    if ($gTree.length > 0) {
+    var $userListCardBox = $('#user-list-card-box');
+    var $userDetailCardBox = $('#user-detail-card-box');
+    if ($userListCardBox.length > 0) {
+
+        $('#user-create-modal').on('shown.bs.modal', function () {
+            $(this).find('#user-create-input-name').focus();
+        });
+
+        $('#user-create-modal form').submit(function (event) {
+            var $this = $(this);
+            event.preventDefault();
+            $.addLoadingCover();
+            $.ajax({
+                url: $this.attr('action'),
+                data: $this.serialize(),
+                type: $this.attr('method'),
+                success: function (res) {
+                    res = $.handleResponse(res, true);
+                    // if (res.result) {
+                    // var newElem = '';
+                    // $.each(res.data, function (i, item) {
+                    //     var dateJoined = item['date_joined'] || '-';
+                    //     var lastLogin = item['last_login'] || '-';
+                    //     newElem +=
+                    //         '<tr>\n' +
+                    //         '  <td scope="row"><a href="{0}">{1}</a></td>\n'.format(
+                    //             '/identity/user/detail/{0}/'.format(item['id']), item['username']) +
+                    //         '  <td>{0}</td>\n'.format(item['email']) +
+                    //         '  <td>{0}</td>\n'.format(dateJoined) +
+                    //         '  <td>{0}</td>\n'.format(lastLogin) +
+                    //         '</tr>';
+                    // });
+                    //
+                    // var $target = $('#user-list-card tbody');
+                    // $target.html('');
+                    // $(newElem).hide().appendTo($target).fadeIn('slow');
+
+                    //     $('#user-create-modal').modal('hide');
+                    //     $.cleanFormInput($this);
+                    // }
+                },
+                complete: function () {
+
+                    $.removeLoadingCover();
+                },
+                error: function () {
+                }
+            });
+        });
+
+    } else if ($userDetailCardBox.length > 0) {
+
         // init jstree
+        var $gTree = $('#user-perms-tree');
         $gTree.jstree({
             'core' : {
                 'themes' : {
@@ -85,6 +69,31 @@ $(function () {
                 }
             },
             'plugins' : ['types', 'checkbox']
+        });
+
+        $('#user-detail-modal form').submit(function (event) {
+            var $this = $(this);
+            event.preventDefault();
+            $.addLoadingCover();
+            $.ajax({
+                url: $this.attr('action'),
+                data: $this.serialize(),
+                type: $this.attr('method'),
+                success: function (res) {
+                    res = $.handleResponse(res);
+                    if (res.result) {
+                        var newEmail = res.data['email'];
+                        $('#userEmail > span').text(newEmail);
+                        $('#user-detail-modal').modal('hide');
+                        $.cleanFormInput($this);
+                    }
+                },
+                complete: function () {
+                    $.removeLoadingCover();
+                },
+                error: function () {
+                }
+            });
         });
 
         // user resources select

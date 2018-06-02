@@ -1,10 +1,37 @@
 
 $(function () {
 
-    var $gTree = $('#group-perms-tree');
-    if ($gTree.length > 0) {
-        /* detail page */
+    var $groupListCardBox = $('#group-list-card-box');
+    var $groupDetailCardBox = $('#group-detail-card-box');
+    if ($groupListCardBox.length > 0) {
 
+        $('#group-create-modal').on('shown.bs.modal', function () {
+            $(this).find('#group-create-input-name').focus();
+        });
+
+        // create group
+        $('#group-create-modal form').submit(function (event) {
+            var $this = $(this);
+            event.preventDefault();
+            $.addLoadingCover();
+            $.ajax({
+                url: $this.attr('action'),
+                data: $this.serialize(),
+                type: $this.attr('method'),
+                success: function (res) {
+                    $.handleResponse(res, true);
+                    // $('#group-create-modal').modal('hide');
+                },
+                complete: function () {
+                    $.cleanFormInput($this);
+                    $.removeLoadingCover();
+                },
+                error: function () {
+                }
+            });
+        });
+    } else if ($groupDetailCardBox.length > 0) {
+        var $gTree = $('#group-perms-tree');
         // init jstree
         $gTree.jstree({
             'core' : {
@@ -171,34 +198,6 @@ $(function () {
 
             });
         });
-
     }
-
-
-});
-
-$(function () {
-
-    // create group
-    $('#group-create-modal form').submit(function (event) {
-        var $this = $(this);
-        event.preventDefault();
-        $.addLoadingCover();
-        $.ajax({
-            url: $this.attr('action'),
-            data: $this.serialize(),
-            type: $this.attr('method'),
-            success: function (res) {
-                $.handleResponse(res, true);
-                // $('#group-create-modal').modal('hide');
-            },
-            complete: function () {
-                $.cleanFormInput($this);
-                $.removeLoadingCover();
-            },
-            error: function () {
-            }
-        });
-    });
 
 });

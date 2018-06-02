@@ -14,11 +14,11 @@
     </div>
   </div>
 
-  <div class="modal fade" id="group-delete-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      {% include 'identity/management/forms/group_delete_form.html' %}
-    </div>
-  </div>
+{#  <div class="modal fade" id="group-delete-modal" tabindex="-1" role="dialog">#}
+{#    <div class="modal-dialog" role="document">#}
+{#      {% include 'identity/management/forms/group_delete_form.html' %}#}
+{#    </div>#}
+{#  </div>#}
 
   <div class="modal fade" id="group-perms-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -100,7 +100,7 @@
   <div class="row">
     <div class="col-lg-12">
 
-      <div class="card-box" id="group-detail-card">
+      <div class="card-box" id="group-detail-card-box">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
@@ -121,7 +121,7 @@
         <p>{% trans 'Group' %} ID: {{ group.id }}</p>
       </div>
 
-      <div class="card-box" id="group-user-card">
+      <div class="card-box" id="group-user-card-box">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <div class="card-box" id="group-perms-card">
+      <div class="card-box" id="group-perms-card-box">
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
