@@ -40,9 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'cinder',
-    'nova',
-    'neutron',
     'compute',
     'dashboard',
     'identity',

@@ -36,6 +36,7 @@ class Backups(models.Model):
         managed = False
         db_table = 'backups'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Cgsnapshots(models.Model):
@@ -55,6 +56,7 @@ class Cgsnapshots(models.Model):
         managed = False
         db_table = 'cgsnapshots'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Consistencygroups(models.Model):
@@ -77,6 +79,7 @@ class Consistencygroups(models.Model):
         managed = False
         db_table = 'consistencygroups'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class DriverInitiatorData(models.Model):
@@ -92,6 +95,7 @@ class DriverInitiatorData(models.Model):
         db_table = 'driver_initiator_data'
         unique_together = (('initiator', 'namespace', 'key'),)
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Encryption(models.Model):
@@ -110,6 +114,7 @@ class Encryption(models.Model):
         managed = False
         db_table = 'encryption'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class IscsiTargets(models.Model):
@@ -125,6 +130,7 @@ class IscsiTargets(models.Model):
         managed = False
         db_table = 'iscsi_targets'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class MigrateVersion(models.Model):
@@ -136,6 +142,7 @@ class MigrateVersion(models.Model):
         managed = False
         db_table = 'migrate_version'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class QualityOfServiceSpecs(models.Model):
@@ -152,6 +159,7 @@ class QualityOfServiceSpecs(models.Model):
         managed = False
         db_table = 'quality_of_service_specs'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class QuotaClasses(models.Model):
@@ -167,6 +175,7 @@ class QuotaClasses(models.Model):
         managed = False
         db_table = 'quota_classes'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class QuotaUsages(models.Model):
@@ -184,6 +193,7 @@ class QuotaUsages(models.Model):
         managed = False
         db_table = 'quota_usages'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Quotas(models.Model):
@@ -199,6 +209,7 @@ class Quotas(models.Model):
         managed = False
         db_table = 'quotas'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Reservations(models.Model):
@@ -217,6 +228,7 @@ class Reservations(models.Model):
         managed = False
         db_table = 'reservations'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Services(models.Model):
@@ -237,6 +249,7 @@ class Services(models.Model):
         managed = False
         db_table = 'services'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class SnapshotMetadata(models.Model):
@@ -252,6 +265,7 @@ class SnapshotMetadata(models.Model):
         managed = False
         db_table = 'snapshot_metadata'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Snapshots(models.Model):
@@ -279,6 +293,7 @@ class Snapshots(models.Model):
         managed = False
         db_table = 'snapshots'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Transfers(models.Model):
@@ -297,6 +312,7 @@ class Transfers(models.Model):
         managed = False
         db_table = 'transfers'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeAdminMetadata(models.Model):
@@ -312,6 +328,7 @@ class VolumeAdminMetadata(models.Model):
         managed = False
         db_table = 'volume_admin_metadata'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeAttachment(models.Model):
@@ -333,6 +350,7 @@ class VolumeAttachment(models.Model):
         managed = False
         db_table = 'volume_attachment'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeGlanceMetadata(models.Model):
@@ -349,6 +367,7 @@ class VolumeGlanceMetadata(models.Model):
         managed = False
         db_table = 'volume_glance_metadata'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeMetadata(models.Model):
@@ -364,6 +383,7 @@ class VolumeMetadata(models.Model):
         managed = False
         db_table = 'volume_metadata'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeTypeExtraSpecs(models.Model):
@@ -379,6 +399,7 @@ class VolumeTypeExtraSpecs(models.Model):
         managed = False
         db_table = 'volume_type_extra_specs'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeTypeProjects(models.Model):
@@ -394,6 +415,7 @@ class VolumeTypeProjects(models.Model):
         db_table = 'volume_type_projects'
         unique_together = (('volume_type', 'project_id', 'deleted'),)
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class VolumeTypes(models.Model):
@@ -411,6 +433,7 @@ class VolumeTypes(models.Model):
         managed = False
         db_table = 'volume_types'
         default_permissions = ()
+        app_label = 'cinder'
 
 
 class Volumes(models.Model, Manager):
@@ -453,3 +476,4 @@ class Volumes(models.Model, Manager):
         managed = False
         db_table = 'volumes'
         default_permissions = ()
+        app_label = 'cinder'

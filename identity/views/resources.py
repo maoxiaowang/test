@@ -1,7 +1,7 @@
 # coding=utf-8
 from identity.models import Resource
-from cinder.models import Volumes
-from nova.models import Instances
+from storage.models.cinder import Volumes
+from compute.models.nova import Instances
 
 
 def _get_resource_detail(resource_obj):
