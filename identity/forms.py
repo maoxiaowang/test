@@ -64,7 +64,8 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
                 'id': 'login-input-username',
                 'placeholder': _('Username'),
                 'required': True,
-                'spellcheck': 'false'
+                'spellcheck': 'false',
+                'autofocus': 'autofocus',
             }
         ),
     )

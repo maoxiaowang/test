@@ -1,7 +1,3 @@
-# coding=utf-8
-"""
-Storage, volume
-"""
 from django.views.generic import (View, CreateView,
     UpdateView, DeleteView, ListView, DetailView)
 from django.contrib.auth.decorators import login_required
@@ -10,7 +6,6 @@ from django.utils.decorators import method_decorator
 from cinder.models import Volumes
 from storage.tasks import create_volumes
 from common.mixin import JSONResponseMixin
-# from guardian.mixins import PermissionRequiredMixin
 
 # Create your views here.
 
@@ -66,7 +61,3 @@ class VolumeDelete(DeleteView, PermissionRequiredMixin):
 
     def delete(self, request, *args, **kwargs):
         pass
-
-
-class StorageList(ListView):
-    pass

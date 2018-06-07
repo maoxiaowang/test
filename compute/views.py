@@ -3,7 +3,7 @@
 Create your views here.
 """
 from django.contrib.auth.decorators import login_required, permission_required
-from django.views.generic import (DetailView, ListView)
+from django.views.generic import (DetailView, ListView, CreateView, UpdateView, DeleteView)
 from django.http.response import JsonResponse
 from common.mixin import ret_format
 from django.views.decorators.http import (
@@ -39,7 +39,18 @@ class ServerList(ListView):
 
 
 class ServerDetail(DetailView):
+    pass
 
+
+class ServerCreate(CreateView):
+    pass
+
+
+class ServerUpdate(UpdateView):
+    pass
+
+
+class ServerDelete(DeleteView):
     pass
 
 
@@ -71,26 +82,6 @@ def server_change(request):
 @login_required
 @permission_required('compute.delete_server')
 def server_delete(request, server_id, **kwargs):
-    pass
-
-
-def host_list(request):
-    pass
-
-
-def host_detail(request):
-    pass
-
-
-def host_add(request):
-    pass
-
-
-def host_change(request):
-    pass
-
-
-def host_remove(request):
     pass
 
 

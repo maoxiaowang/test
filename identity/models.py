@@ -14,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class UserManager(BaseUserManager):
+
     use_in_migrations = True
 
     def _create_user(self, username, email, password, **extra_fields):
@@ -49,6 +50,9 @@ class UserManager(BaseUserManager):
 
 
 class ResourceMixin:
+    """
+    User resource management
+    """
 
     def has_resource(self, resource_id):
         return Resource.objects.filter(id=resource_id, user=self).exists()
@@ -81,7 +85,7 @@ class ResourceMixin:
 
 class User(ResourceMixin, AbstractUser, UserManager):
     """
-    用户
+    Custom user model
     """
     username_validator = ASCIIUsernameValidator()
     id = models.CharField(
@@ -157,7 +161,7 @@ class Tenant(models.Model):
 
 class Resource(models.Model):
     """
-    用户资源分配
+    User's resource assignment
     """
     id = models.CharField(primary_key=True, max_length=36)
     type = models.CharField(max_length=255, verbose_name=_('type'))

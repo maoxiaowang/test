@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+host list page
+{% for host in host_list %}
+  <p>{{ host.id }} {{ host.type }} {{ host.user_id }}</p>
+{% endfor %}
+</body>
+</html>
