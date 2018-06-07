@@ -158,19 +158,20 @@ class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
     success_url = '/identity/user/'
 
     def post(self, request, *args, **kwargs):
-        # add messages
-        user_obj = self.get_object()
-        messages.add_message(request, messages.SUCCESS,
-                             'User %s has been successfully deleted.'
-                               % user_obj.username)
 
-        # TODO: also need to remove user's resources and perms
+        user_obj = self.get_object()
+
+        # need to remove user's resources first
         user_obj.undo_assign_resource()
         try:
             self.delete(request, *args, **kwargs)
         except Exception as e:
             logger.error('User deleting error, %s' % str(e))
             raise UserDeletingError
+
+        messages.add_message(request, messages.SUCCESS,
+                             'User %s has been successfully deleted.'
+                               % user_obj.username)
 
         return self.render_to_json_response()
 
