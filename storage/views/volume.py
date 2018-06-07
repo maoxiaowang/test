@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from storage.tasks import create_volumes
 from common.mixin import JSONResponseMixin
 from common.constants.resources import VOLUME
+from storage.models.cinder import Volumes
 
 # Create your views here.
 
@@ -15,10 +16,20 @@ class VolumeList(PermissionRequiredMixin, ListView):
 
     permission_required = 'storage.list_volume'
     raise_exception = True
-    template_name = 'storage/volume_list.html'
+
+    context_object_name = 'volume_list'
+    template_name = 'storage/volume/volume_list.html'
 
     def get_queryset(self):
-        self.queryset = self.user.get_resources(resource_type=VOLUME)
+        all_volumes = Volumes.objects.filter(deleted=0)
+        volume_resources = self.request.user.get_resources(resource_type=VOLUME)
+        for v in volume_resources:
+            for a in all_volumes:
+                if a.id == v.id:
+                    v.status = a.status
+                    v.attach_status = a.attach_status
+                    v.display_name = a.display_name
+        self.queryset = volume_resources
         return super().get_queryset()
 
 
@@ -28,7 +39,7 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
     raise_exception = True
 
     pk_url_kwarg = 'volume_id'
-    template_name = 'storage/volume_detail.html'
+    template_name = 'storage/volume/volume_detail.html'
 
 
 class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):

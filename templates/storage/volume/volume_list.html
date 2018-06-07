@@ -44,7 +44,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for v in volumes_list %}
+            {% for v in volume_list %}
               <tr>
                 <td><a href="{% url 'storage:volume_detail' v.id %}">{{ v.display_name }}</a></td>
                 <td><span class="badge badge-{{ v.status|status_css_selector }}">{{ v.status }}</span></td>
