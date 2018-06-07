@@ -17,7 +17,7 @@ from django.utils.deprecation import MiddlewareMixin
 from django.views.debug import technical_500_response
 
 from common.exceptions import ECloudException
-from common.utils.string_ import UUID
+from common.utils.text_ import UUID
 from common.mixin import ret_format
 
 

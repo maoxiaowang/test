@@ -216,7 +216,7 @@ $(function () {
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
-                    $.handleResponse(res);
+                    $.handleResponse(res, true);
                     $('#user-perms-modal').modal('hide');
                 },
                 complete: function () {

@@ -1,5 +1,5 @@
 # coding=utf-8
-from common.utils.string_ import UUID
+from common.utils.text_ import UUID, obj2iter
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import (AbstractUser, BaseUserManager,
@@ -74,13 +74,17 @@ class ResourceMixin:
     def delete_resource(self, resource_id):
         Resource.objects.get(pk=resource_id, user=self).delete()
 
-    def undo_assign_resource(self, resource_id):
-        try:
-            resource = Resource.objects.get(id=resource_id)
-            resource.user = None
-            resource.save()
-        except models.ObjectDoesNotExist:
-            pass
+    def undo_assign_resource(self, resource_ids=None):
+        """
+        Remove resource(s) assignment from a user
+        :param resource_ids: [list|tuple|None]
+        :return:
+        """
+        if resource_ids:
+            assert isinstance(resource_ids, (list, tuple, str))
+            Resource.objects.filter(id__in=obj2iter(resource_ids)).update(user_id=None)
+        else:
+            Resource.objects.filter(user=self).update(user_id=None)
 
 
 class User(ResourceMixin, AbstractUser, UserManager):
@@ -171,6 +175,12 @@ class Resource(models.Model):
         ordering = ['type', 'id']
         db_table = 'resource'
         permissions = (
+            ('list_storage', _('Can see storage list')),
+            ('detail_storage', _('Can see storage detail')),
+            ('add_storage', _('Can add storage')),
+            ('update_storage', _('Can update storage')),
+            ('remove_storage', _('Can remove storage')),
+
             ('list_volume', _('Can see volume list')),
             ('detail_volume', _('Can see volume detail')),
             ('create_volume', _('Can create volume')),
@@ -184,3 +194,5 @@ class Resource(models.Model):
             ('remove_host', _('Can remove host')),
         )
         default_permissions = ()
+        app_label = 'resource'
+

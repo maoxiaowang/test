@@ -159,16 +159,19 @@ class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         # add messages
+        user_obj = self.get_object()
         messages.add_message(request, messages.SUCCESS,
-                             _('User %s has been successfully deleted.'
-                               % self.get_object().username))
+                             'User %s has been successfully deleted.'
+                               % user_obj.username)
+
+        # TODO: also need to remove user's resources and perms
+        user_obj.undo_assign_resource()
         try:
             self.delete(request, *args, **kwargs)
         except Exception as e:
             logger.error('User deleting error, %s' % str(e))
             raise UserDeletingError
 
-        # TODO: also need to remove user's resources and perms
         return self.render_to_json_response()
 
 
@@ -280,6 +283,8 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
                 # add
                 obj.user_permissions.add(nid)
 
+        messages.add_message(request, messages.SUCCESS,
+                             'User permissions has been successfully updated.')
         return self.render_to_json_response()
 
 

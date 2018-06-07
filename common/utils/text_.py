@@ -68,6 +68,10 @@ class UUID(object):
     def uuid4_without_line(self):
         return str(uuid.uuid4()).replace('-', '')
 
+    @property
+    def uuid4_underline(self):
+        return str(uuid.uuid4()).replace('-', '_')
+
 
 UUID = UUID()
 

@@ -14,28 +14,22 @@ from storage.models.cinder import Volumes
 @method_decorator(login_required, name='dispatch')
 class VolumeList(PermissionRequiredMixin, ListView):
 
-    permission_required = 'storage.list_volume'
+    permission_required = 'resource.list_volume'
     raise_exception = True
 
     context_object_name = 'volume_list'
     template_name = 'storage/volume/volume_list.html'
 
     def get_queryset(self):
-        all_volumes = Volumes.objects.filter(deleted=0)
-        volume_resources = self.request.user.get_resources(resource_type=VOLUME)
-        for v in volume_resources:
-            for a in all_volumes:
-                if a.id == v.id:
-                    v.status = a.status
-                    v.attach_status = a.attach_status
-                    v.display_name = a.display_name
-        self.queryset = volume_resources
+        user_resources = self.request.user.get_resources(resource_type=VOLUME)
+        resource_ids = [item.id for item in user_resources]
+        self.queryset = Volumes.objects.filter(id__in=resource_ids, deleted=0)
         return super().get_queryset()
 
 
 class VolumeDetail(PermissionRequiredMixin, DetailView):
 
-    permission_required = 'storage.detail_volume'
+    permission_required = 'resource.detail_volume'
     raise_exception = True
 
     pk_url_kwarg = 'volume_id'
@@ -44,7 +38,7 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
 
 class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
 
-    permission_required = 'storage.create_volume'
+    permission_required = 'resource.create_volume'
     raise_exception = True
 
     def post(self, request, *args, **kwargs):
@@ -54,7 +48,7 @@ class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
 
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
-    permission_required = 'storage.update_volume'
+    permission_required = 'resource.update_volume'
     raise_exception = True
 
     def put(self, *args, **kwargs):
@@ -63,7 +57,7 @@ class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
 class VolumeDelete(DeleteView, PermissionRequiredMixin):
 
-    permission_required = 'storage.delete_volume'
+    permission_required = 'resource.delete_volume'
     raise_exception = True
 
     def delete(self, request, *args, **kwargs):

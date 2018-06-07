@@ -9,7 +9,7 @@ from common.constants.resources import NETWORK
 
 class NetworkList(ListView, PermissionRequiredMixin):
 
-    permission_required = 'network.list_network'
+    permission_required = 'resource.list_network'
     raise_exception = True
 
     context_object_name = 'network_list'
