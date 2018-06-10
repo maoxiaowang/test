@@ -5,6 +5,8 @@ from django.core.mail import EmailMultiAlternatives
 
 
 def send_email_handler(sender, **kwargs):
+    if kwargs.get('identifier') == 'user_created':
+        pass
     print('send email')
 
     # subject, from_email, to = 'hello', 'from@example.com', 'to@example.com'
