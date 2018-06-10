@@ -146,6 +146,11 @@ class User(ResourceMixin, AbstractUser, UserManager):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
+    def delete(self, using=None, keep_parents=False):
+        # need to remove user's resources first
+        self.undo_assign_resource()
+        super().delete(using=using, keep_parents=keep_parents)
+
 
 class Tenant(models.Model):
     """

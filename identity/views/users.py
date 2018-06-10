@@ -22,6 +22,7 @@ from identity.models import Permission, Resource
 from identity.forms import *
 from identity.views.resources import resource_detail
 from identity.exceptions import *
+from identity.signals.signals import send_email_signal
 
 User = get_user_model()
 logger = logging.getLogger('default')
@@ -160,9 +161,6 @@ class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
 
         user_obj = self.get_object()
-
-        # need to remove user's resources first
-        user_obj.undo_assign_resource()
         try:
             self.delete(request, *args, **kwargs)
         except Exception as e:
@@ -171,7 +169,7 @@ class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
 
         messages.add_message(request, messages.SUCCESS,
                              'User %s has been successfully deleted.'
-                               % user_obj.username)
+                             % user_obj.username)
 
         return self.render_to_json_response()
 
@@ -244,6 +242,8 @@ class UserList(PermissionRequiredMixin, ListView):
     template_name = 'identity/management/user_list.html'
 
     def get_queryset(self):
+        send_email_signal.send(sender=self.__class__,
+                               subject='hello', message='msg')
         return self.model.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -254,7 +254,7 @@ class UserList(PermissionRequiredMixin, ListView):
 @method_decorator(login_required, name='dispatch')
 class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateView):
 
-    permission_required = 'identitiy.update_user_permission'
+    permission_required = 'identity.update_user_permission'
     raise_exception = True
     model = User
     pk_url_kwarg = 'user_id'

@@ -1,5 +1,5 @@
 from django.views.generic import (View, CreateView,
-    UpdateView, DeleteView, ListView, DetailView)
+                                  UpdateView, DeleteView, ListView, DetailView)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.utils.decorators import method_decorator

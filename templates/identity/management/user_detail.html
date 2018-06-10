@@ -9,13 +9,13 @@
 
 {% block modals %}
 
-  <div class="modal fade" id="user-detail-modal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-detail-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/user_update_form.html' with form=user_update_form%}
     </div>
   </div>
 
-  <div class="modal fade" id="user-resource-modal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="user-resource-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -183,7 +183,7 @@
         <p>{% trans 'username' %} <span>{{ user.username }}</span></p>
         <p>{% trans 'user' %} ID <span>{{ user.id }}</span></p>
         <p>{% trans 'active' %} <span>{% if user.is_active %}{% trans 'yes' %}{% else %}{% trans 'no' %}{% endif %}</span></p>
-        <p id="userEmail">{% trans 'email' %} <span>{{ user.email }}</span></p>
+        <p id="user-email">{% trans 'email' %} <span>{{ user.email }}</span></p>
       </div>  {# user-detail-card-box #}
 
 
@@ -193,7 +193,7 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-resource-modal">{% trans 'Update resources' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-resource-update-modal">{% trans 'Update resources' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>

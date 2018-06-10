@@ -71,7 +71,7 @@ $(function () {
             'plugins' : ['types', 'checkbox']
         });
 
-        $('#user-detail-modal form').submit(function (event) {
+        $('#user-detail-update-modal form').submit(function (event) {
             var $this = $(this);
             event.preventDefault();
             $.addLoadingCover();
@@ -83,8 +83,8 @@ $(function () {
                     res = $.handleResponse(res);
                     if (res.result) {
                         var newEmail = res.data['email'];
-                        $('#userEmail > span').text(newEmail);
-                        $('#user-detail-modal').modal('hide');
+                        $('#user-email > span').text(newEmail);
+                        $('#user-detail-update-modal').modal('hide');
                         $.cleanFormInput($this);
                     }
                 },

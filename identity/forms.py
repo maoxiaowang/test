@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import forms as auth_forms
 from django.forms.utils import ErrorList
 from django.contrib.auth import get_user_model
+from identity.models import User
 
 
 __all__ = [
@@ -161,7 +162,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
         help_text=_('Enter the same password as before, for verification.')
     )
     email = forms.EmailField(
-        label=_('Email Address'),
+        label=_('Email address'),
         widget=forms.EmailInput(
             attrs={
                 'id': 'user-create-input-email',
@@ -171,7 +172,8 @@ class UserCreationForm(auth_forms.UserCreationForm):
                 'required': True,
                 'placeholder': _('Email')
             }
-        )
+        ),
+        help_text=_('Enter your email address.')
     )
     password_length = forms.IntegerField(
         widget=forms.HiddenInput(),
@@ -196,20 +198,39 @@ class UserCreationForm(auth_forms.UserCreationForm):
         return username
 
 
-class UserUpdateForm(forms.Form):
-    email = forms.EmailField(
-        label=_('Email Address'),
-        widget=forms.EmailInput(
-            attrs={
-                'id': 'user-update-input-password',
-                'class': 'form-control',
-                'max_length': 64,
-                'min_length': 8,
-                'required': True,
-                'placeholder': _('Email')
-            }
-        )
-    )
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(
+                attrs={
+                    'id': 'user-update-input-password',
+                    'class': 'form-control',
+                    'max_length': 64,
+                    'min_length': 8,
+                    'required': True,
+                    'placeholder': _('Email')
+                }
+            )
+        }
+        labels = {
+            'email': _('Email address')
+        }
+        help_texts = {
+            'email': _('Input your email address.'),
+        }
+        # error_messages = {
+        #     'email': {
+        #         'max_length': _("This writer's name is too long."),
+        #     },
+        # }
+
+    def clean_email(self):
+        # custom clean method
+        email = self.cleaned_data['email']
+        if email.startswith('admin'):
+            raise forms.ValidationError
 
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
