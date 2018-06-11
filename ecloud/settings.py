@@ -334,10 +334,10 @@ CHANNEL_LAYERS = {
 # Email
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.126.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'bigedianying@gmail.com'
-EMAIL_HOST_PASSWORD = 'BGDYscjwm2016!'
-DEFAULT_FROM_EMAIL = 'NBCloud <bigedianying@gmail.com>'
-SERVER_EMAIL = 'bigedianying@gmail.com'
+EMAIL_HOST_USER = 'nbcloudadmin@126.com'
+EMAIL_HOST_PASSWORD = 'kevin123'
+DEFAULT_FROM_EMAIL = 'NBCloud <nbcloudadmin@126.com>'
+SERVER_EMAIL = 'nbcloudadmin@126.com'

@@ -22,7 +22,6 @@ from identity.models import Permission, Resource
 from identity.forms import *
 from identity.views.resources import resource_detail
 from identity.exceptions import *
-from identity.signals.signals import send_email_signal
 
 User = get_user_model()
 logger = logging.getLogger('default')
@@ -122,12 +121,8 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                                    content_type='text/html',
                                    context={'username': username,
                                             'subject': subject}).content
+            # send_mail_task(subject, '', [user.email], html_message=email_content).delay()
 
-            send_email_signal.send(sender=self.__class__,
-                                   subject=subject,
-                                   content=email_content,
-                                   content_type = 'html',
-                                   to=user.email)
             messages.add_message(request, messages.SUCCESS,
                                  'User %s has been successfully created.' % username)
             return self.render_to_json_response(

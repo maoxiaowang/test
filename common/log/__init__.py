@@ -2,7 +2,8 @@ import logging
 
 
 __all__ = [
-    'Logging'
+    'Logging',
+    'LOG'
 ]
 
 
@@ -26,3 +27,4 @@ class LoggingBase(object):
 
 
 Logging = LoggingBase()
+LOG = Logging.default_logger

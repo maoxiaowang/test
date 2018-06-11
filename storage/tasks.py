@@ -10,6 +10,9 @@ R = CinderRequest()
 
 class VolumeCreateTask(Task):
 
+    def run(self, *args, **kwargs):
+        pass
+
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         print('{0!r} failed: {1!r}'.format(task_id, exc))
 
