@@ -1,17 +1,32 @@
 # coding=utf-8
-from django.dispatch import receiver
-from django.core.signals import request_finished
 from django.core.mail import EmailMultiAlternatives
+from django.conf.global_settings import EMAIL_HOST_USER
 
 
 def send_email_handler(sender, **kwargs):
-    if kwargs.get('identifier') == 'user_created':
-        pass
-    print('send email')
-
-    # subject, from_email, to = 'hello', 'from@example.com', 'to@example.com'
-    # text_content = 'This is an important message.'
-    # html_content = '<p>This is an <strong>important</strong> message.</p>'
-    # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-    # msg.attach_alternative(html_content, "text/html")
+    """
+    必传参数为to和content
+    :param sender:
+    :param kwargs:
+    subject: str
+    from_email: str
+    to: str
+    content: str
+    type: str[text|html]
+    :return:
+    """
+    # subject = kwargs.get('subject', '')
+    # from_email = kwargs.get('from_email', EMAIL_HOST_USER)
+    # to = kwargs.get('to')
+    # content = kwargs.get('content', '')
+    # content_type = kwargs.get('content_type', 'text')
+    # assert to
+    # assert content_type in ('text', 'html')
+    # if isinstance(content, bytes):
+    #     content = str(content, 'utf8')
+    #
+    # msg = EmailMultiAlternatives(subject, content, from_email, [to])
+    # if content_type == 'html':
+    #     msg.attach_alternative(content, "text/html")
     # msg.send()
+    pass

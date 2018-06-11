@@ -1,10 +1,20 @@
 # Create your tasks here
 import time
-from celery import shared_task
+from celery import shared_task, Task
 from common.openstack.cinder import CinderRequest
+from celery.worker.request import Request
 
 
 R = CinderRequest()
+
+
+class VolumeCreateTask(Task):
+
+    def on_failure(self, exc, task_id, args, kwargs, einfo):
+        print('{0!r} failed: {1!r}'.format(task_id, exc))
+
+    def on_success(self, retval, task_id, args, kwargs):
+        print('{0!r} success: {1!r}'.format(task_id, retval))
 
 
 @shared_task
@@ -36,8 +46,8 @@ def create_volumes(request, **kwargs):
     chain()
 
 
-@shared_task
-def _create_volume(request, *args, **kwargs):
+@shared_task(base=VolumeCreateTask, bind=True)
+def _create_volume(self, *args, **kwargs):
     print('_create_volume start')
     volume_type = args[0]
     print('volume_type_id: %s' % volume_type['volume_type']['id'])
@@ -50,8 +60,8 @@ def _create_volume(request, *args, **kwargs):
     # and more if it is needed
 
 
-@shared_task
-def _create_volume_type(request, *args, **kwargs):
+@shared_task(base=VolumeCreateTask, bind=True)
+def _create_volume_type(self, *args, **kwargs):
     """
 
     :param request:

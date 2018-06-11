@@ -111,11 +111,23 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                                error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
-            self.model().create_user(
+            user = self.model().create_user(
                 username,
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
+            subject = 'Account center'
+            email_content = render(request,
+                                   'identity/mail/account_created.html',
+                                   content_type='text/html',
+                                   context={'username': username,
+                                            'subject': subject}).content
+
+            send_email_signal.send(sender=self.__class__,
+                                   subject=subject,
+                                   content=email_content,
+                                   content_type = 'html',
+                                   to=user.email)
             messages.add_message(request, messages.SUCCESS,
                                  'User %s has been successfully created.' % username)
             return self.render_to_json_response(
@@ -242,8 +254,6 @@ class UserList(PermissionRequiredMixin, ListView):
     template_name = 'identity/management/user_list.html'
 
     def get_queryset(self):
-        send_email_signal.send(sender=self.__class__,
-                               subject='hello', message='msg')
         return self.model.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
