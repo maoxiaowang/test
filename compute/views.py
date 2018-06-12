@@ -66,7 +66,7 @@ class ServerDelete(DeleteView):
 
 @require_POST
 @login_required
-@permission_required('compute.create_server')
+@permission_required('compute.add_server')
 def server_create(request):
 
     # and more params

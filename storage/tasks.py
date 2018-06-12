@@ -1,6 +1,7 @@
 # Create your tasks here
 import time
-from celery import shared_task, Task
+from celery import shared_task, chain
+from celery.task import Task
 from common.openstack.cinder import CinderRequest
 from celery.worker.request import Request
 
@@ -45,12 +46,14 @@ def create_volumes(request, **kwargs):
     #
     data = request.POST
     volume_type_data = {}
-    chain = _create_volume_type.s(request, volume_type_data) | _create_volume.s(request)
-    chain()
+    result = chain(
+        _create_volume_type.s(request, volume_type_data),
+        _create_volume.s(request)
+    )
 
 
 @shared_task(base=VolumeCreateTask, bind=True)
-def _create_volume(self, *args, **kwargs):
+def _create_volume(self, request, volume_type_res, data, *args, **kwargs):
     print('_create_volume start')
     volume_type = args[0]
     print('volume_type_id: %s' % volume_type['volume_type']['id'])
@@ -64,7 +67,7 @@ def _create_volume(self, *args, **kwargs):
 
 
 @shared_task(base=VolumeCreateTask, bind=True)
-def _create_volume_type(self, *args, **kwargs):
+def _create_volume_type(self, request, data, *args, **kwargs):
     """
 
     :param request:
@@ -74,6 +77,9 @@ def _create_volume_type(self, *args, **kwargs):
     :return:
     """
     print('_create_volume_type start')
+    # check image
+    # check storage state and quota
+    print('task_id: %s' % self.request.id)
     time.sleep(5)
     result = {
         "volume_type": {

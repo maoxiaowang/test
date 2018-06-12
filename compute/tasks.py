@@ -32,7 +32,7 @@ def xsum(numbers):
 
 @shared_task(
              bind=True,
-             name='compute.create_server',
+             name='compute.add_server',
              rate_limit='5/m')
 def create_server_task():
     pass

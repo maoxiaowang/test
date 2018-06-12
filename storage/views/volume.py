@@ -14,7 +14,7 @@ from storage.models.cinder import Volumes
 @method_decorator(login_required, name='dispatch')
 class VolumeList(PermissionRequiredMixin, ListView):
 
-    permission_required = 'resource.list_volume'
+    permission_required = 'storage.list_volume'
     raise_exception = True
 
     context_object_name = 'volume_list'
@@ -29,7 +29,7 @@ class VolumeList(PermissionRequiredMixin, ListView):
 
 class VolumeDetail(PermissionRequiredMixin, DetailView):
 
-    permission_required = 'resource.detail_volume'
+    permission_required = 'storage.detail_volume'
     raise_exception = True
 
     pk_url_kwarg = 'volume_id'
@@ -38,7 +38,7 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
 
 class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
 
-    permission_required = 'resource.create_volume'
+    permission_required = 'storage.add_volume'
     raise_exception = True
 
     def post(self, request, *args, **kwargs):
@@ -48,16 +48,16 @@ class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
 
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
-    permission_required = 'resource.update_volume'
+    permission_required = 'storage.change_volume'
     raise_exception = True
 
-    def put(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pass
 
 
 class VolumeDelete(DeleteView, PermissionRequiredMixin):
 
-    permission_required = 'resource.delete_volume'
+    permission_required = 'storage.delete_volume'
     raise_exception = True
 
     def delete(self, request, *args, **kwargs):

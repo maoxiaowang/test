@@ -132,10 +132,11 @@ class User(ResourceMixin, AbstractUser, UserManager):
         permissions = (
             ('list_user', _('Can see user list')),
             ('detail_user', _('Can see user detail')),
-            ('create_user', _('Can create user')),
-            ('update_user', _('Can update user')),
+            ('add_user', _('Can add user')),
+            ('change_user', _('Can change user')),
             ('delete_user', _('Can delete user')),
-            ('update_user_permission', _('Can change user permission')),
+            ('change_user_permission', _('Can change user permission')),
+            ('change_user_group', _('Can change user group'))
         )
         default_permissions = ()
 
@@ -152,14 +153,13 @@ class User(ResourceMixin, AbstractUser, UserManager):
         super().delete(using=using, keep_parents=keep_parents)
 
 
-class Tenant(models.Model):
+class Project(models.Model):
     """
-    需要和keystone的tenant保持一致
+    需要和keystone的tenant/project保持一致
     """
 
     id = models.CharField(max_length=36, verbose_name='id', primary_key=True)
     name = models.CharField(max_length=64)
-    user = models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
@@ -180,23 +180,23 @@ class Resource(models.Model):
         ordering = ['type', 'id']
         db_table = 'resource'
         permissions = (
-            ('list_storage', _('Can see storage list')),
-            ('detail_storage', _('Can see storage detail')),
-            ('add_storage', _('Can add storage')),
-            ('update_storage', _('Can update storage')),
-            ('remove_storage', _('Can remove storage')),
+            # ('list_storage', _('Can see storage list')),
+            # ('detail_storage', _('Can see storage detail')),
+            # ('add_storage', _('Can add storage')),
+            # ('change_storage', _('Can change storage')),
+            # ('delete_storage', _('Can delete storage')),
 
-            ('list_volume', _('Can see volume list')),
-            ('detail_volume', _('Can see volume detail')),
-            ('create_volume', _('Can create volume')),
-            ('update_volume', _('Can update volume')),
-            ('delete_volume', _('Can delete volume')),
+            # ('list_volume', _('Can see volume list')),
+            # ('detail_volume', _('Can see volume detail')),
+            # ('add_volume', _('Can add volume')),
+            # ('change_volume', _('Can change volume')),
+            # ('delete_volume', _('Can delete volume')),
 
-            ('list_host', _('Can see host list')),
-            ('detail_host', _('Can see host detail')),
-            ('add_host', _('Can add host')),
-            ('update_host', _('Can update host')),
-            ('remove_host', _('Can remove host')),
+            # ('list_host', _('Can see host list')),
+            # ('detail_host', _('Can see host detail')),
+            # ('add_host', _('Can add host')),
+            # ('change_host', _('Can change host')),
+            # ('delete_host', _('Can delete host')),
         )
         default_permissions = ()
         app_label = 'resource'

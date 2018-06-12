@@ -100,7 +100,7 @@ class Logout(JSONResponseMixin, auth_views.LogoutView):
 @method_decorator(login_required, name='dispatch')
 class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
 
-    permission_required = 'identity.create_user'
+    permission_required = 'identity.add_user'
     raise_exception = True
     form_class = UserCreationForm
     model = User

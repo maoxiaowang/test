@@ -475,5 +475,12 @@ class Volumes(models.Model, Manager):
     class Meta:
         managed = False
         db_table = 'volumes'
+        # permissions = (
+        #     ('list_volume', _('Can see volume list')),
+        #     ('detail_volume', _('Can see volume detail')),
+        #     ('create_volume', _('Can create volume')),
+        #     ('update_volume', _('Can update volume')),
+        #     ('delete_volume', _('Can delete volume')),
+        # )
         default_permissions = ()
         app_label = 'cinder'

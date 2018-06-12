@@ -113,7 +113,7 @@ class GroupUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 @method_decorator(login_required, name='dispatch')
 class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
 
-    permission_required = 'identity.update_group_user'
+    permission_required = 'identity.add_group_user'
     raise_exception = True
     model = Group
     pk_url_kwarg = 'group_id'
