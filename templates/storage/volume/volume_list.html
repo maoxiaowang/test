@@ -18,7 +18,7 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#group-create-modal">{% trans 'New group' %}</a>
+            <a href="{% url 'storage:volume_create' %}" class="dropdown-item">{% trans 'New group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">{% trans 'Edit group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
@@ -67,5 +67,5 @@
       {# django value to js #}
 
   </script>
-  <script src="{% static 'js/pages/storage/volume.js' %}"></script>
+  <script src="{% static 'js/pages/storage/volume_list.js' %}"></script>
 {% endblock %}

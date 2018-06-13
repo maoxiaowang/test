@@ -6,7 +6,10 @@ from django.utils.decorators import method_decorator
 from storage.tasks import create_volumes
 from common.mixin import JSONResponseMixin
 from common.constants.resources import VOLUME
-from storage.models.cinder import Volumes
+from storage.models import Volumes, Storage
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your views here.
 
@@ -36,10 +39,20 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
     template_name = 'storage/volume/volume_detail.html'
 
 
-class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, View):
+class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, CreateView):
 
     permission_required = 'storage.add_volume'
     raise_exception = True
+
+    template_name = 'storage/volume/volume_create.html'
+
+    def get_context_data(self, **kwargs):
+        storage = self.request.user.get_resources(resource_type='storage')
+        kwargs.update(
+            {'users': User.objects.all(),
+             'storage': storage}
+        )
+        return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         # TODO: create volume

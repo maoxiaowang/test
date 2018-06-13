@@ -13,7 +13,7 @@ register_converter(UUIDConverter, 'uuid')
 urlpatterns = [
     path('volume/', volume.VolumeList.as_view(), name='volume_list'),
     path('volume/detail/<uuid:volume_id>/', volume.VolumeDetail.as_view(), name='volume_detail'),
-    path('volume/create/<uuid:volume_id>/', volume.VolumeCreate.as_view(), name='volume_create'),
+    path('volume/create/', volume.VolumeCreate.as_view(), name='volume_create'),
     path('volume/update/<uuid:volume_id>/', volume.VolumeUpdate.as_view(), name='volume_update'),
     path('volume/delete/<uuid:volume_id>/', volume.VolumeDelete.as_view(), name='volume_delete'),
 
