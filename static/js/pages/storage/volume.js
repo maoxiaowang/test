@@ -74,3 +74,4 @@ $(function () {
     var socket = initSocket(option);
 
 });
+
