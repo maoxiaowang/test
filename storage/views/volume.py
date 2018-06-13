@@ -68,7 +68,7 @@ class VolumeUpdate(PermissionRequiredMixin, UpdateView):
         pass
 
 
-class VolumeDelete(DeleteView, PermissionRequiredMixin):
+class VolumeDelete(PermissionRequiredMixin, DeleteView):
 
     permission_required = 'storage.delete_volume'
     raise_exception = True

@@ -15,8 +15,6 @@ class GlobalSettings(models.Model):
     class Meta:
         db_table = 'settings'
         permissions = (
-            ('settings_list', _('Can see settings list')),
-            ('settings_create', _('Can create settings')),
-            ('settings_update', _('Can update settings')),
-            ('settings_delete', _('Can delete settings')),
+            ('list_settings', _('Can see settings list')),
+            ('change_settings', _('Can change settings')),
         )
