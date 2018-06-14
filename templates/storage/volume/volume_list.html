@@ -33,28 +33,32 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'volume' %}</th>
-              <th>{% trans 'status' %}</th>
-              <th>{% trans 'size' %}</th>
-              <th>{% trans 'id' %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in volume_list %}
+        {% if volume_list|length > 0 %}
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
               <tr>
-                <td><a href="{% url 'storage:volume_detail' item.id %}">{{ item.display_name }}</a></td>
-                <td><span class="badge badge-{{ item.status|status_css_selector }}">{{ item.status }}</span></td>
-                <td>{{ item.size }}</td>
-                <td>{{ item.id }}</td>
+                <th>{% trans 'volume' %}</th>
+                <th>{% trans 'status' %}</th>
+                <th>{% trans 'size' %}</th>
+                <th>{% trans 'id' %}</th>
               </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+              {% for item in volume_list %}
+                <tr>
+                  <td><a href="{% url 'storage:volume_detail' item.id %}">{{ item.display_name }}</a></td>
+                  <td><span class="badge badge-{{ item.status|status_css_selector }}">{{ item.status }}</span></td>
+                  <td>{{ item.size }}</td>
+                  <td>{{ item.id }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          {% include 'base/widgets/table_placeholder.html' with text_content='No volumes here' %}
+        {% endif %}
       </div>
     </div><!-- end col -->
 

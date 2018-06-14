@@ -229,7 +229,7 @@
             </table>
           </div>
         {% else %}
-          <div class="m-4 text-center text-muted">{% trans 'No users here' %}</div>
+          {% include 'base/widgets/table_placeholder.html' with text_content='No users here' %}
         {% endif %}
 
       </div>  {# user-resource-card-box #}

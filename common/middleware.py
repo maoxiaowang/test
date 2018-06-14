@@ -11,14 +11,16 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 import sys
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission, ContentType
 from django.core.exceptions import PermissionDenied
 from django.http.response import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 from django.views.debug import technical_500_response
 
 from common.exceptions import ECloudException
-from common.utils.text_ import UUID
 from common.mixin import ret_format
+from common.utils.text_ import UUID
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -28,40 +30,31 @@ class CommonMiddleware(MiddlewareMixin):
         super().__init__(get_response)
         # One-time configuration and initialization.
 
-        # from dashboard.models import Menu
-        # menus = Menu.objects.all()
-        # self.menus_obj = menus
-        # self.menus_list = [item.name for item in menus]
-
+        # Initialize first starting of the system
         #
         # TODO: create initial users, write custom migrations later
-        from django.contrib.auth import get_user_model
-        user_model = get_user_model()
-        if not user_model.objects.filter(username='admin'):
-            user_model().create_superuser('admin',
-                                          'admin@example.com',
-                                          'password', id=UUID.uuid4)
+        if not Permission.objects.filter(codename='list_permission').count():
+            user_model = get_user_model()
+            if not user_model.objects.filter(username='admin'):
+                user_model().create_superuser('admin',
+                                              'admin@example.com',
+                                              'password', id=UUID.uuid4)
 
-        """
-
-
-
-        """
-        # add extra permissions
-        from django.contrib.auth.models import Permission
-        perms = [
-            (2, 'permission', 'list_permission', 'Can list permission'),
-            (2, 'permission', 'detail_permission', 'Can detail permission'),
-            (3, 'group', 'list_group', 'Can list group'),
-            (3, 'group', 'detail_group', 'Can detail group'),
-            (3, 'group', 'update_group_permission', 'Can change group permission'),
-        ]
-        for item in perms:
-            model_name, code_name, name = item[1], item[2], item[3]
-            Permission.objects.get_or_create(name=name,
-                                             codename=code_name,
-                                             content_type_id=item[0])
-
+            # add extra permissions
+            group_ct_id = ContentType.objects.get(model='group').id
+            perms_ct_id = ContentType.objects.get(model='permission').id
+            perms = [
+                (perms_ct_id, 'permission', 'list_permission', 'Can list permission'),
+                (perms_ct_id, 'permission', 'detail_permission', 'Can detail permission'),
+                (group_ct_id, 'group', 'list_group', 'Can list group'),
+                (group_ct_id, 'group', 'detail_group', 'Can detail group'),
+                (group_ct_id, 'group', 'update_group_permission', 'Can change group permission'),
+            ]
+            for item in perms:
+                model_name, code_name, name = item[1], item[2], item[3]
+                Permission.objects.get_or_create(name=name,
+                                                 codename=code_name,
+                                                 content_type_id=item[0])
 
     # def __call__(self, request):
     #     # Code to be executed for each request before
@@ -108,9 +101,9 @@ class CommonMiddleware(MiddlewareMixin):
                 level = None
                 data = None
                 if isinstance(exception, PermissionDenied):
-                        messages = "You don't have permission to do this"
-                        level = 'warning'
-                        code = 403
+                    messages = "You don't have permission to do this"
+                    level = 'warning'
+                    code = 403
                 else:
                     messages = str(exception)
 

@@ -14,11 +14,11 @@
     </div>
   </div>
 
-{#  <div class="modal fade" id="group-delete-modal" tabindex="-1" role="dialog">#}
-{#    <div class="modal-dialog" role="document">#}
-{#      {% include 'identity/management/forms/group_delete_form.html' %}#}
-{#    </div>#}
-{#  </div>#}
+  {#  <div class="modal fade" id="group-delete-modal" tabindex="-1" role="dialog">#}
+  {#    <div class="modal-dialog" role="document">#}
+  {#      {% include 'identity/management/forms/group_delete_form.html' %}#}
+  {#    </div>#}
+  {#  </div>#}
 
   <div class="modal fade" id="group-perms-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="group-perms-btn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+          <button id="group-perms-update-btn" type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
         </div>
       </div>
@@ -139,26 +139,32 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'username' %}</th>
-              <th>{% trans 'Email' %}</th>
-              <th>{% trans 'active' %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for u in group_users %}
+        {% if group_users|length > 0 %}
+          <div class="table-responsive">
+            <table class="table m-0">
+              <thead>
               <tr>
-                <td>{{ u.username }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.is_active }}</td>
+                <th>{% trans 'username' %}</th>
+                <th>{% trans 'Email' %}</th>
+                <th>{% trans 'active' %}</th>
               </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+              {% for u in group_users %}
+                <tr>
+                  <td>{{ u.username }}</td>
+                  <td>{{ u.email }}</td>
+                  <td>{{ u.is_active }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          {% include 'base/widgets/table_placeholder.html' with text_content='No users in this group' %}
+        {% endif %}
+
+
       </div>
 
       <div class="card-box" id="group-perms-card-box">
@@ -181,27 +187,33 @@
           {% endblocktrans %}
         </p>
 
-        <div class="table-responsive">
-          <table class="table m-0">
-            <thead>
-            <tr>
-              <th>{% trans 'Name' %}</th>
-              <th>{% trans 'Content type' %}</th>
-              <th>{% trans 'Code name' %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for p in group.permissions.all %}
-              <tr>
-                <td>{{ p.name }}</td>
-                <td>{{ p.content_type }}</td>
-                <td>{{ p.codename }}</td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
+        {% with group_perms=group.permissions.all %}
+          {% if group_perms|length > 0 %}
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                <tr>
+                  <th>{% trans 'Name' %}</th>
+                  <th>{% trans 'Content type' %}</th>
+                  <th>{% trans 'Code name' %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p in group.permissions.all %}
+                  <tr>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.content_type }}</td>
+                    <td>{{ p.codename }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            </div>
+          {% else %}
+            {% include 'base/widgets/table_placeholder.html' with text_content='This group has no permission' %}
+          {% endif %}
+        {% endwith %}
 
     </div><!-- end col -->
 

@@ -55,7 +55,7 @@
             </table>
           </div>
         {% else %}
-          <div class="m-4 text-center text-muted">{% trans 'No groups here' %}</div>
+          {% include 'base/widgets/table_placeholder.html' with text_content='No groups here' %}
         {% endif %}
 
       </div>

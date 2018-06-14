@@ -7,7 +7,6 @@ class Server(models.Model):
     This model is only used for permission management
     """
     class Meta:
-        managed = False
         permissions = (
             ('list_server', _('Can see server list')),
             ('detail_server', _('Can see server detail')),

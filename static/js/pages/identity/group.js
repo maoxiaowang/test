@@ -89,7 +89,7 @@ $(function () {
         });
 
         // change group permissions
-        $('#group-perms-btn').click(function () {
+        $('#group-perms-update-btn').click(function () {
             var data = $gTree.jstree().get_checked();
             var jsonData = JSON.stringify(data);
             $.addLoadingCover();
@@ -98,8 +98,7 @@ $(function () {
                 data: {'checked_perms': jsonData},
                 type: 'POST',
                 success: function (res) {
-                    $.handleResponse(res);
-                    $('#group-perms-update-modal').modal('hide');
+                    $.handleResponse(res, true);
                 },
                 complete: function () {
                     $.removeLoadingCover();

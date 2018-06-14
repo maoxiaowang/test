@@ -14,7 +14,7 @@ class HostList(PermissionRequiredMixin, ListView):
     template_name = 'compute/host/host_list.html'
 
     def get_queryset(self):
-        self.queryset = self.request.user.get_resources(resource_type=HOST)
+        self.queryset = self.request.user.get_resources_by_type(resource_type=HOST)
         return super().get_queryset()
 
 

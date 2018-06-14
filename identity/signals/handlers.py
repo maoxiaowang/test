@@ -1,4 +1,7 @@
 # coding=utf-8
+
+from django.dispatch import receiver
+from django.db.models.signals import post_migrate
 from django.core.mail import send_mail
 from django.conf.global_settings import EMAIL_HOST_USER
 

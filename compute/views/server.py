@@ -14,7 +14,7 @@ class ServerList(PermissionRequiredMixin, ListView):
     template_name = 'compute/server/server_list.html'
 
     def get_queryset(self):
-        self.queryset = self.request.user.get_resources(resource_type=SERVER)
+        self.queryset = self.request.user.get_resources_by_type(resource_type=SERVER)
         return super().get_queryset()
 
 

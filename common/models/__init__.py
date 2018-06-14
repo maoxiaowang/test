@@ -1,1 +1,1 @@
-from .utils import (ComputeNodes, Instances, Resource, Storage, Volumes)
+from .utils import Volumes, ComputeNodes, Storage, Instances

@@ -12,4 +12,6 @@ register_converter(UUIDConverter, 'uuid')
 
 urlpatterns = [
     path('network/', views.NetworkList.as_view(), name='network_list'),
+    path('network/detail/<uuid:uuid>/', views.NetworkDetail.as_view(), name='network_detail'),
+    path('network/create/', views.NetworkCreate.as_view(), name='network_create'),
 ]

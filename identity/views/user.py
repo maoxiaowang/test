@@ -20,7 +20,7 @@ from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
 from identity.models import Permission, Resource
 from identity.forms import *
-from identity.views.resource import resource_detail
+from identity.views.helper import resource_detail, get_permissions
 from identity.exceptions import *
 
 User = get_user_model()
@@ -194,12 +194,11 @@ class UserDetail(PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         # rendering user's global permission modal
-        all_perms = Permission.objects.all()
+        all_perms = get_permissions()
         cts = list()
         res = list()
-
-        global_perms = self.object.user_permissions.all()
-        global_perms_id_list = [item.id for item in global_perms]
+        user_perms = self.object.user_permissions.all()
+        user_perms_id_list = [item.id for item in user_perms]
 
         for ap in all_perms:
             if ap.content_type_id not in cts:
@@ -207,7 +206,7 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                 res.append(
                     {'id': ap.content_type_id,
                      'name': ap.content_type.name})
-            if ap.id in global_perms_id_list:
+            if ap.id in user_perms_id_list:
                 ap.assigned = True
             else:
                 ap.assigned = False

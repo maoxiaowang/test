@@ -8,9 +8,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants.resources import *
-from common.models import Instances, ComputeNodes, Volumes
+from common.models import Instances, Volumes, ComputeNodes
 from common.utils.text_ import UUID, obj2iter
-
 
 # Create your models here.
 
@@ -76,6 +75,10 @@ class ResourceMixin:
 
     def has_resource(self, resource_id):
         return Resource.objects.filter(id=resource_id, user=self).exists()
+
+    def get_resources(self):
+        """Get overall resources without details"""
+        return Resource.objects.filter(user=self)
 
     def get_resources_by_type(self, resource_type, detail=False):
         """Get user resource by specified type"""
@@ -200,10 +203,19 @@ class Project(models.Model):
 
 class Resource(models.Model):
     """
-    User's resource assignment
+    User's resource assignment, using get_FOO_display to get display name like Server
     """
+    RESOURCE_TYPES = (
+        (SERVER, 'Server'),
+        (VOLUME, 'Volume'),
+        (STORAGE, 'Storage'),
+        (HOST, 'Host'),
+        (NETWORK, 'Network'),
+    )
+
     id = models.CharField(primary_key=True, max_length=36)
-    type = models.CharField(max_length=255, verbose_name=_('type'))
+    type = models.CharField(max_length=255, choices=RESOURCE_TYPES,
+                            verbose_name=_('type'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:

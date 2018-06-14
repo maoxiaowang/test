@@ -203,4 +203,6 @@ class GroupPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVi
                 # add
                 obj.permissions.add(nid)
 
+        messages.add_message(request, messages.SUCCESS,
+                             'Group permissions has been successfully updated.')
         return self.render_to_json_response()
