@@ -165,6 +165,7 @@ class ComputeNodes(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     service_id = models.IntegerField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
     vcpus = models.IntegerField()
     memory_mb = models.IntegerField()
     local_gb = models.IntegerField()

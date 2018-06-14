@@ -20,7 +20,7 @@ from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
 from identity.models import Permission, Resource
 from identity.forms import *
-from identity.views.resources import resource_detail
+from identity.views.resource import resource_detail
 from identity.exceptions import *
 
 User = get_user_model()

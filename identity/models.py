@@ -1,6 +1,4 @@
 # coding=utf-8
-from common.utils.text_ import UUID, obj2iter
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import (AbstractUser, BaseUserManager,
                                         Group, Permission)
@@ -8,6 +6,11 @@ from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from common.constants.resources import *
+from common.utils.text_ import UUID, obj2iter
+from compute.models import Instances, ComputeNodes
+from storage.models import Volumes
 
 
 # Create your models here.
@@ -57,10 +60,25 @@ class ResourceMixin:
     def has_resource(self, resource_id):
         return Resource.objects.filter(id=resource_id, user=self).exists()
 
-    def get_resources(self, resource_type=None):
-        if resource_type:
-            return Resource.objects.filter(user=self, type=resource_type)
-        return Resource.objects.filter(user=self)
+    def get_resources(self, resource_type, detail=False):
+        """Get user resource by specified type"""
+        resources = Resource.objects.filter(user=self, type=resource_type)
+        if resources and detail:
+            if resource_type == VOLUME:
+                resource_ids = [r.id for r in resources]
+                resources = Volumes.objects.filter(deleted=0, id__in=resource_ids)
+            elif resource_type == SERVER:
+                resource_ids = [r.uuid for r in resources]
+                servers = Instances.objects.filter(deleted=0)
+                resources = servers.filter(deleted=0, uuid__in=resource_ids)
+            elif resource_type == HOST:
+                # TODO: more types
+                resource_ids = [r.id for r in resources]
+                hosts = ComputeNodes.objects.filter(deleted=0)
+                resources = hosts.filter(deleted=0, id__in=resource_ids)
+            else:
+                raise ValueError
+        return resources
 
     def assign_resource(self, resource_id, resource_type):
         obj = Resource.objects.filter(id=resource_id)
@@ -132,11 +150,11 @@ class User(ResourceMixin, AbstractUser, UserManager):
         permissions = (
             ('list_user', _('Can see user list')),
             ('detail_user', _('Can see user detail')),
-            ('add_user', _('Can add user')),
-            ('change_user', _('Can change user')),
+            ('create_user', _('Can create user')),
+            ('update_user', _('Can update user')),
             ('delete_user', _('Can delete user')),
-            ('change_user_permission', _('Can change user permission')),
-            ('change_user_group', _('Can change user group'))
+            ('update_user_permission', _('Can update user permission')),
+            ('update_user_group', _('Can update user group'))
         )
         default_permissions = ()
 
@@ -179,25 +197,5 @@ class Resource(models.Model):
     class Meta:
         ordering = ['type', 'id']
         db_table = 'resource'
-        permissions = (
-            # ('list_storage', _('Can see storage list')),
-            # ('detail_storage', _('Can see storage detail')),
-            # ('add_storage', _('Can add storage')),
-            # ('change_storage', _('Can change storage')),
-            # ('delete_storage', _('Can delete storage')),
-
-            # ('list_volume', _('Can see volume list')),
-            # ('detail_volume', _('Can see volume detail')),
-            # ('add_volume', _('Can add volume')),
-            # ('change_volume', _('Can change volume')),
-            # ('delete_volume', _('Can delete volume')),
-
-            # ('list_host', _('Can see host list')),
-            # ('detail_host', _('Can see host detail')),
-            # ('add_host', _('Can add host')),
-            # ('change_host', _('Can change host')),
-            # ('delete_host', _('Can delete host')),
-        )
         default_permissions = ()
-        app_label = 'resource'
 

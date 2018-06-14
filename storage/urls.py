@@ -17,5 +17,8 @@ urlpatterns = [
     path('volume/update/<uuid:volume_id>/', volume.VolumeUpdate.as_view(), name='volume_update'),
     path('volume/delete/<uuid:volume_id>/', volume.VolumeDelete.as_view(), name='volume_delete'),
 
-    path('storage/', storage.StorageList.as_view(), name='storage_list')
+    path('storage/', storage.StorageList.as_view(), name='storage_list'),
+    path('storage/detail/<uuid:storage_id>/', storage.StorageDetail.as_view(), name='storage_detail'),
+    path('storage/create/', storage.StorageCreate.as_view(), name='storage_create'),
+
 ]

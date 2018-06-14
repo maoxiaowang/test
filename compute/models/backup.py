@@ -11,8 +11,8 @@ class Backup(models.Model):
         permissions = (
             ('list_backup', _('Can see backup list')),
             ('detail_backup', _('Can see backup detail')),
-            ('add_backup', _('Can change backup')),
-            ('change_backup', _('Can change backup')),
+            ('create_backup', _('Can create backup')),
+            ('update_backup', _('Can update backup')),
             ('delete_backup', _('Can delete backup')),
         )
         default_permissions = ()

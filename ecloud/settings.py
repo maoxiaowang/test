@@ -186,7 +186,7 @@ LOGIN_URL = '/identity/user/login/'
 AUTH_USER_MODEL = 'identity.User'
 
 AUTHENTICATION_BACKENDS = (
-    'common.backends.UserAuthBackend',
+    'identity.backends.UserAuthBackend',
     # 'guardian.backends.ObjectPermissionBackend',
 )
 

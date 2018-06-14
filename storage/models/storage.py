@@ -14,8 +14,8 @@ class Storage(models.Model):
         permissions = (
             ('list_storage', _('Can see storage list')),
             ('detail_storage', _('Can see storage detail')),
-            ('add_storage', _('Can add storage')),
-            ('change_storage', _('Can change storage')),
+            ('create_storage', _('Can create storage')),
+            ('update_storage', _('Can update storage')),
             ('delete_storage', _('Can delete storage')),
         )
         default_permissions = ()

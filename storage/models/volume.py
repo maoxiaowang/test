@@ -11,8 +11,8 @@ class Volume(models.Model):
         permissions = (
             ('list_volume', _('Can see volume list')),
             ('detail_volume', _('Can see volume detail')),
-            ('add_volume', _('Can add volume')),
-            ('change_volume', _('Can change volume')),
+            ('create_volume', _('Can create volume')),
+            ('update_volume', _('Can update volume')),
             ('delete_volume', _('Can delete volume')),
         )
         default_permissions = ()
