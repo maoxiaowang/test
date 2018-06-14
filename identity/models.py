@@ -7,10 +7,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from common.constants.resources import *
 from common.utils.text_ import UUID, obj2iter
-from compute.models import Instances, ComputeNodes
-from storage.models import Volumes
+from identity.views.resource import get_user_resources_by_type
+
 
 
 # Create your models here.
@@ -62,23 +61,7 @@ class ResourceMixin:
 
     def get_resources(self, resource_type, detail=False):
         """Get user resource by specified type"""
-        resources = Resource.objects.filter(user=self, type=resource_type)
-        if resources and detail:
-            if resource_type == VOLUME:
-                resource_ids = [r.id for r in resources]
-                resources = Volumes.objects.filter(deleted=0, id__in=resource_ids)
-            elif resource_type == SERVER:
-                resource_ids = [r.uuid for r in resources]
-                servers = Instances.objects.filter(deleted=0)
-                resources = servers.filter(deleted=0, uuid__in=resource_ids)
-            elif resource_type == HOST:
-                # TODO: more types
-                resource_ids = [r.id for r in resources]
-                hosts = ComputeNodes.objects.filter(deleted=0)
-                resources = hosts.filter(deleted=0, id__in=resource_ids)
-            else:
-                raise ValueError
-        return resources
+        return get_user_resources_by_type(self, resource_type, detail=detail)
 
     def assign_resource(self, resource_id, resource_type):
         obj = Resource.objects.filter(id=resource_id)
