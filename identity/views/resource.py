@@ -1,10 +1,6 @@
 # coding=utf-8
 from common.constants.resources import *
-from compute.models import Instances, ComputeNodes
-from common.models.utils import get_resource_model
-from storage.models import Volumes
-
-Resource = get_resource_model()
+from common.models import Volumes, Resource, Instances, ComputeNodes
 
 
 def _get_resource_detail(resource_obj):

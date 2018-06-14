@@ -7,10 +7,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from common.utils.text_ import UUID, obj2iter
-from compute.models import Instances, ComputeNodes
-from storage.models import Volumes
 from common.constants.resources import *
+from common.models import Instances, ComputeNodes, Volumes
+from common.utils.text_ import UUID, obj2iter
 
 
 # Create your models here.
@@ -211,4 +210,3 @@ class Resource(models.Model):
         ordering = ['type', 'id']
         db_table = 'resource'
         default_permissions = ()
-
