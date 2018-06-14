@@ -1,12 +1,11 @@
-from django.views.generic import (View, CreateView,
+from django.views.generic import (View, CreateView, FormView,
                                   UpdateView, DeleteView, ListView, DetailView)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.utils.decorators import method_decorator
 from storage.tasks import create_volumes
 from common.mixin import JSONResponseMixin
-from common.constants.resources import VOLUME
-from storage.models import Volumes, Storage
+from common.constants.resources import VOLUME, STORAGE
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -24,9 +23,8 @@ class VolumeList(PermissionRequiredMixin, ListView):
     template_name = 'storage/volume/volume_list.html'
 
     def get_queryset(self):
-        user_resources = self.request.user.get_resources(resource_type=VOLUME)
-        resource_ids = [item.id for item in user_resources]
-        self.queryset = Volumes.objects.filter(id__in=resource_ids, deleted=0)
+        self.queryset = self.request.user.get_resources_by_type(
+            resource_type=VOLUME, detail=True)
         return super().get_queryset()
 
 
@@ -39,15 +37,15 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
     template_name = 'storage/volume/volume_detail.html'
 
 
-class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, CreateView):
+class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, FormView):
 
-    permission_required = 'storage.add_volume'
+    permission_required = 'storage.create_volume'
     raise_exception = True
 
     template_name = 'storage/volume/volume_create.html'
 
     def get_context_data(self, **kwargs):
-        storage = self.request.user.get_resources(resource_type='storage')
+        storage = self.request.user.get_resources_by_type(resource_type=STORAGE)
         kwargs.update(
             {'users': User.objects.all(),
              'storage': storage}
@@ -61,7 +59,7 @@ class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, CreateView):
 
 class VolumeUpdate(PermissionRequiredMixin, UpdateView):
 
-    permission_required = 'storage.change_volume'
+    permission_required = 'storage.update_volume'
     raise_exception = True
 
     def post(self, request, *args, **kwargs):
