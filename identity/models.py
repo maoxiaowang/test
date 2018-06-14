@@ -8,8 +8,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from common.utils.text_ import UUID, obj2iter
-from identity.views.resource import get_user_resources_by_type
-
+from compute.models import Instances, ComputeNodes
+from storage.models import Volumes
+from common.constants.resources import *
 
 
 # Create your models here.
@@ -56,12 +57,41 @@ class ResourceMixin:
     User resource management
     """
 
+    @staticmethod
+    def _get_resources_detail(resources, resource_type):
+        if resource_type == VOLUME:
+            resource_ids = [r.id for r in resources]
+            resources = Volumes.objects.filter(deleted=0, id__in=resource_ids)
+        elif resource_type == SERVER:
+            resource_ids = [r.uuid for r in resources]
+            servers = Instances.objects.filter(deleted=0)
+            resources = servers.filter(deleted=0, uuid__in=resource_ids)
+        elif resource_type == HOST:
+            # TODO: more types
+            resource_ids = [r.id for r in resources]
+            hosts = ComputeNodes.objects.filter(deleted=0)
+            resources = hosts.filter(deleted=0, id__in=resource_ids)
+        else:
+            raise ValueError
+        return resources
+
     def has_resource(self, resource_id):
         return Resource.objects.filter(id=resource_id, user=self).exists()
 
-    def get_resources(self, resource_type, detail=False):
+    def get_resources_by_type(self, resource_type, detail=False):
         """Get user resource by specified type"""
-        return get_user_resources_by_type(self, resource_type, detail=detail)
+        resources = Resource.objects.filter(user=self, type=resource_type)
+        if resources and detail:
+            resources = self._get_resources_detail(resources, resource_type)
+        return resources
+
+    def get_resources_by_id(self, resource_id, detail=False):
+        """Get user resource by specified id"""
+
+        resources = Resource.objects.filter(user=self, id=resource_id)
+        if resources and detail:
+            resources = self._get_resources_detail(resources, resources[0].type)
+        return resources
 
     def assign_resource(self, resource_id, resource_type):
         obj = Resource.objects.filter(id=resource_id)
