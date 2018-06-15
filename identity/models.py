@@ -76,9 +76,27 @@ class ResourceMixin:
     def has_resource(self, resource_id):
         return Resource.objects.filter(id=resource_id, user=self).exists()
 
-    def get_resources(self):
-        """Get overall resources without details"""
-        return Resource.objects.filter(user=self)
+    def get_resources(self, detail=False, reverse=False):
+        """
+        Get overall resources (or details)
+        :param detail: True, return a dict object like {'volume': <QuerySet>, ...},
+        else return a Resource object
+        :param reverse: True, return the user's resources ,
+        else return other user's resources
+        :return:
+        """
+        if reverse:
+            resources = Resource.objects.exclude(user=self)
+        else:
+            resources = Resource.objects.filter(user=self)
+        if detail:
+            types = list({}.fromkeys([i['type'] for i in resources if i.get('type')]).keys())
+            types = filter(lambda x: x in ALL_RESOURCES, types)
+            detail_result = {}
+            for t in types:
+                detail_result[t] = self._get_resources_detail(resources, t)
+            return detail_result
+        return resources
 
     def get_resources_by_type(self, resource_type, detail=False):
         """Get user resource by specified type"""
@@ -219,6 +237,6 @@ class Resource(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
-        ordering = ['type', 'id']
+        ordering = ['type']
         db_table = 'resource'
         default_permissions = ()

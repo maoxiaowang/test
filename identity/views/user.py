@@ -20,7 +20,7 @@ from common.forms.utils import form_errors_to_list
 from common.mixin import JSONResponseMixin
 from identity.models import Permission, Resource
 from identity.forms import *
-from identity.views.helper import resource_detail, get_permissions
+from identity.views.helper import get_permissions
 from identity.exceptions import *
 
 User = get_user_model()
@@ -213,21 +213,8 @@ class UserDetail(PermissionRequiredMixin, DetailView):
 
         # user's object permission modal
         user_resources = self.object.get_resources()
-        format_resources = {}   # format resources to a dict category by type
-        for r in user_resources:
-            if format_resources.get(r.type) is None:
-                format_resources[r.type] = [resource_detail(r)]
-            else:
-                format_resources[r.type].append(resource_detail(r))
-        user_resource_ids = [i.id for i in user_resources]
-
-        format_not_resources = {}
-        not_user_resources = Resource.objects.exclude(id__in=user_resource_ids)
-        for r in not_user_resources:
-            if format_not_resources.get(r.type) is None:
-                format_not_resources[r.type] = [resource_detail(r)]
-            else:
-                format_not_resources[r.type].append(resource_detail(r))
+        format_resources = self.object.get_resources(detail=True)
+        format_not_resources = self.object.get_resources(detail=True, reverse=True)
 
         kwargs.update({'all_perms': all_perms,
                        'format_not_resources': format_not_resources,

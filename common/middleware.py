@@ -33,7 +33,7 @@ class CommonMiddleware(MiddlewareMixin):
         # Initialize first starting of the system
         #
         # TODO: create initial users, write custom migrations later
-        if not Permission.objects.filter(codename='list_permission').count():
+        if not Permission.objects.filter(codename='list_permission').exists():
             user_model = get_user_model()
             if not user_model.objects.filter(username='admin'):
                 user_model().create_superuser('admin',
