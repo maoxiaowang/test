@@ -10,7 +10,7 @@ def clean_migrations():
 
     if os.path.exists(BASE_DIR):
         for root, dirs, files in os.walk(BASE_DIR):
-            if root.endswith(r'\migrations'):
+            if os.path.split(root)[-1] == 'migrations':
                 for f in files:
                     if f != '__init__.py':
                         os.remove(os.path.join(root, f))

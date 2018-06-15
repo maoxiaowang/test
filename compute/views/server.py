@@ -3,9 +3,10 @@ from django.views.generic import (ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 from common.constants.resources import SERVER
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from common.mixin import LoginRequiredMixin
 
 
-class ServerList(PermissionRequiredMixin, ListView):
+class ServerList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     permission_required = 'compute.list_server'
     raise_exception = True
@@ -18,17 +19,17 @@ class ServerList(PermissionRequiredMixin, ListView):
         return super().get_queryset()
 
 
-class ServerDetail(DetailView):
+class ServerDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     pass
 
 
-class ServerAdd(CreateView):
+class ServerCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     pass
 
 
-class ServerUpdate(UpdateView):
+class ServerUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     pass
 
 
-class ServerRemove(DeleteView):
+class ServerRemove(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     pass

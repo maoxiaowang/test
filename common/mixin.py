@@ -1,11 +1,13 @@
 # coding=utf-8
+import json
+
+from django.contrib.auth.mixins import AccessMixin
+from django.contrib.auth.views import redirect_to_login
+from django.db.models.query import QuerySet
 from django.http import JsonResponse
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin, BaseDetailView)
-from django.utils.translation import ugettext_lazy as _
-from django.db.models.query import QuerySet
-from django.core import serializers
-import json
 
 
 def ret_format(result=True, messages=None, level=None, code=0, data=None, default_msg=True):
@@ -121,3 +123,11 @@ class HybridDetailView(JSONResponseMixin, SingleObjectTemplateResponseMixin, Bas
         else:
             return super().render_to_response(context)
 
+
+class LoginRequiredMixin(AccessMixin):
+    """Verify that the current user is authenticated."""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect_to_login(self.request.get_full_path(), self.get_login_url(),
+                                     self.get_redirect_field_name())
+        return super().dispatch(request, *args, **kwargs)

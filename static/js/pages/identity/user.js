@@ -169,7 +169,7 @@ $(function () {
                 this.qs2.cache();
             }
         });
-        $('#user-instance-multi-select').multiSelect({
+        $('#user-server-multi-select').multiSelect({
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
             selectionFooter: "<div class='text-muted font-13 m-t-10 text-center'>已分配给{0}的资源</div>".format(userName),

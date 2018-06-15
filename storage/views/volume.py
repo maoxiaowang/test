@@ -1,10 +1,9 @@
 from django.views.generic import (View, CreateView, FormView,
                                   UpdateView, DeleteView, ListView, DetailView)
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.utils.decorators import method_decorator
+# from django.utils.decorators import method_decorator
 from storage.tasks import create_volumes
-from common.mixin import JSONResponseMixin
+from common.mixin import JSONResponseMixin, LoginRequiredMixin
 from common.constants.resources import VOLUME, STORAGE
 from django.contrib.auth import get_user_model
 
@@ -13,8 +12,7 @@ User = get_user_model()
 # Create your views here.
 
 
-@method_decorator(login_required, name='dispatch')
-class VolumeList(PermissionRequiredMixin, ListView):
+class VolumeList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     permission_required = 'storage.list_volume'
     raise_exception = True
@@ -28,7 +26,7 @@ class VolumeList(PermissionRequiredMixin, ListView):
         return super().get_queryset()
 
 
-class VolumeDetail(PermissionRequiredMixin, DetailView):
+class VolumeDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
     permission_required = 'storage.detail_volume'
     raise_exception = True
@@ -37,7 +35,8 @@ class VolumeDetail(PermissionRequiredMixin, DetailView):
     template_name = 'storage/volume/volume_detail.html'
 
 
-class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, FormView):
+class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixin,
+                   FormView):
 
     permission_required = 'storage.create_volume'
     raise_exception = True
@@ -57,7 +56,7 @@ class VolumeCreate(PermissionRequiredMixin, JSONResponseMixin, FormView):
         create_volumes(request).delay()
 
 
-class VolumeUpdate(PermissionRequiredMixin, UpdateView):
+class VolumeUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'storage.update_volume'
     raise_exception = True
@@ -66,7 +65,7 @@ class VolumeUpdate(PermissionRequiredMixin, UpdateView):
         pass
 
 
-class VolumeDelete(PermissionRequiredMixin, DeleteView):
+class VolumeDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     permission_required = 'storage.delete_volume'
     raise_exception = True

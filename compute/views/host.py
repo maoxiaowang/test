@@ -3,9 +3,10 @@ from django.views.generic import (ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 from common.constants.resources import HOST
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from common.mixin import LoginRequiredMixin
 
 
-class HostList(PermissionRequiredMixin, ListView):
+class HostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     permission_required = 'compute.list_host'
     raise_exception = True
@@ -18,17 +19,17 @@ class HostList(PermissionRequiredMixin, ListView):
         return super().get_queryset()
 
 
-class HostDetail(DetailView):
+class HostDetail(PermissionRequiredMixin, DetailView):
     pass
 
 
-class HostAdd(CreateView):
+class HostCreate(PermissionRequiredMixin, CreateView):
     pass
 
 
-class HostUpdate(UpdateView):
+class HostUpdate(PermissionRequiredMixin, UpdateView):
     pass
 
 
-class HostRemove(DeleteView):
+class HostRemove(PermissionRequiredMixin, DeleteView):
     pass

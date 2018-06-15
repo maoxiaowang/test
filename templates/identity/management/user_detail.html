@@ -37,7 +37,7 @@
                   <a href="#user-volume" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'volume' %}</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#user-instance" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'instance' %}</a>
+                  <a href="#user-server" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'server' %}</a>
                 </li>
                 <li class="nav-item">
                   <a href="#user-storage" data-toggle="tab" aria-expanded="false" class="nav-link">{% trans 'storage' %}</a>
@@ -80,16 +80,16 @@
                     {% endwith %}
                   </select>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="user-instance">
-                  <select name="user-instance" id="user-instance-multi-select" multiple="multiple" title="user-instance-multi-select">
-                    {% with not_instance=format_not_resources.instance instance=format_resources.instance%}
-                      {% if not_instance %}
-                        {% for r in not_instance %}
+                <div role="tabpanel" class="tab-pane fade" id="user-server">
+                  <select name="user-server" id="user-server-multi-select" multiple="multiple" title="user-server-multi-select">
+                    {% with not_server=format_not_resources.server server=format_resources.server%}
+                      {% if not_server %}
+                        {% for r in not_server %}
                           <option value="{{ r.id }}">{{ r.display_name }}{% if r.user %} ({{ r.user.username }}){% endif %}</option>
                         {% endfor %}
                       {% endif %}
-                      {% if instance %}
-                        {% for r in instance %}
+                      {% if server %}
+                        {% for r in server %}
                           <option value="{{ r.id }}" selected>{{ r.display_name }}</option>
                         {% endfor %}
                       {% endif %}

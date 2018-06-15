@@ -28,7 +28,10 @@ def _get_resource_detail(resource_obj):
     else:
         raise ValueError
     if name is None:
-        name = obj.display_name
+        if resource_obj.type == HOST:
+            name = obj.host
+        else:
+            name = obj.display_name
     resource_obj.display_name = name
     return resource_obj
 

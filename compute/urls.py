@@ -9,15 +9,23 @@ app_name = 'compute'
 register_converter(UUIDConverter, 'uuid')
 
 urlpatterns = [
-    path('server/', login_required(server.ServerList.as_view()), name='server_list'),
-    path('server/<uuid:uuid>/', login_required(server.ServerDetail.as_view()), name='server_detail'),
+    path('server/', server.ServerList.as_view(), name='server_list'),
+    path('server/detail/<uuid:uuid>/', server.ServerDetail.as_view(), name='server_detail'),
+    path('server/create/', login_required(server.ServerCreate.as_view()), name='server_create'),
 
-    path('host/', login_required(host.HostList.as_view()), name='host_list'),
-    path('host/<uuid:uuid>/', login_required(host.HostDetail.as_view()), name='host_detail'),
+    path('host/', host.HostList.as_view(), name='host_list'),
+    path('host/detail/<uuid:uuid>/', host.HostDetail.as_view(), name='host_detail'),
+    path('host/create/', host.HostCreate.as_view(), name='host_create'),
 
-    path('snapshot/', login_required(snapshot.SnapshotList.as_view()), name='snap_list'),
+    path('snapshot/', snapshot.SnapshotList.as_view(), name='snap_list'),
+    path('snapshot/detail/<uuid:uuid>/', snapshot.SnapshotDetail.as_view(), name='snapshot_detail'),
+    path('snapshot/create/', snapshot.SnapshotCreate.as_view(), name='snapshot_create'),
 
-    path('image/', login_required(image.ImageList.as_view()), name='image_list'),
+    path('image/', image.ImageList.as_view(), name='image_list'),
+    path('image/detail/<uuid:uuid>/', image.ImageDetail.as_view(), name='image_detail'),
+    path('image/create/', image.ImageCreate.as_view(), name='image_create'),
 
-    path('backup/', login_required(backup.BackupList.as_view()), name='backup_list'),
+    path('backup/', backup.BackupList.as_view(), name='backup_list'),
+    path('backup/detail/<uuid:uuid>/', backup.BackupDetail.as_view(), name='backup_detail'),
+    path('backup/create/', backup.BackupCreate.as_view(), name='backup_create'),
 ]
