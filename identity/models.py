@@ -69,6 +69,10 @@ class ResourceMixin:
             resource_ids = [r.id for r in resources]
             hosts = ComputeNodes.objects.filter(deleted=0)
             resources = hosts.filter(deleted=0, id__in=resource_ids)
+        elif resource_type == STORAGE:
+            raise NotImplemented
+        elif resource_type == NETWORK:
+            raise NotImplemented
         else:
             raise ValueError
         return resources
@@ -235,6 +239,7 @@ class Resource(models.Model):
     type = models.CharField(max_length=255, choices=RESOURCE_TYPES,
                             verbose_name=_('type'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    task_id = models.CharField(max_length=255)  # This field stores celery task id
 
     class Meta:
         ordering = ['type']
