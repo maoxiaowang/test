@@ -8,6 +8,8 @@ import sys
 import re
 import uuid
 import hashlib
+from django.urls import converters
+from common.exceptions import InvalidParameters
 
 
 def str_len(string):
@@ -85,3 +87,27 @@ def md5_encode(string):
     m2.update(string)
     return m2.hexdigest()
 
+
+def validate_param(value, p_type, length=None, max_length=None, min_length=None):
+    if not isinstance(value, (list, tuple)):
+        value = [value]
+    for item in value:
+        p_type = p_type.lower()
+        if p_type == 'uuid':
+            if not re.match(converters.UUIDConverter.regex, item):
+                raise InvalidParameters
+        elif p_type == 'int' or p_type is int:
+            if not re.match(converters.IntConverter.regex, str(item)):
+                raise InvalidParameters
+        elif p_type == 'str' or p_type is str:
+            if not all((re.match(converters.StringConverter.regex, item),
+                        isinstance(item, str))):
+                raise InvalidParameters
+        else:
+            raise ValueError('Not supported value type: %s' % str(type(item)))
+        if length and len(item) != length:
+            raise InvalidParameters
+        if max_length and len(item) > max_length:
+            raise InvalidParameters
+        if min_length and len(item) < min_length:
+            raise InvalidParameters

@@ -36,10 +36,11 @@ def list_volumes(request, project_id, *args, **kwargs):
     return res
 
 
-def create_volumes(request, **kwargs):
+def create_volumes(request, volume_type, **kwargs):
     """
 
     :param request:
+    :param volume_type: str
     :param kwargs:
     :return:
     """
@@ -53,7 +54,7 @@ def create_volumes(request, **kwargs):
 
 
 @shared_task(base=VolumeCreateTask, bind=True)
-def _create_volume(self, request, volume_type_res, data, *args, **kwargs):
+def _create_volume(self, request, volume_type, data, *args, **kwargs):
     print('_create_volume start')
     volume_type = args[0]
     print('volume_type_id: %s' % volume_type['volume_type']['id'])
@@ -78,18 +79,20 @@ def _create_volume_type(self, request, data, *args, **kwargs):
     """
     print('_create_volume_type start')
     # check image
-    # check storage state and quota
+    # check storage state and free space
+
     print('task_id: %s' % self.request.id)
     time.sleep(5)
-    result = {
-        "volume_type": {
-            "name": "test_type",
-            "extra_specs": {},
-            "os-volume-type-access:is_public": True,
-            "is_public": True,
-            "id": "6d0ff92a-0007-4780-9ece-acfe5876966a",
-            "description": "test_type_desc"
-        }
-    }
+    result = R.create_volume_type(request, data)
+    # result = {
+    #     "volume_type": {
+    #         "name": "test_type",
+    #         "extra_specs": {},
+    #         "os-volume-type-access:is_public": True,
+    #         "is_public": True,
+    #         "id": "6d0ff92a-0007-4780-9ece-acfe5876966a",
+    #         "description": "test_type_desc"
+    #     }
+    # }
     print('_create_volume_type end')
     return result

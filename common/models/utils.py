@@ -21,6 +21,10 @@ def get_resource_model():
     return django_apps.get_model('identity.Resource', require_ready=False)
 
 
+def get_project_model():
+    return django_apps.get_model('identity.Project', require_ready=False)
+
+
 Storage = get_storage_model()
 Instances = get_nova_instance_model()
 Volumes = get_cinder_volume_model()

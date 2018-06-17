@@ -3,8 +3,9 @@ import requests
 import json
 from common.exceptions import ImproperConfiguration
 from common.log import Logging
-from django.conf import settings
+from .constants import OPENSTACK
 import time
+from urllib.parse import urlunparse
 
 
 Log = Logging.default_logger
@@ -31,7 +32,7 @@ class OpenStackRequest(object):
         self.service_type = service_type
 
         try:
-            ks = settings.OPENSTACK['keystone']
+            ks = OPENSTACK['keystone']
             self.ks_user = ks['user']
             self.ks_pass = ks['pass']
             self.ks_host = ks['host']
@@ -45,9 +46,26 @@ class OpenStackRequest(object):
         except (KeyError, AssertionError) as e:
             raise ImproperConfiguration(str(e))
 
+    @staticmethod
+    def _get_query_string(query_dict):
+        """
+        Transfer query dict to query string
+        {'name': 'test', 'enable': True} => ?name=test&enable=true
+        """
+        assert isinstance(query_dict, dict)
+        result = str()
+        for k, v in query_dict.items():
+            if v is not None:
+                if isinstance(v, bool):
+                    v = str(v).lower()
+                result += '%s=%s&' % (k, v)
+        if result:
+            result.rstrip('&')
+        return result
+
     def _get_token(self):
         # TODO: request token from OpenStack
-        params = {
+        data = {
             "auth": {
                 "identity": {
                     "methods": [
@@ -66,11 +84,11 @@ class OpenStackRequest(object):
             }
         }
         try:
-            res = self.post(
-                None,
-                'http://%s:%s/v3/auth/token' % (self.ks_host, self.ks_port),
-                params=params
-            )
+            res = requests.post('http://%s:%d/v3/auth/token'
+                                % (self.ks_host, self.ks_port),
+                                data=data,
+                                timeout=self.timeout,
+                                headers=self._get_header(None))
         except Exception as e:
             Log.debug('Request token from keystone error: %s' % str(e))
             raise e
@@ -78,7 +96,14 @@ class OpenStackRequest(object):
         return json.loads(headers['x-subject-token'])
 
     def get_token(self, request):
-        # get token from django request
+        """
+        Get token from django request or get token from OpenStack
+
+        When a user send a request to OpenStack first time, a token request
+        will be sent and store token in user's session.
+        Later we use this token to send request.
+
+        """
         # {'id': '', 'created_at': ''}
         token = request.user.get('token')
         if token:
@@ -94,30 +119,51 @@ class OpenStackRequest(object):
             return {'Content-Type': 'application/json',
                     'X-Auth-Token': self.get_token(request)}
         else:
+            # request token
             return {'Content-Type': 'application/json'}
 
-    def _fill(self, url):
-        if not url.startswith('/'):
+    def _full_url(self, path, query=None, params=None, fragment=None):
+        """Build full URL"""
+        if not path.startswith('/'):
             raise ValueError('URL should start with "/", '
                              'e.g. /v3/{project_id}/volumes')
-        return 'http://%s:%d' % (self.ks_host, SERVICE_TYPES[self.service_type]) + url
+        path = path.rstrip('/')
+        scheme = 'http'
+        netloc = '%s:%d' % (self.ks_host, SERVICE_TYPES[self.service_type])
+        query = self._get_query_string(query) if query else None
+        return urlunparse([scheme, netloc, path, params, query, fragment])
 
-    def get(self, request, url, params=None, **kwargs):
-        payload = requests.get(self._fill(url), params=params, timeout=self.timeout,
+    def get(self, request, path, query=None, params=None, **kwargs):
+        """
+        OpenStack get interface
+        :param request: Django request object
+        :param path: e.g. /v3/project
+        :param query: e.g. {'name': 'test', 'enabled': True}
+        :param params:
+        :param kwargs:
+        :return:
+        """
+        # Think about if token is not active
+        payload = requests.get(self._full_url(path, query=query),
+                               params=params,
+                               timeout=self.timeout,
                                headers=self._get_header(request), **kwargs)
         return payload
 
-    def post(self, request, url, data=None, json=None, **kwargs):
-        payload = requests.post(self._fill(url), data=data, json=json, timeout=self.timeout,
+    def post(self, request, path, data=None, json_data=None, **kwargs):
+        payload = requests.post(self._full_url(path), data=data, json=json_data,
+                                timeout=self.timeout,
                                 headers=self._get_header(request), **kwargs)
         return payload
 
-    def put(self, request, url, data=None, **kwargs):
-        payload = requests.put(self._fill(url), data=data, timeout=self.timeout,
+    def put(self, request, path, data=None, **kwargs):
+        payload = requests.put(self._full_url(path), data=data,
+                               timeout=self.timeout,
                                headers=self._get_header(request), **kwargs)
         return payload
 
-    def delete(self, request, url, **kwargs):
-        payload = requests.delete(self._fill(url), timeout=self.timeout,
+    def delete(self, request, path, query=None, **kwargs):
+        payload = requests.delete(self._full_url(path, query=query),
+                                  timeout=self.timeout,
                                   headers=self._get_header(request), **kwargs)
         return payload

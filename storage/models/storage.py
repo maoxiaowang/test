@@ -10,7 +10,7 @@ class Storage(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('name'))
 
     class Meta:
-        db_table = 'storage'
+        # db_table = 'storage'
         permissions = (
             ('list_storage', _('Can see storage list')),
             ('detail_storage', _('Can see storage detail')),

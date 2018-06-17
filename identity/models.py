@@ -142,6 +142,21 @@ class ResourceMixin:
             Resource.objects.filter(user=self).update(user_id=None)
 
 
+class Project(models.Model):
+    """
+    需要和keystone的tenant/project保持一致
+    """
+
+    id = models.CharField(max_length=36, verbose_name='id', primary_key=True)
+
+    def __str__(self):
+        return self.id
+
+    class Meta:
+        db_table = 'auth_project'
+        default_permissions = ()
+
+
 class User(ResourceMixin, AbstractUser, UserManager):
     """
     Custom user model
@@ -170,8 +185,9 @@ class User(ResourceMixin, AbstractUser, UserManager):
         },
     )
     email = models.EmailField(_('email address'), blank=True)
-
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
 
     objects = UserManager()
 
@@ -206,21 +222,6 @@ class User(ResourceMixin, AbstractUser, UserManager):
         # need to remove user's resources first
         self.undo_assign_resource()
         super().delete(using=using, keep_parents=keep_parents)
-
-
-class Project(models.Model):
-    """
-    需要和keystone的tenant/project保持一致
-    """
-
-    id = models.CharField(max_length=36, verbose_name='id', primary_key=True)
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'auth_tenant'
 
 
 class Resource(models.Model):

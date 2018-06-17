@@ -16,9 +16,8 @@ from django.views.generic import (CreateView, UpdateView,
 from django.contrib.auth.views import logout
 from django.views.decorators.cache import never_cache
 from common.exceptions import InvalidParameters
-from common.forms.utils import form_errors_to_list
+from common.forms.utils import form_errors_to_list, DivErrorList
 from common.mixin import JSONResponseMixin
-from identity.models import Permission, Resource
 from identity.forms import *
 from identity.views.helper import get_permissions
 from identity.exceptions import *
