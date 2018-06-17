@@ -167,3 +167,9 @@ class OpenStackRequest(object):
                                   timeout=self.timeout,
                                   headers=self._get_header(request), **kwargs)
         return payload
+
+    def patch(self, request, path, data=None, **kwargs):
+        payload = requests.patch(self._full_url(path), data=data,
+                                 timeout=self.timeout,
+                                 headers=self._get_header(request), **kwargs)
+        return payload

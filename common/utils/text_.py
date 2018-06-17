@@ -103,6 +103,9 @@ def validate_param(value, p_type, length=None, max_length=None, min_length=None)
             if not all((re.match(converters.StringConverter.regex, item),
                         isinstance(item, str))):
                 raise InvalidParameters
+        elif p_type == 'bool' or p_type is bool:
+            if not isinstance(value, bool):
+                raise InvalidParameters
         else:
             raise ValueError('Not supported value type: %s' % str(type(item)))
         if length and len(item) != length:
