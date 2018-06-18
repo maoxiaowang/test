@@ -34,6 +34,7 @@ class UndefinedException(ECloudException):
 
 
 class InvalidParameters(ECloudException):
+    """Invalid parameters from request"""
     desc = 'Invalid Parameters'
     code = 601
 

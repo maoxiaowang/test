@@ -252,18 +252,34 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'standard',
         },
-        'error': {
+        'default_error': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': r'D:\django_log\error.log',
+            'filename': r'D:\django_log\default_error.log',
             'maxBytes': 1024**3*10,
             'backupCount': 5,
             'formatter': 'standard',
         },
-        'scripts': {
+        'task': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': r'D:\django_log\scripts.log',
+            'filename': r'D:\django_log\task.log',
+            'maxBytes': 1024**3*10,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'task_error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': r'D:\django_log\task_error.log',
+            'maxBytes': 1024**3*10,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'script': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': r'D:\django_log\script.log',
             'maxBytes': 1024**3*10,
             'backupCount': 5,
             'formatter': 'standard',
@@ -281,12 +297,17 @@ LOGGING = {
             'propagate': False,
         },
         'default': {
-            'handlers': ['default', 'error'],
+            'handlers': ['default', 'default_error'],
             'level': 'DEBUG',
             'propagate': False
         },
-        'scripts': {
-            'handlers': ['scripts'],
+        'task': {
+            'handlers': ['task', 'task_error'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'script': {
+            'handlers': ['script'],
             'level': 'INFO',
             'propagate': True
         },

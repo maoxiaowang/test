@@ -5,7 +5,7 @@ from common.exceptions import ImproperConfiguration
 from common.log import Logging
 from .constants import OPENSTACK
 import time
-from urllib.parse import urlunparse
+# from urllib.parse import urlunparse
 
 
 Log = Logging.default_logger
@@ -46,22 +46,22 @@ class OpenStackRequest(object):
         except (KeyError, AssertionError) as e:
             raise ImproperConfiguration(str(e))
 
-    @staticmethod
-    def _get_query_string(query_dict):
-        """
-        Transfer query dict to query string
-        {'name': 'test', 'enable': True} => ?name=test&enable=true
-        """
-        assert isinstance(query_dict, dict)
-        result = str()
-        for k, v in query_dict.items():
-            if v is not None:
-                if isinstance(v, bool):
-                    v = str(v).lower()
-                result += '%s=%s&' % (k, v)
-        if result:
-            result.rstrip('&')
-        return result
+    # @staticmethod
+    # def _get_query_string(query_dict):
+    #     """
+    #     Transfer query dict to query string
+    #     {'name': 'test', 'enable': True} => ?name=test&enable=true
+    #     """
+    #     assert isinstance(query_dict, dict)
+    #     result = str()
+    #     for k, v in query_dict.items():
+    #         if v is not None:
+    #             if isinstance(v, bool):
+    #                 v = str(v).lower()
+    #             result += '%s=%s&' % (k, v)
+    #     if result:
+    #         result.rstrip('&')
+    #     return result
 
     def _get_token(self):
         # TODO: request token from OpenStack
@@ -122,29 +122,30 @@ class OpenStackRequest(object):
             # request token
             return {'Content-Type': 'application/json'}
 
-    def _full_url(self, path, query=None, params=None, fragment=None):
+    def _full_url(self, path):
         """Build full URL"""
         if not path.startswith('/'):
             raise ValueError('URL should start with "/", '
                              'e.g. /v3/{project_id}/volumes')
         path = path.rstrip('/')
-        scheme = 'http'
-        netloc = '%s:%d' % (self.ks_host, SERVICE_TYPES[self.service_type])
-        query = self._get_query_string(query) if query else None
-        return urlunparse([scheme, netloc, path, params, query, fragment])
+        # scheme = 'http'
+        # netloc = '%s:%d' % (self.ks_host, SERVICE_TYPES[self.service_type])
+        # query = self._get_query_string(query) if query else None
+        # return urlunparse([scheme, netloc, path, params, query, fragment])
+        return 'http://%s:%d' % (self.ks_host,
+                                 SERVICE_TYPES[self.service_type]) + path
 
-    def get(self, request, path, query=None, params=None, **kwargs):
+    def get(self, request, path, params=None, **kwargs):
         """
         OpenStack get interface
-        :param request: Django request object
+        :param request: request object
         :param path: e.g. /v3/project
-        :param query: e.g. {'name': 'test', 'enabled': True}
-        :param params:
+        :param params: e.g. {'name': 'test', 'enabled': True}
         :param kwargs:
         :return:
         """
         # Think about if token is not active
-        payload = requests.get(self._full_url(path, query=query),
+        payload = requests.get(self._full_url(path),
                                params=params,
                                timeout=self.timeout,
                                headers=self._get_header(request), **kwargs)
@@ -162,8 +163,8 @@ class OpenStackRequest(object):
                                headers=self._get_header(request), **kwargs)
         return payload
 
-    def delete(self, request, path, query=None, **kwargs):
-        payload = requests.delete(self._full_url(path, query=query),
+    def delete(self, request, path, **kwargs):
+        payload = requests.delete(self._full_url(path),
                                   timeout=self.timeout,
                                   headers=self._get_header(request), **kwargs)
         return payload

@@ -22,8 +22,8 @@ class VolumeCreationForm(forms.Form):
             }
         ),
     )
-    capacity = forms.IntegerField(
-        label=_('Capacity'),
+    size = forms.IntegerField(
+        label=_('Size'),
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',

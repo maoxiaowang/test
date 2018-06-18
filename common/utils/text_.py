@@ -89,6 +89,10 @@ def md5_encode(string):
 
 
 def validate_param(value, p_type, length=None, max_length=None, min_length=None):
+    """
+
+    """
+    # TODO: This can be optimized by Open-source libraries
     if not isinstance(value, (list, tuple)):
         value = [value]
     for item in value:

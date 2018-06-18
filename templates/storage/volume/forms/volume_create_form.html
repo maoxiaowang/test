@@ -1,6 +1,7 @@
 {% load i18n common_tags %}
 
 <form class="form-horizontal" method="post" action="{% url 'storage:volume_create' %}" role="form">
+  {% csrf_token %}
   <div class="form-group">
     {{ form.name|label_css_decorator:'col-2 col-form-label' }}
     <div class="col-10">
@@ -9,9 +10,9 @@
   </div>
     <div class="form-group">
     <div class="form-group">
-      {{ form.capacity|label_css_decorator:'col-2 col-form-label' }}
+      {{ form.size|label_css_decorator:'col-2 col-form-label' }}
       <div class="col-10">
-        {{ form.capacity }}
+        {{ form.size }}
       </div>
     </div>
   </div>

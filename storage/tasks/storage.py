@@ -1,15 +1,14 @@
-# Create your tasks here
 import time
 from celery import shared_task, chain
 from celery.task import Task
+from common.models.utils import get_resource_model
 from common.openstack.cinder import CinderRequest
-from celery.worker.request import Request
 
-
+Resource = get_resource_model()
 R = CinderRequest()
 
 
-class VolumeCreateTask(Task):
+class StorageCreateTask(Task):
 
     def run(self, *args, **kwargs):
         pass
@@ -21,53 +20,7 @@ class VolumeCreateTask(Task):
         print('{0!r} success: {1!r}'.format(task_id, retval))
 
 
-@shared_task
-def list_volumes(request, project_id, *args, **kwargs):
-    """
-
-    :param request: Django request object
-    :param project_id:
-    :param args:
-    :param kwargs:
-    :return:
-    """
-
-    res = R.list_volumes(request, project_id, *args, **kwargs)
-    return res
-
-
-def create_volumes(request, volume_type, **kwargs):
-    """
-
-    :param request:
-    :param volume_type: str
-    :param kwargs:
-    :return:
-    """
-    #
-    data = request.POST
-    volume_type_data = {}
-    result = chain(
-        _create_volume_type.s(request, volume_type_data),
-        _create_volume.s(request)
-    )
-
-
-@shared_task(base=VolumeCreateTask, bind=True)
-def _create_volume(self, request, volume_type, data, *args, **kwargs):
-    print('_create_volume start')
-    volume_type = args[0]
-    print('volume_type_id: %s' % volume_type['volume_type']['id'])
-    time.sleep(15)
-    print('_create_volume end')
-    # assign user's object permission after volume creating finished
-    user_obj = None
-    volume_obj = None
-
-    # and more if it is needed
-
-
-@shared_task(base=VolumeCreateTask, bind=True)
+@shared_task(base=StorageCreateTask, bind=True)
 def _create_volume_type(self, request, data, *args, **kwargs):
     """
 
@@ -96,3 +49,12 @@ def _create_volume_type(self, request, data, *args, **kwargs):
     # }
     print('_create_volume_type end')
     return result
+
+
+@shared_task(base=StorageCreateTask, bind=True)
+def create_storage(request, **kwargs):
+    time.sleep(10)
+
+
+if __name__ == '__main__':
+    pass

@@ -82,6 +82,7 @@ class CinderRequest(OpenStackRequest):
                       volume_type=None,
                       metadata=None,
                       consistencygroup_id=None,
+                      scheduler_hints=None,
                       **kwargs):
         """
         Create a volume
@@ -104,6 +105,8 @@ class CinderRequest(OpenStackRequest):
                 "consistencygroup_id": consistencygroup_id
             }
         }
+        if kwargs.get('scheduler_hints'):
+            data['OS-SCH-HNT:scheduler_hints'] = scheduler_hints
         return self.post(request, path, data=data, **kwargs)
 
     def update_volume(self, request, volume_id, description=None,

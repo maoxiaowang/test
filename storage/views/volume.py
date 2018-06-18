@@ -2,7 +2,7 @@ from django.views.generic import (View, CreateView, FormView,
                                   UpdateView, DeleteView, ListView, DetailView)
 from django.contrib.auth.mixins import PermissionRequiredMixin
 # from django.utils.decorators import method_decorator
-from storage.tasks import create_volumes
+from storage.tasks import create_volume
 from common.mixin import JSONResponseMixin, LoginRequiredMixin
 from common.constants.resources import VOLUME, STORAGE
 from django.contrib.auth import get_user_model
@@ -11,6 +11,7 @@ from storage.forms.volume import VolumeCreationForm
 from common.forms.utils import DivErrorList
 
 User = get_user_model()
+Resource = get_resource_model()
 
 # Create your views here.
 
@@ -60,7 +61,11 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
 
     def post(self, request, *args, **kwargs):
         # TODO: create volume
-        create_volumes(request).delay()
+        user_id = request.POST.get('user')
+        task = create_volume.delay(request)
+        Resource.objects.create(id=task.id, type=VOLUME, user_id=user_id,
+                                task_id=task.id)
+        return self.render_to_json_response(messages='Task has been accepted.')
 
 
 class VolumeUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):

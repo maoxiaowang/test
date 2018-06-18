@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from common.constants.resources import *
-from common.models import Instances, Volumes, ComputeNodes
+from common.models import Instances, Volumes, ComputeNodes, Storage
 from common.utils.text_ import UUID, obj2iter
 
 # Create your models here.
@@ -57,23 +57,23 @@ class ResourceMixin:
 
     @staticmethod
     def _get_resources_detail(resources, resource_type):
+        resource_ids = [r.id for r in resources]
         if resource_type == VOLUME:
-            resource_ids = [r.id for r in resources]
             resources = Volumes.objects.filter(deleted=0, id__in=resource_ids)
         elif resource_type == SERVER:
             resource_ids = [r.uuid for r in resources]
             servers = Instances.objects.filter(deleted=0)
             resources = servers.filter(deleted=0, uuid__in=resource_ids)
         elif resource_type == HOST:
-            # TODO: more types
-            resource_ids = [r.id for r in resources]
             hosts = ComputeNodes.objects.filter(deleted=0)
             resources = hosts.filter(deleted=0, id__in=resource_ids)
         elif resource_type == STORAGE:
-            raise NotImplemented
+            resource_ids = [r.id for r in resources]
+            resources = Storage.objects.filter(id__in=resource_ids)
         elif resource_type == NETWORK:
             raise NotImplemented
         else:
+            # TODO: more types
             raise ValueError
         return resources
 
@@ -187,7 +187,7 @@ class User(ResourceMixin, AbstractUser, UserManager):
     email = models.EmailField(_('email address'), blank=True)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    # project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
 
     objects = UserManager()
 

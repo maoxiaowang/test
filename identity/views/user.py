@@ -109,17 +109,17 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
                                error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
-            user = self.model().create_user(
+            self.model().create_user(
                 username,
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
-            subject = 'Account center'
-            email_content = render(request,
-                                   'identity/mail/account_created.html',
-                                   content_type='text/html',
-                                   context={'username': username,
-                                            'subject': subject}).content
+            # subject = 'Account center'
+            # email_content = render(request,
+            #                        'identity/mail/account_created.html',
+            #                        content_type='text/html',
+            #                        context={'username': username,
+            #                                 'subject': subject}).content
             # send_mail_task(subject, '', [user.email], html_message=email_content).delay()
 
             messages.add_message(request, messages.SUCCESS,
