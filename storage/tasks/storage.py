@@ -1,7 +1,7 @@
 import time
 from celery import shared_task, chain
 from celery.task import Task
-from common.models.utils import get_resource_model
+from common.models import get_resource_model
 from common.openstack.cinder import CinderRequest
 
 Resource = get_resource_model()

@@ -105,7 +105,11 @@ class OpenStackRequest(object):
 
         """
         # {'id': '', 'created_at': ''}
-        token = request.user.get('token')
+        if isinstance(request, dict):
+            # serialized request
+            token = request['session'].get('token')
+        else:
+            token = request.session.get('token')
         if token:
             created_at = token['created_at']
             if time.time() - created_at >= self.ks_timeout:
@@ -138,7 +142,7 @@ class OpenStackRequest(object):
     def get(self, request, path, params=None, **kwargs):
         """
         OpenStack get interface
-        :param request: request object
+        :param request: request /serialized object
         :param path: e.g. /v3/project
         :param params: e.g. {'name': 'test', 'enabled': True}
         :param kwargs:

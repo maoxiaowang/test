@@ -5,8 +5,8 @@ from celery import shared_task, chain
 from celery.task import Task
 from common.openstack.cinder import CinderRequest
 from common.exceptions import InvalidParameters
-from celery.worker.request import Request
-from common.models.utils import get_resource_model
+from common.models import Volumes, get_resource_model
+from common.utils.text_ import UUID
 
 Resource = get_resource_model()
 
@@ -30,15 +30,17 @@ class VolumeCreateTask(Task):
 @shared_task(base=VolumeCreateTask, bind=True)
 def create_volume(self, request):
     print(self)
-    data = request.POST
+    data = request['POST']
+    print(data)
     name, size = data.get('name'), data.get('size')
-    if not all((name, size)):
+    if not all((name, size, str(size).isdigit())):
         raise InvalidParameters
 
     print('_create_volume start')
     # result = R.create_volume(request, name, size)
-    # mock
+    # mock start
     time.sleep(15)
+    random_uuid = UUID.uuid4
     result = {
         "volume": {
             "status": "creating",
@@ -69,19 +71,24 @@ def create_volume(self, request):
             "snapshot_id": None,
             "multiattach": False,
             "metadata": {},
-            "id": "6edbc2f4-1507-44f8-ac0d-eed1d2608d38",
-            "size": 2
+            "id": random_uuid,
+            "size": size
         }
     }
+    Volumes.objects.create(id=random_uuid,
+                           size=2,)
+    # mock end
+
     print('_create_volume end')
     # TODO: assign user's object permission after volume creating finished
     user_obj = None
     volume_obj = None
 
     # update resource
+    print('task_id: %s' % self.request.id)
     resource = Resource.objects.filter(task_id=self.request.id)
     if not resource.exists():
-        raise ValueError    # TODO: replace it
+        raise ValueError    # TODO: replace this exception
 
     # update it regardless of status
     resource.update(id=result['volume']['id'], task_id=None)

@@ -1,6 +1,7 @@
 from django import forms
-from common.models.utils import get_resource_model
+from common.models import get_resource_model
 from django.utils.translation import ugettext_lazy as _
+from .helper import get_user_choices, get_storage_choices
 
 Resource = get_resource_model()
 
@@ -46,6 +47,7 @@ class VolumeCreationForm(forms.Form):
     )
     user = forms.ChoiceField(
         label=_('User'),
+        choices=get_user_choices(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control',
@@ -56,6 +58,7 @@ class VolumeCreationForm(forms.Form):
     )
     storage = forms.ChoiceField(
         label=_('Storage'),
+        choices=get_storage_choices(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control',

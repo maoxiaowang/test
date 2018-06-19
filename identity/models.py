@@ -240,7 +240,7 @@ class Resource(models.Model):
     type = models.CharField(max_length=255, choices=RESOURCE_TYPES,
                             verbose_name=_('type'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    task_id = models.CharField(max_length=255)  # This field stores celery task id
+    task_id = models.CharField(max_length=255, null=True)  # This field stores celery task id
 
     class Meta:
         ordering = ['type']

@@ -25,3 +25,25 @@ $(function () {
         postfix: 'GB'
     });
 });
+
+$(function () {
+    $('#volume-create-card form').submit(function (event) {
+        var $this = $(this);
+        event.preventDefault();
+        $.addLoadingCover();
+        $.ajax({
+            url: $this.attr('action'),
+            data: $this.serialize(),
+            type: $this.attr('method'),
+            success: function (res) {
+                res = $.handleResponse(res);
+            },
+            complete: function () {
+
+                $.removeLoadingCover();
+            },
+            error: function () {
+            }
+        });
+    });
+});

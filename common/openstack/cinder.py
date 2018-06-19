@@ -1,5 +1,5 @@
 from .base import OpenStackRequest
-from ..utils.text_ import validate_param
+from ..utils.request_ import validate_param
 
 
 class CinderRequest(OpenStackRequest):
@@ -249,7 +249,7 @@ class CinderRequest(OpenStackRequest):
         path = '/v3/%s/volumes/%s/action' % (request.user.project_id, volume_id)
         data = {
             "os-attach": {
-                "instance_uuid": "95D9EF50-507D-11E5-B970-0800200C9A66",
+                "instance_uuid": instance_id,
                 "mountpoint": mountpoint
             }
         }

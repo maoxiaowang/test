@@ -1,7 +1,7 @@
 # coding=utf-8
 from .base import OpenStackRequest
-from ..models.utils import get_project_model
-from ..utils.text_ import validate_param
+from ..models import get_project_model
+from ..utils.request_ import validate_param
 
 Project = get_project_model()
 
@@ -20,7 +20,7 @@ class KeystoneRequest(OpenStackRequest):
         """
         path = '/v3/projects'
         result = self.get(request, path,
-                          query={'name': name, 'enabled': enabled})
+                          params={'name': name, 'enabled': enabled})
         return result
 
     def get_project(self, request, project_id, **kwargs):

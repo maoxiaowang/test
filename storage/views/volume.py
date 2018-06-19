@@ -6,9 +6,11 @@ from storage.tasks import create_volume
 from common.mixin import JSONResponseMixin, LoginRequiredMixin
 from common.constants.resources import VOLUME, STORAGE
 from django.contrib.auth import get_user_model
-from common.models.utils import get_resource_model
+from common.models import get_resource_model
 from storage.forms.volume import VolumeCreationForm
-from common.forms.utils import DivErrorList
+from common.forms import form_errors_to_list, DivErrorList
+from common.utils.request_ import request_serializer
+from storage.forms.helper import get_storage_choices, get_user_choices
 
 User = get_user_model()
 Resource = get_resource_model()
@@ -52,20 +54,26 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
         storage = self.request.user.get_resources_by_type(resource_type=STORAGE,
                                                           detail=True)
         users = User.objects.all()
-        form = self.form_class(error_class=DivErrorList)
-        form.fields['user'].choices = [(u.id, u.username) for u in users]
-        form.fields['storage'].choices = [(s.id, s.name) for s in storage ]
+        form = self.form_class()
+        form.fields['user'].choices = get_user_choices()
+        form.fields['storage'].choices = get_storage_choices()
         kwargs.update({'form': form})
 
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         # TODO: create volume
-        user_id = request.POST.get('user')
-        task = create_volume.delay(request)
-        Resource.objects.create(id=task.id, type=VOLUME, user_id=user_id,
-                                task_id=task.id)
-        return self.render_to_json_response(messages='Task has been accepted.')
+        form = self.form_class(data=request.POST, error_class=DivErrorList)
+        if form.is_valid():
+            user_id = request.POST.get('user')
+            task = create_volume.delay(request_serializer(request), )
+            Resource.objects.create(id=task.id, type=VOLUME, user_id=user_id,
+                                    task_id=task.id)
+            return self.render_to_json_response(messages='Task has been accepted.')
+        else:
+            return self.render_to_json_response(
+                result=False,
+                messages=form_errors_to_list(form.errors))
 
 
 class VolumeUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
