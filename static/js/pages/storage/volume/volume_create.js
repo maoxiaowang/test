@@ -1,6 +1,4 @@
 $(function () {
-    var $volumeAddCard = $('#volume-create-card');
-
     // init TouchSpin
     $("input[name='number']").TouchSpin({
         min: 1,
@@ -37,6 +35,7 @@ $(function () {
             type: $this.attr('method'),
             success: function (res) {
                 $.handleResponse(res, volume_list_url);
+                $.removeLoadingCover();
             }
         });
     });

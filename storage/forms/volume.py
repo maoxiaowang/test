@@ -58,9 +58,10 @@ class VolumeCreationForm(forms.Form):
     )
     storage = forms.ChoiceField(
         label=_('Storage'),
-        # We accept all storage choices here, so
-        # must validate user's storage in specific view
-        # choices=get_storage_choices(),
+        # We cannot pass user object from views to Form attribute,
+        # so accept all storage choices here, and then we must
+        # validate user's storage in specific views.
+        choices=get_storage_choices(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control',
