@@ -77,9 +77,6 @@ def create_volume(self, request):
     # mock end
 
     print('_create_volume end')
-    # TODO: assign user's object permission after volume creating finished
-    user_obj = None
-    volume_obj = None
 
     # update resource
     resource = Resource.objects.filter(task_id=self.request.id)

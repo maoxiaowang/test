@@ -70,7 +70,11 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
                 raise InvalidParameters('invalid storage')
 
             user_id = request.POST.get('user')
-            task = create_volume.delay(request_serializer(request), )
+
+            # start create volume task
+            task = create_volume.delay(request_serializer(request))
+
+            # create resource with task id and assign user id to the resource
             Resource.objects.create(id=task.id, type=VOLUME, user_id=user_id,
                                     task_id=task.id)
             messages.add_message(request, messages.SUCCESS, 'Task has been accepted.')
