@@ -22,10 +22,10 @@
 
 ## Software Configuration
 ### config RabbitMQ
-$ sudo rabbitmqctl add_user myuser mypassword
-$ sudo rabbitmqctl add_vhost myvhost
-$ sudo rabbitmqctl set_user_tags myuser mytag
-$ sudo rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
+* $ sudo rabbitmqctl add_user myuser mypassword
+* $ sudo rabbitmqctl add_vhost myvhost
+* $ sudo rabbitmqctl set_user_tags myuser mytag
+* $ sudo rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
 ### celery test process
 $ celery -A ecloud worker -l info (-P eventlet)
 add '-P eventlet' at the end of line if you are testing on WIN10
