@@ -51,7 +51,7 @@
 {% block dashboard_js %}
   <script>
       {# django value to js #}
-
+    var volume_list_url = "{% url 'storage:volume_list' %}"
   </script>
   <script src="{% static 'js/pages/storage/volume/volume_create.js' %}"></script>
   <script src="{% static 'plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>

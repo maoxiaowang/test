@@ -18,7 +18,7 @@ R = CinderRequest()
 class VolumeCreateTask(Task):
 
     def run(self, *args, **kwargs):
-        pass
+        super().run(*args, **kwargs)
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         print('{0!r} failed: {1!r}'.format(task_id, exc))
@@ -29,14 +29,11 @@ class VolumeCreateTask(Task):
 
 @shared_task(base=VolumeCreateTask, bind=True)
 def create_volume(self, request):
-    print(self)
-    data = request['POST']
-    print(data)
-    name, size = data.get('name'), data.get('size')
-    if not all((name, size, str(size).isdigit())):
-        raise InvalidParameters
+    print('create_volume start, task_id: %s' % self.request.id)
 
-    print('_create_volume start')
+    data = request['POST']
+    name, size = data['name'], data['size']
+
     # result = R.create_volume(request, name, size)
     # mock start
     time.sleep(15)
@@ -85,7 +82,6 @@ def create_volume(self, request):
     volume_obj = None
 
     # update resource
-    print('task_id: %s' % self.request.id)
     resource = Resource.objects.filter(task_id=self.request.id)
     if not resource.exists():
         raise ValueError    # TODO: replace this exception

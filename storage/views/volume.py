@@ -4,13 +4,15 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 # from django.utils.decorators import method_decorator
 from storage.tasks import create_volume
 from common.mixin import JSONResponseMixin, LoginRequiredMixin
-from common.constants.resources import VOLUME, STORAGE
+from common.constants.resources import VOLUME
 from django.contrib.auth import get_user_model
 from common.models import get_resource_model
 from storage.forms.volume import VolumeCreationForm
 from common.forms import form_errors_to_list, DivErrorList
 from common.utils.request_ import request_serializer
 from storage.forms.helper import get_storage_choices, get_user_choices
+from common.exceptions import InvalidParameters
+from django.contrib import messages
 
 User = get_user_model()
 Resource = get_resource_model()
@@ -51,12 +53,9 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
     form_class = VolumeCreationForm
 
     def get_context_data(self, **kwargs):
-        storage = self.request.user.get_resources_by_type(resource_type=STORAGE,
-                                                          detail=True)
-        users = User.objects.all()
         form = self.form_class()
         form.fields['user'].choices = get_user_choices()
-        form.fields['storage'].choices = get_storage_choices()
+        form.fields['storage'].choices = get_storage_choices(self.request.user)
         kwargs.update({'form': form})
 
         return super().get_context_data(**kwargs)
@@ -65,11 +64,17 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
         # TODO: create volume
         form = self.form_class(data=request.POST, error_class=DivErrorList)
         if form.is_valid():
+            # validate storage because of inaccurate choices, not necessary
+            if not self.request.user.get_resources_by_id(
+                    form.cleaned_data['storage']):
+                raise InvalidParameters('invalid storage')
+
             user_id = request.POST.get('user')
             task = create_volume.delay(request_serializer(request), )
             Resource.objects.create(id=task.id, type=VOLUME, user_id=user_id,
                                     task_id=task.id)
-            return self.render_to_json_response(messages='Task has been accepted.')
+            messages.add_message(request, messages.SUCCESS, 'Task has been accepted.')
+            return self.render_to_json_response()
         else:
             return self.render_to_json_response(
                 result=False,

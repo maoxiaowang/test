@@ -36,13 +36,7 @@ $(function () {
             data: $this.serialize(),
             type: $this.attr('method'),
             success: function (res) {
-                res = $.handleResponse(res);
-            },
-            complete: function () {
-
-                $.removeLoadingCover();
-            },
-            error: function () {
+                $.handleResponse(res, volume_list_url);
             }
         });
     });

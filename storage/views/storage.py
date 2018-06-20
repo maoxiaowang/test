@@ -15,7 +15,8 @@ class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'storage/storage/storage_list.html'
 
     def get_queryset(self):
-        self.queryset = self.request.user.get_resources_by_type(resource_type=STORAGE)
+        self.queryset = self.request.user.get_resources_by_type(resource_type=STORAGE,
+                                                                detail=True)
         return super().get_queryset()
 
 

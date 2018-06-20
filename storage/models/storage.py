@@ -12,6 +12,9 @@ class Storage(models.Model):
     type = models.CharField(max_length=20, verbose_name=_('storage type'))
     # backend name is a volume backend name in cinder
     backend_name = models.CharField(max_length=255, verbose_name=_('volume type'))
+    # size unit mb
+    size = models.IntegerField(null=True)
+    status = models.CharField(max_length=20, verbose_name=_('status'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
 
     class Meta:

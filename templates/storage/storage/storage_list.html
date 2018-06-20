@@ -47,7 +47,7 @@
               <tbody>
               {% for item in storage_list %}
                 <tr>
-                  <td><a href="{% url 'storage:storage_detail' item.id %}">{{ item.display_name }}</a></td>
+                  <td><a href="{% url 'storage:storage_detail' item.id %}">{{ item.name }}</a></td>
                   <td><span class="badge badge-{{ item.status|status_css_selector }}">{{ item.status }}</span></td>
                   <td>{{ item.size }}</td>
                   <td>{{ item.id }}</td>
