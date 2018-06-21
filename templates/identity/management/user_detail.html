@@ -11,7 +11,13 @@
 
   <div class="modal fade" id="user-detail-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      {% include 'identity/management/forms/user_update_form.html' with form=user_update_form%}
+      {% include 'identity/management/forms/user_update_form.html' with form=user_update_form %}
+    </div>
+  </div>
+
+  <div class="modal fade" id="password-change-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      {% include 'identity/management/forms/password_change_form.html' with form=password_change_form %}
     </div>
   </div>
 
@@ -50,7 +56,7 @@
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade active show" id="user-host">
                   <select name="user_host" id="user-host-multi-select" multiple="multiple" title="user_host_multi_select">
-                    {% with not_host=format_not_resources.host host=format_resources.host%}
+                    {% with not_host=not_resources.host host=resources.host%}
                       {% if not_host %}
                         {% for r in not_host %}
                           <option value="{{ r.id }}">{{ r.display_name }}</option>
@@ -66,7 +72,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="user-volume">
                   <select name="user-volume" id="user-volume-multi-select" multiple="multiple" title="user-volume-multi-select">
-                    {% with not_volume=format_not_resources.volume volume=format_resources.volume%}
+                    {% with not_volume=not_resources.volume volume=resources.volume%}
                       {% if not_volume %}
                         {% for r in not_volume %}
                           <option value="{{ r.id }}">{{ r.display_name }}</option>
@@ -82,7 +88,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="user-server">
                   <select name="user-server" id="user-server-multi-select" multiple="multiple" title="user-server-multi-select">
-                    {% with not_server=format_not_resources.server server=format_resources.server%}
+                    {% with not_server=not_resources.server server=resources.server%}
                       {% if not_server %}
                         {% for r in not_server %}
                           <option value="{{ r.id }}">{{ r.display_name }}{% if r.user %} ({{ r.user.username }}){% endif %}</option>
@@ -166,9 +172,9 @@
             <i class="mdi mdi-dots-vertical"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-detail-update-modal">{% trans 'Update user' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-update-modal">{% trans 'Update user' %}</a>
             <a href="javascript:void(0);" id="delete-user" class="dropdown-item">{% trans 'Delete user' %}</a>
-            <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#password-change-modal">{% trans 'Change password' %}</a>
           </div>
         </div>
 
@@ -218,12 +224,36 @@
               </tr>
               </thead>
               <tbody>
-              {% for r in resources %}
-                <tr>
-                  <td>{{ r.type }}</td>
-                  <td>{{ r.display_name }}</td>
-                  <td>{{ r.id }}</td>
-                </tr>
+              {% for t, r in resources.items %}
+                {% if t == 'storage' %}
+                  {% for i in r %}
+                    <tr>
+                    <td>{{ t }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.id }}</td>
+                  </tr>
+                  {% endfor %}
+
+                {% else %}
+                  {% if t == 'server' %}
+                    {% for i in r %}
+                    <tr>
+                      <td>{{ t }}</td>
+                      <td>{{ i.display_name }}</td>
+                      <td>{{ i.uuid }}</td>
+                    </tr>
+                    {% endfor %}
+                  {% else %}
+                    {% for i in r %}
+                    <tr>
+                      <td>{{ t }}</td>
+                      <td>{{ i.display_name }}</td>
+                      <td>{{ i.id }}</td>
+                    </tr>
+                    {% endfor %}
+                  {% endif %}
+                {% endif %}
+
               {% endfor %}
               </tbody>
             </table>
@@ -296,7 +326,7 @@
       var userDeleteUrl = "{% url 'identity:user_delete' user_id %}";
       var userListUrl = "{% url 'identity:user_list' %}";
   </script>
-  <script src="{% static 'js/pages/identity/user.js' %}"></script>
+  <script src="{% static 'js/pages/identity/user_detail.js' %}"></script>
   <script src="{% static 'plugins/jstree/jstree.min.js' %}"></script>
 
   <script src="{% static 'plugins/multiselect/jquery.multi-select.js' %}"></script>

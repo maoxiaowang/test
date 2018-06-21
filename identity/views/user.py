@@ -1,6 +1,5 @@
 # coding=utf-8
 import json
-import logging
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
@@ -21,11 +20,12 @@ from common.mixin import JSONResponseMixin
 from identity.forms import *
 from identity.views.helper import get_permissions
 from identity.exceptions import *
-from common.openstack.keystone import KeystoneRequest
+from common.mixin import LoginRequiredMixin, JSONResponseMixin
+# from common.openstack.keystone import KeystoneRequest
+from common.log import Logging
 
 User = get_user_model()
-logger = logging.getLogger('default')
-R = KeystoneRequest()
+logger = Logging.default_logger
 
 
 # Create your views here.
@@ -71,6 +71,10 @@ class Login(auth_views.LoginView):
             from common.openstack.constants import MOCK_TOKEN
             from time import time
             request.session['token'] = {'id': MOCK_TOKEN, 'created_at': time()}
+
+            # token in session will be deleted when logout
+            # token_id = KeystoneRequest().get_token()
+            # request.session['token'] = {'id': token_id, 'created_at': time()}
 
             remember_me = form.cleaned_data['remember_me']
             if not remember_me:
@@ -221,16 +225,15 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                 ap.assigned = False
 
         # user's object permission modal
-        user_resources = self.object.get_resources()
-        format_resources = self.object.get_resources(detail=True)
-        format_not_resources = self.object.get_resources(detail=True, reverse=True)
+        resources = self.object.get_resources(detail=True)
+        not_resources = self.object.get_resources(detail=True, reverse=True)
 
         kwargs.update({'all_perms': all_perms,
-                       'format_not_resources': format_not_resources,
-                       'format_resources': format_resources,
-                       'resources': user_resources,
+                       'not_resources': not_resources,
+                       'resources': resources,
                        'perm_content_types': res,
-                       'user_update_form': UserUpdateForm,
+                       'user_update_form': UserUpdateForm(),
+                       'password_change_form': PasswordChangeForm(self.request.user),
                        'user_id': self.object.id})
         return super().get_context_data(**kwargs)
 
@@ -289,13 +292,17 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
         return self.render_to_json_response()
 
 
-@method_decorator(login_required, name='dispatch')
-class PasswordChange(auth_views.PasswordChangeView):
+class PasswordChange(LoginRequiredMixin, JSONResponseMixin,
+                     auth_views.PasswordChangeView):
     """
     Change password by providing current password
     """
+    def form_valid(self, form):
+        super().form_valid(form)
+        return self.render_to_json_response()
 
-    template_name = 'identity/authentication/password_change.html'
+    def form_invalid(self, form):
+        return self.render_to_json_response(result=False, messages=form.error_messages)
 
 
 @method_decorator(login_required, name='dispatch')

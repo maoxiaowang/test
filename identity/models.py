@@ -94,7 +94,7 @@ class ResourceMixin:
         else:
             resources = Resource.objects.filter(user=self)
         if detail:
-            types = list({}.fromkeys([i['type'] for i in resources if i.get('type')]).keys())
+            types = list({}.fromkeys([i.type for i in resources if i.type]).keys())
             types = filter(lambda x: x in ALL_RESOURCES, types)
             detail_result = {}
             for t in types:

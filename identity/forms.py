@@ -2,7 +2,7 @@
 import re
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import forms as auth_forms
+from django.contrib.auth import forms as auth_forms, password_validation
 from django.forms.utils import ErrorList
 from django.contrib.auth import get_user_model
 from identity.models import User
@@ -215,7 +215,41 @@ class PasswordChangeForm(auth_forms.PasswordChangeForm):
     """
     修改密码
     """
-    pass
+    old_password = forms.CharField(
+        label=_('Old password'),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'id': 'old-password-input',
+                'class': 'form-control',
+                'autofocus': True,
+                'placeholder': _("Old password")
+            }
+        ),
+    )
+    new_password1 = forms.CharField(
+        label=_('New password'),
+        widget=forms.PasswordInput(
+            attrs={
+                'id': 'new-password1-input',
+                'class': 'form-control',
+                'placeholder': _("New password")
+            }
+        ),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_('New password confirmation'),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'id': 'new-password2-input',
+                'class': 'form-control',
+                'placeholder': _("New password confirmation")
+            }
+        ),
+    )
 
 
 class GroupCreateForm(forms.Form):

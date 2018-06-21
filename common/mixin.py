@@ -10,7 +10,8 @@ from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin, BaseDetailView)
 
 
-def ret_format(result=True, messages=None, level=None, code=0, data=None, default_msg=True):
+def ret_format(result=True, messages=None, level=None, code=0,
+               data=None, default_msg=True):
     """
     格式化Json返回数据
     :param result: bool, 一般为True
@@ -24,15 +25,16 @@ def ret_format(result=True, messages=None, level=None, code=0, data=None, defaul
     """
     assert isinstance(result, bool)
     if messages:
-        if not isinstance(messages, (list, tuple, str)):
-            raise ValueError('messages can only be list, tuple or str')
-        if isinstance(messages, str):
+        if not isinstance(messages, (list, tuple)):
+            if not isinstance(messages, str):
+                messages = str(messages)
             messages = [messages]
-        # i18n here
-        messages = [_(m) for m in messages]
+        # i18n here if necessary
+        messages = [_(m) if isinstance(m, str) else m for m in messages]
     else:
         if default_msg:
-            messages = [_('Operation succeeded')] if result else [_('Operation failed')]
+            messages = [_('Operation succeeded')] if result \
+                else [_('Operation failed')]
     if not level:
         level = 'success' if result else 'error'
     assert level in ('success', 'info', 'warning', 'error')
@@ -42,7 +44,8 @@ def ret_format(result=True, messages=None, level=None, code=0, data=None, defaul
             try:
                 data = json.loads(data)
             except json.JSONDecodeError:
-                raise ValueError('data is not type of Json, or can not be serialized by JSON')
+                raise ValueError('data is not type of Json, '
+                                 'or can not be serialized by JSON')
         if isinstance(data, QuerySet):
             if hasattr(data, '__iter__') and isinstance(data[0], dict):
                 data = [item for item in data]
