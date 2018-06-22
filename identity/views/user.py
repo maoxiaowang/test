@@ -233,8 +233,8 @@ class UserDetail(PermissionRequiredMixin, DetailView):
                        'resources': resources,
                        'perm_content_types': res,
                        'user_update_form': UserUpdateForm(),
-                       'password_change_form': PasswordChangeForm(self.request.user),
-                       'user_id': self.object.id})
+                       'password_change_form': PasswordChangeForm(self.request.user)
+                       })
         return super().get_context_data(**kwargs)
 
 
@@ -295,22 +295,40 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
 class PasswordChange(LoginRequiredMixin, JSONResponseMixin,
                      auth_views.PasswordChangeView):
     """
-    Change password by providing current password
+    Allows a user to change their password.
     """
+    form_class = PasswordChangeForm
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+        # pass current user object to form so that
+        # users can only update their password
+        return form_class(user=self.request.user, data=self.request.POST)
+
     def form_valid(self, form):
+        # the parent method will not only update user's password,
+        # but also clean other sessions except the current one.
         super().form_valid(form)
         return self.render_to_json_response()
 
     def form_invalid(self, form):
-        return self.render_to_json_response(result=False, messages=form.error_messages)
+        msg = [m for m in form.error_messages.values()]
+        return self.render_to_json_response(result=False, messages=msg)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
-@method_decorator(login_required, name='dispatch')
-class PasswordChangeDone(auth_views.PasswordChangeDoneView):
-    """
-    Change password done
-    """
-    template_name = 'identity/authentication/password_change_done.html'
+# class PasswordChangeDone(auth_views.PasswordChangeDoneView):
+#     """
+#     Change password done
+#     """
+#     template_name = 'identity/authentication/password_change_done.html'
 
 
 @method_decorator(login_required, name='dispatch')

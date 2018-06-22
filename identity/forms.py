@@ -251,6 +251,9 @@ class PasswordChangeForm(auth_forms.PasswordChangeForm):
         ),
     )
 
+    def is_valid(self):
+        return super().is_valid()
+
 
 class GroupCreateForm(forms.Form):
 

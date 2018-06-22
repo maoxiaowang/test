@@ -15,11 +15,14 @@
     </div>
   </div>
 
+  {% if user.id == request.user.id %}
+    {# user can only update their password #}
   <div class="modal fade" id="password-change-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       {% include 'identity/management/forms/password_change_form.html' with form=password_change_form %}
     </div>
   </div>
+  {% endif %}
 
   <div class="modal fade" id="user-resource-update-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -174,7 +177,7 @@
           <div class="dropdown-menu dropdown-menu-right">
             <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#user-update-modal">{% trans 'Update user' %}</a>
             <a href="javascript:void(0);" id="delete-user" class="dropdown-item">{% trans 'Delete user' %}</a>
-            <a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#password-change-modal">{% trans 'Change password' %}</a>
+            {% if user.id == request.user.id %}<a href="javascript:void(0);" class="dropdown-item" data-toggle="modal" data-target="#password-change-modal">{% trans 'Change password' %}</a>{% endif %}
           </div>
         </div>
 
@@ -323,7 +326,7 @@
       var userPermsUrl = "{% url 'identity:user_permission_update' user.id %}";
       var userObjectPermsUrl = "";
       var userName = "{{ user.username }}";
-      var userDeleteUrl = "{% url 'identity:user_delete' user_id %}";
+      var userDeleteUrl = "{% url 'identity:user_delete' user.id %}";
       var userListUrl = "{% url 'identity:user_list' %}";
   </script>
   <script src="{% static 'js/pages/identity/user_detail.js' %}"></script>
