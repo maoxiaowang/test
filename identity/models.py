@@ -155,6 +155,7 @@ class Project(models.Model):
     class Meta:
         db_table = 'auth_project'
         default_permissions = ()
+        verbose_name = _('project')
 
 
 class User(ResourceMixin, AbstractUser, UserManager):

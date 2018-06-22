@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block container %}
+  {% trans 'group permission' as group_permission_trans %}
+  {% trans 'group' as group_trans %}
   <div class="row">
     <div class="col-lg-12">
       <div class="card-box" id="group-list-card-box">
@@ -30,8 +32,9 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'Group List' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
-            Welcome to group list, please click top-right icon to discover more.
+
+          {% blocktrans trimmed with name=group_permission_trans %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
@@ -41,7 +44,7 @@
               <thead>
               <tr>
                 <th>{% trans 'Group' %}</th>
-                <th>{% trans 'Id' %}</th>
+                <th>{% trans 'ID' %}</th>
               </tr>
               </thead>
               <tbody>
@@ -55,6 +58,7 @@
             </table>
           </div>
         {% else %}
+
           {% include 'base/widgets/table_placeholder.html' with text_content='No groups here' %}
         {% endif %}
 

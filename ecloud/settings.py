@@ -155,6 +155,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -193,13 +197,13 @@ AUTHENTICATION_BACKENDS = (
 
 # Guardian
 
-GUARDIAN_RAISE_403 = True   # raise django.http.HttpResponseForbidden
+# GUARDIAN_RAISE_403 = True   # raise django.http.HttpResponseForbidden
 
 # GUARDIAN_RENDER_403 = False
 
 # GUARDIAN_TEMPLATE_403 = '403.html'
 
-ANONYMOUS_USER_NAME = None  # disable anonymous user object permissions
+# ANONYMOUS_USER_NAME = None  # disable anonymous user object permissions
 
 
 # Logging configurations

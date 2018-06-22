@@ -13,6 +13,7 @@ from common.utils.request_ import request_serializer
 from storage.forms.helper import get_storage_choices, get_user_choices
 from common.exceptions import InvalidParameters
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 Resource = get_resource_model()
@@ -67,7 +68,8 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
             # validate storage because of inaccurate choices, not necessary
             if not self.request.user.get_resources_by_id(
                     form.cleaned_data['storage']):
-                raise InvalidParameters('invalid storage')
+                msg = _('invalid storage ID')
+                raise InvalidParameters(msg)
 
             user_id = request.POST.get('user')
 

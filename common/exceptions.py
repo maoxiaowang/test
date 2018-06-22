@@ -12,6 +12,8 @@ error, warning, info
 Exceptions desc:
 short and accurate description for an exception
 """
+from django.utils.translation import gettext_lazy as _
+from django.utils.text import format_lazy
 
 
 class ECloudException(Exception):
@@ -22,11 +24,15 @@ class ECloudException(Exception):
     code = 0
 
     def __init__(self, msg=None):
+        if msg and isinstance(msg, str):
+            msg = _(msg)
         self.msg = msg
 
     def __str__(self):
-        return '%s: %s' % (self.desc, str(self.msg)) \
-            if self.msg else self.desc
+        if self.msg:
+            return format_lazy('{desc}: {msg}', desc=self.desc, msg=self.msg)
+        else:
+            return _(self.desc)
 
 
 """

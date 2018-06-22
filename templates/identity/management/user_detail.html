@@ -184,7 +184,7 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'User detail' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
             Welcome to user detail, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
@@ -211,7 +211,8 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'User resources' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
+        {% comment %}Translators: just test comment{% endcomment %}
+          {% blocktrans trimmed %}
             Welcome to user resources, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
@@ -282,8 +283,8 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'User permissions' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
-            Welcome to user permission, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='user permission' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 

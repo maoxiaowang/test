@@ -2,21 +2,21 @@
 import json
 
 from django.contrib import messages
-from django.contrib.auth import get_user_model, login
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import (get_user_model, login, views as auth_views,
+                                 update_session_auth_hash)
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
+from django.utils.text import format_lazy
 from django.views.generic import (CreateView, UpdateView,
                                   DeleteView, DetailView, ListView)
 from django.contrib.auth.views import logout
 from django.views.decorators.cache import never_cache
 from common.exceptions import InvalidParameters
 from common.forms import form_errors_to_list, DivErrorList
-from common.mixin import JSONResponseMixin
 from identity.forms import *
 from identity.views.helper import get_permissions
 from identity.exceptions import *
@@ -82,7 +82,7 @@ class Login(auth_views.LoginView):
                 request.session.set_expiry(0)
 
             messages.add_message(request, messages.SUCCESS,
-                                 'Welcome, %s' % username)
+                                 gettext('Welcome to NB Cloud') + ', %s' % username)
             return HttpResponseRedirect(self.get_success_url())
         else:
             return render(request, self.template_name, {'form': form})
@@ -137,7 +137,7 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
             # get OpenStack token
 
             messages.add_message(request, messages.SUCCESS,
-                                 'User %s has been successfully created.' % username)
+                                 'User has been successfully created.')
             return self.render_to_json_response(
                 # messages='User %s has been successfully created.' % username,
                 # data=self.model.objects.all().values('id', 'username', 'email',
@@ -307,9 +307,10 @@ class PasswordChange(LoginRequiredMixin, JSONResponseMixin,
         return form_class(user=self.request.user, data=self.request.POST)
 
     def form_valid(self, form):
-        # the parent method will not only update user's password,
-        # but also clean other sessions except the current one.
-        super().form_valid(form)
+        form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
         return self.render_to_json_response()
 
     def form_invalid(self, form):

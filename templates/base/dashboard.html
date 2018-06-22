@@ -144,7 +144,7 @@
             <ul>
               <li class="text-muted menu-title">Navigation</li>
               <li>
-                <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
+                <a href="{% url 'dashboard:index' %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> {% trans 'Dashboard' %} </span> </a>
               </li>
               {% with perm=perms.compute %}
                 {% if perm.list_server or perm.list_host or perm.list_snapshot or perm.list_image or perm.list_backup %}
@@ -166,7 +166,7 @@
                 {% if perm.list_volume %}
                   <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect">
-                      <i class="mdi mdi-database"></i> <span> Storage </span> <span class="menu-arrow"></span></a>
+                      <i class="mdi mdi-database"></i> <span> {% trans 'Storage' %} </span> <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled">
                       {% if perm.list_storage %}<li><a href="{% url 'storage:storage_list' %}">Storage</a></li>{% endif %}
                       {% if perm.list_volume %}<li><a href="{% url 'storage:volume_list' %}">Volume</a></li>{% endif %}
@@ -228,7 +228,7 @@
         </div>
         <!-- End content -->
         <footer class="footer text-right">
-          2016 - 2018 © abc.com
+          2016 - 2018  abc.com
         </footer>
       </div>
       <!-- ============================================================== -->
