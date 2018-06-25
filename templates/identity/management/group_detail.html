@@ -4,7 +4,7 @@
 {% trans 'group users' as group_users %}
 {% trans 'group detail' as group_detail_trans %}
 
-{% block app_title %}{% trans 'Group - Detail' %}{% endblock %}
+{% block app_title %}{% trans 'Group' %} - {% trans 'Detail' %}{% endblock %}
 {% block dashboard_css %}
   <link href="{% static 'plugins/jstree/style.min.css' %}" rel="stylesheet">
   <link href="{% static 'plugins/multiselect/multi-select.css' %}" rel="stylesheet">
@@ -186,8 +186,8 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'Group permissions' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
-            Welcome to group permission, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='group permission' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 

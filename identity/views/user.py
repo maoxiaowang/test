@@ -82,7 +82,7 @@ class Login(auth_views.LoginView):
                 request.session.set_expiry(0)
 
             messages.add_message(request, messages.SUCCESS,
-                                 gettext('Welcome to NB Cloud') + ', %s' % username)
+                                 _('Welcome to NBCloud, %(user)s.' % {'user': username}))
             return HttpResponseRedirect(self.get_success_url())
         else:
             return render(request, self.template_name, {'form': form})
@@ -103,7 +103,7 @@ class Logout(JSONResponseMixin, auth_views.LogoutView):
         if next_page:
             # Redirect to this page until the session has been cleared.
             messages.add_message(request, messages.SUCCESS,
-                                 _('You have successfully logged out'))
+                                 _('You have successfully logged out.'))
             return self.render_to_json_response(default_msg=False)
         return super().dispatch(request, *args, **kwargs)
 
@@ -137,7 +137,8 @@ class UserCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
             # get OpenStack token
 
             messages.add_message(request, messages.SUCCESS,
-                                 'User has been successfully created.')
+                                 _('User %(user)s has been successfully created.'
+                                 % {'user': username}))
             return self.render_to_json_response(
                 # messages='User %s has been successfully created.' % username,
                 # data=self.model.objects.all().values('id', 'username', 'email',
@@ -188,8 +189,8 @@ class UserDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
             raise UserDeletingError
 
         messages.add_message(request, messages.SUCCESS,
-                             'User %s has been successfully deleted.'
-                             % user_obj.username)
+                             _('User %(user)s has been successfully deleted.'
+                             % {'user': user_obj.username}))
 
         return self.render_to_json_response()
 
@@ -288,7 +289,8 @@ class UserPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVie
                 obj.user_permissions.add(nid)
 
         messages.add_message(request, messages.SUCCESS,
-                             'User permissions has been successfully updated.')
+                             _('User %(user)s permissions has been successfully updated.'
+                             % {'user': obj.username}))
         return self.render_to_json_response()
 
 

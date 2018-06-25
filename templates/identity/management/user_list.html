@@ -26,12 +26,12 @@
         </div>
       </div>
 
-      <h4 class="header-title m-t-0 m-b-30">{% trans 'User List' %}</h4>
+      <h4 class="header-title m-t-0 m-b-30">{% trans 'User list' %}</h4>
 
       <p class="text-muted font-13 m-b-25">
-        {% blocktrans %}
-          Welcome to user list, please click top-right icon to discover more.
-        {% endblocktrans %}
+        {% blocktrans trimmed with name='user list' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
+          {% endblocktrans %}
       </p>
 
       <div class="table-responsive">

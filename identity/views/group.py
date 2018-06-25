@@ -94,7 +94,8 @@ class GroupCreate(JSONResponseMixin, PermissionRequiredMixin, CreateView):
             group_name = request.POST.get('name')
             self.model.objects.create(name=group_name)
             messages.add_message(request, messages.SUCCESS,
-                                 _('Group %s has been successfully created.' % group_name))
+                                 _('Group %(group)s has been successfully created.'
+                                   % {'group': group_name}))
             return self.render_to_json_response()
         else:
             raise self.render_to_json_response(result=False)
@@ -141,7 +142,8 @@ class GroupUserUpdate(JSONResponseMixin, PermissionRequiredMixin, UpdateView):
                 obj.user_set.add(nid)
 
         messages.add_message(request, messages.SUCCESS,
-                             _('Users of group %s has been successfully updated.' % obj.name))
+                             _('Users of group %(group)s has been successfully updated.'
+                               % {'group': obj.name}))
 
         return self.render_to_json_response(
             data=obj.user_set.all().values('username', 'email', 'is_active'))
@@ -160,8 +162,8 @@ class GroupDelete(JSONResponseMixin, PermissionRequiredMixin, DeleteView):
         # add messages
 
         messages.add_message(request, messages.SUCCESS,
-                             _('Group %s has been successfully deleted.'
-                               % self.get_object().name))
+                             _('Group %(group)s has been successfully deleted.'
+                               % {'group': self.get_object().name}))
         try:
             self.delete(request, *args, **kwargs)
         except Exception as e:
@@ -205,5 +207,6 @@ class GroupPermissionUpdate(PermissionRequiredMixin, JSONResponseMixin, UpdateVi
                 obj.permissions.add(nid)
 
         messages.add_message(request, messages.SUCCESS,
-                             'Group permissions has been successfully updated.')
+                             'Group %(group)s permissions has been successfully updated.'
+                             % {'group': obj.name})
         return self.render_to_json_response()

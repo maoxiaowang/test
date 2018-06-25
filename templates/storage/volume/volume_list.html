@@ -19,7 +19,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <a href="{% url 'storage:volume_create' %}" class="dropdown-item">{% trans 'New volume' %}</a>
-            <a href="javascript:void(0);" class="dropdown-item">{% trans 'Edit group' %}</a>
+            <a href="javascript:void(0);" class="dropdown-item">{% trans 'Update group' %}</a>
             <a href="javascript:void(0);" class="dropdown-item">Something else</a>
             <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
           </div>
@@ -28,8 +28,8 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'Volume list' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans trimmed %}
-            Welcome to volume list, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='volume_list' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
@@ -41,7 +41,7 @@
                 <th>{% trans 'volume' %}</th>
                 <th>{% trans 'status' %}</th>
                 <th>{% trans 'size' %}</th>
-                <th>{% trans 'id' %}</th>
+                <th>ID</th>
               </tr>
               </thead>
               <tbody>

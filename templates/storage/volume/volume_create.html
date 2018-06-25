@@ -3,7 +3,7 @@
 {% load static %}
 {% load common_tags %}
 
-{% block sub_title %}{% trans 'Volume create' %}{% endblock %}
+{% block sub_title %}{% trans 'Volume' %} - {% trans 'Create' %}{% endblock %}
 {% block dashboard_css %}
   <link href="{% static 'plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet">
 {% endblock %}
@@ -25,11 +25,11 @@
         {#          </div>#}
         {#        </div>#}
 
-        <h4 class="header-title m-t-0 m-b-30">{% trans 'Volume create' %}</h4>
+        <h4 class="header-title m-t-0 m-b-30">{% trans 'Volume' %} {% trans 'Create' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans %}
-            Welcome to volume create page, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='user permission' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 

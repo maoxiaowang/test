@@ -1,7 +1,7 @@
 {% extends "base/dashboard.html" %}
 {% load i18n static %}
 
-{% block app_title %}{% trans 'User - Detail' %}{% endblock %}
+{% block app_title %}{% trans 'User' %} - {% trans 'Detail' %}{% endblock %}
 {% block dashboard_css %}
   <link href="{% static 'plugins/jstree/style.min.css' %}" rel="stylesheet">
   <link href="{% static 'plugins/multiselect/multi-select.css' %}" rel="stylesheet">
@@ -184,8 +184,8 @@
         <h4 class="header-title m-t-0 m-b-30">{% trans 'User detail' %}</h4>
 
         <p class="text-muted font-13 m-b-25">
-          {% blocktrans trimmed %}
-            Welcome to user detail, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='user detail' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
@@ -212,8 +212,8 @@
 
         <p class="text-muted font-13 m-b-25">
         {% comment %}Translators: just test comment{% endcomment %}
-          {% blocktrans trimmed %}
-            Welcome to user resources, please click top-right icon to discover more.
+          {% blocktrans trimmed with name='user resource' %}
+            Welcome to {{ name }}, please click top-right icon to discover more.
           {% endblocktrans %}
         </p>
 
@@ -224,7 +224,7 @@
               <tr>
                 <th>{% trans 'Type' %}</th>
                 <th>{% trans 'Name' %}</th>
-                <th>{% trans 'Id' %}</th>
+                <th>ID</th>
               </tr>
               </thead>
               <tbody>
@@ -263,7 +263,8 @@
             </table>
           </div>
         {% else %}
-          {% include 'base/widgets/table_placeholder.html' with text_content='No users here' %}
+          {% trans 'users' as users_trans %}
+          {% include 'base/widgets/table_placeholder.html' with name=users_trans %}
         {% endif %}
 
       </div>  {# user-resource-card-box #}
@@ -311,7 +312,8 @@
               </table>
             </div>
           {% else %}
-            <div class="m-4 text-center text-muted">{% trans 'No permissions here' %}</div>
+            {% trans 'permissions' as permissions_trans %}
+            {% include 'base/widgets/table_placeholder.html' with name=permissions_trans %}
           {% endif %}
         {% endwith %}
       </div>  {# user-perms-card-box #}

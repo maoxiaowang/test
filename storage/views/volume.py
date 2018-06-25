@@ -68,8 +68,7 @@ class VolumeCreate(LoginRequiredMixin, PermissionRequiredMixin, JSONResponseMixi
             # validate storage because of inaccurate choices, not necessary
             if not self.request.user.get_resources_by_id(
                     form.cleaned_data['storage']):
-                msg = _('invalid storage ID')
-                raise InvalidParameters(msg)
+                raise InvalidParameters('invalid storage ID')
 
             user_id = request.POST.get('user')
 

@@ -188,7 +188,7 @@ class UserUpdateForm(forms.ModelForm):
                     'max_length': 64,
                     'min_length': 8,
                     'required': True,
-                    'placeholder': _('Email')
+                    'placeholder': _('Email address')
                 }
             )
         }
@@ -196,7 +196,7 @@ class UserUpdateForm(forms.ModelForm):
             'email': _('Email address')
         }
         help_texts = {
-            'email': _('Input your email address.'),
+            'email': _('Enter your email address.'),
         }
         # error_messages = {
         #     'email': {
