@@ -12,7 +12,8 @@ import hashlib
 
 def str_len(string):
     """
-    中文/其他非ASCII字符按照2个英文字符算
+    Chinese characters or other non-ascii chars
+    will be traded as two ascii chars
     :param string:
     :return:
     """
@@ -22,7 +23,7 @@ def str_len(string):
         # Linux liked system
         length = len(string.encode('gbk'))
     else:
-        # TODO: 系统编码不为utf-8时
+        # TODO: when system encoding is not utf-8
         pass
     return length
 

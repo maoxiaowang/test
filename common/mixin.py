@@ -13,14 +13,15 @@ from django.views.generic.detail import (
 def ret_format(result=True, messages=None, level=None, code=0,
                data=None, default_msg=True):
     """
-    格式化Json返回数据
-    :param result: bool, 一般为True
-    :param messages: str|list, 要在页面展示的消息，多条消息使用列表
-    :param level: str，消息级别，
-    默认result为True时为success，False时为error
-    :param code: 消息代码
-    :param data: Json|dict|list|QuerySet, 返回给前端的数据
-    :param default_msg: messages为None时，若default_messages开启，返回一条默认消息
+    Jsonable return HTTP data
+    :param result: bool
+    :param messages: str|list, messages display on page
+    :param level: str, message level, it will be set to True when result is
+    success, otherwise it is False
+    :param code: message code
+    :param data: Json|dict|list|QuerySet, extra data
+    :param default_msg: when default_msg is True and messages is None, it will
+    return a default message (succeeded or failed)
     :return: dict
     """
     assert isinstance(result, bool)

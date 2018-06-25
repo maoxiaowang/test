@@ -69,7 +69,7 @@ class CommonMiddleware(MiddlewareMixin):
 
     # def process_view(self, request, view_func, *view_args, **view_kwargs):
     #     """
-    #     在执行view前调用。
+    #     call before view executing
     #     :param request:
     #     :return: None or an HttpResponse object
     #     """
@@ -128,8 +128,9 @@ class CommonMiddleware(MiddlewareMixin):
 
     def process_template_response(self, request, response):
         """
-        view 执行完毕后调用。
-        view返回对象必须包含render方法，如django.template.response.TemplateResponse
+        call after view finished
+        objects returned by view must contain render method, such as
+        django.template.response.TemplateResponse
         :param request:
         :param response:
         :return:

@@ -8,7 +8,7 @@ Resource = get_resource_model()
 
 class VolumeCreationForm(forms.Form):
     """
-    创建用户
+    Volume creation form
     """
     name = forms.CharField(
         label=_('Name'),

@@ -1,6 +1,5 @@
 # coding=utf-8
 """
-通过提交的POST数据与标准数据对比，来校验Post参数的合法性
 
 """
 import re

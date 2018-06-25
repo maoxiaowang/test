@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Host(models.Model):
     """
-    宿主机
+    Host model
     """
     id = models.SmallIntegerField(primary_key=True)
     hostname = models.CharField(max_length=255, verbose_name=_('hostname'))

@@ -213,7 +213,7 @@ class UserUpdateForm(forms.ModelForm):
 
 class PasswordChangeForm(auth_forms.PasswordChangeForm):
     """
-    修改密码
+    Allow users change their password
     """
     old_password = forms.CharField(
         label=_('Old password'),
@@ -274,6 +274,6 @@ class GroupCreateForm(forms.Form):
 
 class GroupUpdateForm(forms.Form):
     """
-    把用户加入到(移除出)组
+    Add/remove users to/from groups
     """
     groups = forms.ChoiceField()

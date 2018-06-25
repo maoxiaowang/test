@@ -24,21 +24,18 @@ class ECloudException(Exception):
     code = 0
 
     def __init__(self, msg=None):
-        if msg and isinstance(msg, str):
-            msg = _(msg)
-        self.msg = msg
+        self.msg = _(msg) if msg and isinstance(msg, str) else msg
+        self.desc = _(self.desc)
 
     def __str__(self):
         if self.msg:
             return format_lazy('{desc}: {msg}', desc=self.desc, msg=self.msg)
         else:
-            return _(self.desc)
+            return self.desc
 
 
-"""
-System common exceptions
-600 - 999
-"""
+# System common exceptions
+# 600 - 999
 
 
 class UndefinedException(ECloudException):

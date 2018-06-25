@@ -144,7 +144,7 @@ class ResourceMixin:
 
 class Project(models.Model):
     """
-    需要和keystone的tenant/project保持一致
+    Keeping sync with Keystone project table
     """
 
     id = models.CharField(max_length=36, verbose_name='id', primary_key=True)
