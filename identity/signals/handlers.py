@@ -1,7 +1,4 @@
 # coding=utf-8
-
-from django.dispatch import receiver
-from django.db.models.signals import post_migrate
 from django.core.mail import send_mail
 from django.conf.global_settings import EMAIL_HOST_USER
 from django.contrib.auth import get_user_model
@@ -11,7 +8,6 @@ from common.utils.text_ import UUID
 
 def send_email_handler(sender, **kwargs):
     """
-    必传参数为to和content
     :param sender:
     :param kwargs:
     subject: str
@@ -51,7 +47,7 @@ def init_db_handler(sender, **kwargs):
             (perms_ct_id, 'permission', 'detail_permission', 'Can detail permission'),
             (group_ct_id, 'group', 'list_group', 'Can list group'),
             (group_ct_id, 'group', 'detail_group', 'Can detail group'),
-            (group_ct_id, 'group', 'update_group_permission', 'Can change group permission'),
+            (group_ct_id, 'group', 'update_group_permission', 'Can update group permission'),
         ]
         for item in perms:
             model_name, code_name, name = item[1], item[2], item[3]
