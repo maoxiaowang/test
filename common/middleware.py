@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 import sys
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission, ContentType
 from django.core.exceptions import PermissionDenied
 from django.http.response import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
@@ -20,7 +18,6 @@ from django.views.debug import technical_500_response
 
 from common.exceptions import ECloudException
 from common.mixin import ret_format
-from common.utils.text_ import UUID
 
 
 class CommonMiddleware(MiddlewareMixin):
@@ -31,30 +28,6 @@ class CommonMiddleware(MiddlewareMixin):
         # One-time configuration and initialization.
 
         # Initialize first starting of the system
-        #
-        # TODO: create initial users, write custom migrations later
-        if not Permission.objects.filter(codename='list_permission').exists():
-            user_model = get_user_model()
-            if not user_model.objects.filter(username='admin'):
-                user_model().create_superuser('admin',
-                                              'admin@example.com',
-                                              'password', id=UUID.uuid4)
-
-            # add extra permissions
-            group_ct_id = ContentType.objects.get(model='group').id
-            perms_ct_id = ContentType.objects.get(model='permission').id
-            perms = [
-                (perms_ct_id, 'permission', 'list_permission', 'Can list permission'),
-                (perms_ct_id, 'permission', 'detail_permission', 'Can detail permission'),
-                (group_ct_id, 'group', 'list_group', 'Can list group'),
-                (group_ct_id, 'group', 'detail_group', 'Can detail group'),
-                (group_ct_id, 'group', 'update_group_permission', 'Can change group permission'),
-            ]
-            for item in perms:
-                model_name, code_name, name = item[1], item[2], item[3]
-                Permission.objects.get_or_create(name=name,
-                                                 codename=code_name,
-                                                 content_type_id=item[0])
 
     # def __call__(self, request):
     #     # Code to be executed for each request before
@@ -95,7 +68,6 @@ class CommonMiddleware(MiddlewareMixin):
                 pass
         else:
             # django or openstack exceptions
-
             if request.method in ('POST', 'PUT', 'DELETE'):
                 code = 0
                 level = None
